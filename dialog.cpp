@@ -237,7 +237,7 @@ void Dialog::on_btnInstal_clicked()
 
         QString filename=folderKerja+"/source_sementara.list";
         QFile source( filename );
-        if ( source.open(QIODevice::ReadWrite) )
+        if ( source.open(QIODevice::WriteOnly) )
         {
             QTextStream stream( &source );
             stream << "deb file:"+folderKerja+"/"+namaProfil+" ./" << endl;
@@ -295,12 +295,10 @@ void Dialog::on_btnSalinIns_clicked()
 {
     //Masih percobaan. Nanti harus diubah.
 
-    QStringList arg2;
-    arg2 << "--user" << "root" << "apt-get" << "install" << "texmaker";
-    //arg2<< "--user" << userN << "synaptic";
-    //apt_get2->setWorkingDirectory(folderKerja2);
-    apt_get2->setProcessChannelMode(QProcess::MergedChannels);
-    apt_get2->start(sandiGui,arg2,QIODevice::ReadWrite);
+//    QStringList arg2;
+//    arg2 << "--user" << "root" << "apt-get" << "install" << "texmaker";
+//    apt_get2->setProcessChannelMode(QProcess::MergedChannels);
+//    apt_get2->start(sandiGui,arg2,QIODevice::ReadWrite);
 }
 
 void Dialog::on_pushButton_clicked()
