@@ -333,4 +333,5 @@ void Dialog::instalPaket()
     apt_get2->setProcessChannelMode(QProcess::MergedChannels);
     apt_get2->start(sandiGui,arg2,QIODevice::ReadWrite);
     infoFile1.close();
+    qDebug() << arg2;
 }
