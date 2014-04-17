@@ -20,13 +20,17 @@ Dialog::Dialog(QWidget *parent) :
     apt_get2 = new QProcess(this);
     connect(apt_get2,SIGNAL(readyRead()),this,SLOT(bacaHasilPerintah()));
 
-    QFile gksudo("/usr/bin/gksudo");
+    QFile polkit("/usr/bin/pkexec");
     QFile kdesudo("/usr/bin/kdesudo");
-    if(kdesudo.exists())
+    if(polkit.exists())
+    {
+        sandiGui = "pkexec";
+    }
+    else if(kdesudo.exists())
     {
         sandiGui = "kdesudo";
     }
-    else if(gksudo.exists())
+    else
     {
         sandiGui = "gksudo";
     }
@@ -304,34 +308,33 @@ void Dialog::instalPaket()
     QString namaProfil1 = profil1.completeBaseName();
     QFile infoFile1(QDir::homePath()+"/.alldeb/"+namaProfil1+"/keterangan_alldeb.txt");
     int pos1 = 0;
-    QStringRef cari1;
+    //QStringRef cari1;
     if (infoFile1.exists() && infoFile1.open(QIODevice::ReadOnly | QIODevice::Text))
-      {
+    {
         QTextStream stream(&infoFile1);
         QString line1;
         while (!stream.atEnd()){
-                    line1 = stream.readAll();
+            line1 = stream.readAll();
 
-                }
+        }
         pos1 = line1.indexOf("\"");
         QStringRef cari1(&line1,pos1+1,line1.lastIndexOf("\"")-pos1-1);
-      }
+
+        QString folderKerja2 = QDir::homePath()+"/.alldeb";
+
+        QStringList arg2;
+        arg2 << "-u" << "root" << "apt-get -o dir::etc::sourcelist="+folderKerja2+
+                "/source_sementara.list -o dir::etc::sourceparts="+folderKerja2+
+                "/part.d -o dir::state::lists="+folderKerja2+"/lists install --allow-unauthenticated -y -s"
+                +cari1.toString();
+        apt_get2->setWorkingDirectory(folderKerja2);
+        apt_get2->setProcessChannelMode(QProcess::MergedChannels);
+        apt_get2->start(sandiGui,arg2,QIODevice::ReadWrite);
+        infoFile1.close();
+        qDebug() << arg2;
+    }
     else
     {
         ui->infoPaket->setPlainText(tr("Ada kesalahan"));
-    }
-
-
-    QString folderKerja2 = QDir::homePath()+"/.alldeb";
-
-    QStringList arg2;
-    arg2 << "-u" << "root" << "apt-get -o dir::etc::sourcelist="+folderKerja2+
-            "/source_sementara.list -o dir::etc::sourceparts="+folderKerja2+
-            "/part.d -o dir::state::lists="+folderKerja2+"/lists install --allow-unauthenticated -y -s"
-            +cari1.toString();
-    apt_get2->setWorkingDirectory(folderKerja2);
-    apt_get2->setProcessChannelMode(QProcess::MergedChannels);
-    apt_get2->start(sandiGui,arg2,QIODevice::ReadWrite);
-    infoFile1.close();
-    qDebug() << arg2;
+    }    
 }
