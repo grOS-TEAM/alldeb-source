@@ -8,9 +8,6 @@ Dialog::Dialog(QWidget *parent) :
     ui->setupUi(this);
     ui->progressBar->hide();
 
-//    myProcess = new QProcess(this);
-//    connect(myProcess,SIGNAL(readyReadStandardOutput()),this,SLOT(bacaHasilPerintah()));
-
     ekstrak = new QProcess(this);
     connect(ekstrak,SIGNAL(finished(int)),this,SLOT(bacaInfoFile()));
     daftarFile = new QProcess(this);
@@ -82,17 +79,6 @@ void Dialog::on_btnCariFile_clicked()
     if(!QDir(folderKerja).exists()){
         QDir().mkdir(folderKerja);
     }
-    /*
-    QFileSystemModel *model = new QFileSystemModel;
-    model->setRootPath(folderKerja);
-    model->setFilter(QDir::NoDotAndDotDot | QDir::Files);
-    QStringList filter;
-    filter << "*.deb";
-    model->setNameFilters(filter);
-    model->setNameFilterDisables(false);
-    ui->daftarPaket->setModel(model);
-    ui->daftarPaket->setRootIndex(model->index(folderKerja));
-    */
 
     if(QFile(folderKerja+"/"+namaProfil+"/keterangan_alldeb.txt").exists())
     {
@@ -202,11 +188,7 @@ void Dialog::bacaBikinInfo()
     ui->infoPaket->appendPlainText(output);
     //qDebug() << output;
     QString folderKerja1 = QDir::homePath()+"/.alldeb";
-    //sudo apt-get
 
-//    QStringList user = QDir::homePath().split("/");
-//    QString userN = user.at(2);
-    //qDebug() << userN;
     QStringList arg1;
 //    arg1 << "-c" << "sudo -u "+userN+" apt-get -o dir::etc::sourcelist="+folderKerja1+
 //            "/source_sementara.list -o dir::etc::sourceparts="+folderKerja1+
@@ -216,9 +198,7 @@ void Dialog::bacaBikinInfo()
             "/part.d -o dir::state::lists="+folderKerja1+"/lists update";
     apt_get1->setWorkingDirectory(folderKerja1);
     apt_get1->setProcessChannelMode(QProcess::MergedChannels);
-    //apt_get1->set
     apt_get1->start(sandiGui,arg1,QIODevice::ReadWrite);
-    //apt_get1->start("ls", QStringList() << "-l" << folderKerja);
 }
 
 void Dialog::bacaHasilAptget()
@@ -239,14 +219,7 @@ void Dialog::on_btnInstal_clicked()
     QString folderKerja = QDir::homePath()+"/.alldeb";
     QFileInfo profil(ui->tempatFile->text());
     QString namaProfil = profil.completeBaseName();
-/*    QString program = "tar";
-    QStringList arguments;
-    arguments << "-tvf" << ui->tempatFile->text();
 
-
-    myProcess->start(program, arguments);
-    myProcess->setReadChannel(QProcess::StandardOutput);
-*/
     if(!ui->tempatFile->text().isEmpty())
     {
         ui->infoPaket->appendPlainText("-----------------------\n");
@@ -311,7 +284,6 @@ void Dialog::on_btnSalin_clicked()
     QString pencarian = ui->infoPaket->toPlainText();
     int pos = pencarian.indexOf("\"");
     QStringRef cari(&pencarian,pos+1,pencarian.lastIndexOf("\"")-pos-1);
-    //ui->infoPaket->appendPlainText(cari.toString());
     qDebug() << cari.toString();
 }
 
@@ -339,8 +311,6 @@ void Dialog::instalPaket()
         QString line1;
         while (!stream.atEnd()){
                     line1 = stream.readAll();
-//                    ui->infoPaket->setPlainText(line+"\n");
-                    //qDebug() << "linea: "<<line;
 
                 }
         pos1 = line1.indexOf("\"");
@@ -354,9 +324,6 @@ void Dialog::instalPaket()
 
     QString folderKerja2 = QDir::homePath()+"/.alldeb";
 
-//    QStringList user = QDir::homePath().split("/");
-//    QString userN = user.at(2);
-    //qDebug() << userN;
     QStringList arg2;
     arg2 << "-u" << "root" << "apt-get -o dir::etc::sourcelist="+folderKerja2+
             "/source_sementara.list -o dir::etc::sourceparts="+folderKerja2+
