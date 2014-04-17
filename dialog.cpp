@@ -197,9 +197,9 @@ void Dialog::bacaBikinInfo()
 //    arg1 << "-c" << "sudo -u "+userN+" apt-get -o dir::etc::sourcelist="+folderKerja1+
 //            "/source_sementara.list -o dir::etc::sourceparts="+folderKerja1+
 //            "/part.d -o dir::state::lists="+folderKerja1+"/lists update";
-    arg1 << "-u" << "root" << "apt-get -o dir::etc::sourcelist="+folderKerja1+
-            "/source_sementara.list -o dir::etc::sourceparts="+folderKerja1+
-            "/part.d -o dir::state::lists="+folderKerja1+"/lists update";
+    arg1 << "-u" << "root" << "apt-get" << "-o" << "dir::etc::sourcelist="+folderKerja1+"/source_sementara.list"
+         << "-o" << "dir::etc::sourceparts="+folderKerja1+"/part.d"
+         << "-o" << "dir::state::lists="+folderKerja1+"/lists" << "update";
     apt_get1->setWorkingDirectory(folderKerja1);
     apt_get1->setProcessChannelMode(QProcess::MergedChannels);
     apt_get1->start(sandiGui,arg1,QIODevice::ReadWrite);
@@ -293,7 +293,14 @@ void Dialog::on_btnSalin_clicked()
 
 void Dialog::on_btnSalinIns_clicked()
 {
+    //Masih percobaan. Nanti harus diubah.
 
+    QStringList arg2;
+    arg2 << "--user" << "root" << "apt-get" << "install" << "texmaker";
+    //arg2<< "--user" << userN << "synaptic";
+    //apt_get2->setWorkingDirectory(folderKerja2);
+    apt_get2->setProcessChannelMode(QProcess::MergedChannels);
+    apt_get2->start(sandiGui,arg2,QIODevice::ReadWrite);
 }
 
 void Dialog::on_pushButton_clicked()
@@ -319,19 +326,33 @@ void Dialog::instalPaket()
         }
         pos1 = line1.indexOf("\"");
         QStringRef cari1(&line1,pos1+1,line1.lastIndexOf("\"")-pos1-1);
-
+        QString paketTermuat = cari1.toString();
         QString folderKerja2 = QDir::homePath()+"/.alldeb";
 
-        QStringList arg2;
-        arg2 << "-u" << "root" << "apt-get -o dir::etc::sourcelist="+folderKerja2+
-                "/source_sementara.list -o dir::etc::sourceparts="+folderKerja2+
-                "/part.d -o dir::state::lists="+folderKerja2+"/lists install --allow-unauthenticated -y -s"
-                +cari1.toString();
+//        Menemukan nama pengguna ubuntu;
+//        QStringList user(QString(QDir::homePath()).split("/"));
+//        QString userN(user.at(2));
+
+        QStringList arg2,arg5;
+        if(paketTermuat.contains(" "))
+        {
+            arg5 << paketTermuat.split(" ");
+        }
+        else
+        {
+            arg5 << paketTermuat;
+        }
+        arg2 << "--user" << "root" << "apt-get" << "-o" << "dir::etc::sourcelist="+folderKerja2+
+                "/source_sementara.list" << "-o" << "dir::etc::sourceparts="+folderKerja2+
+                "/part.d" << "-o" << "dir::state::lists="+folderKerja2+"/lists" << "install" <<
+                "--allow-unauthenticated" << "-y" << "-s";
+        arg2.append(arg5);
+        //arg2 << "--user" << "root" << "apt-get install texmaker";
         apt_get2->setWorkingDirectory(folderKerja2);
         apt_get2->setProcessChannelMode(QProcess::MergedChannels);
         apt_get2->start(sandiGui,arg2,QIODevice::ReadWrite);
         infoFile1.close();
-        qDebug() << arg2;
+        //qDebug() << arg2;
     }
     else
     {
