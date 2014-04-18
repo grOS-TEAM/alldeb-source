@@ -22,7 +22,7 @@
    <item row="0" column="0" colspan="3">
     <layout class="QHBoxLayout" name="horizontalLayout_2">
      <item>
-      <widget class="QLabel" name="label_4">
+      <widget class="QLabel" name="labelPilih">
        <property name="text">
         <string>Pilih file alldeb</string>
        </property>
@@ -55,7 +55,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButton">
+      <widget class="QPushButton" name="btnInfo">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
          <horstretch>0</horstretch>
@@ -192,7 +192,7 @@
       </widget>
      </item>
      <item row="0" column="1">
-      <widget class="QLabel" name="label_5">
+      <widget class="QLabel" name="labelArsip">
        <property name="text">
         <string>Arsip APT</string>
        </property>
@@ -235,7 +235,7 @@
       </spacer>
      </item>
      <item row="0" column="1" colspan="3">
-      <widget class="QLabel" name="label_3">
+      <widget class="QLabel" name="labelAksi">
        <property name="text">
         <string>Aksi yang ingin dilakukan</string>
        </property>

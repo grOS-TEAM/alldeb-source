@@ -8,7 +8,7 @@ QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = AllDebInstaller
+TARGET = alldeb-installer
 TEMPLATE = app
 
 
@@ -21,3 +21,6 @@ HEADERS  += dialog.h \
 
 FORMS    += dialog.ui \
     about.ui
+
+TRANSLATIONS += alldeb_en.ts \
+                alldeb_id.ts
