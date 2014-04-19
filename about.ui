@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>416</width>
-    <height>317</height>
+    <width>410</width>
+    <height>314</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -81,7 +81,9 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;2013-2014  &lt;a href=&quot;http://ubuntu-indonesia.com/forums/ubbthreads.php/users/9449&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0057ae;&quot;&gt;@nif&lt;/span&gt;&lt;/a&gt; (pelopor skrip alldeb_maker dan alldeb_user)&lt;/p&gt;
 &lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;2014 &lt;a href=&quot;http://ubuntu-indonesia.com/forums/ubbthreads.php/users/3830/miraiE&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0057ae;&quot;&gt;@miraiE&lt;/span&gt;&lt;/a&gt; (porting kode skrip alldeb_user ke Qt untuk modus GUI)&lt;/p&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&amp;lt;masukkan nama anda di sini&amp;gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&amp;lt;masukkan nama anda di sini&amp;gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Lisensi GPLv3&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
         </widget>
        </item>

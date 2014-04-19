@@ -26,7 +26,10 @@ class Dialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit Dialog(QWidget *parent = 0);
+    explicit Dialog(QString openWith=0, QWidget *parent = 0);
+
+    QString size_human(qint64 jumlah);
+    QString bacaTeks(QString berkas);
     ~Dialog();
 
 private slots:
@@ -47,8 +50,6 @@ private slots:
 private:
     Ui::Dialog *ui;
     //QFileDialog *namaFile;
-    QString size_human(qint64 jumlah);
-    QString bacaTeks(QFile namaBerkas);
     QString sandiGui;
     QString namaFile;
     QString isiKotakFile;

@@ -1,13 +1,18 @@
 #include "dialog.h"
 #include "ui_dialog.h"
 
-Dialog::Dialog(QWidget *parent) :
+Dialog::Dialog(QString openWith, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::Dialog)
 {
     ui->setupUi(this);
     ui->progressBar->hide();
-    isiKotakFile = ui->tempatFile->text();
+    if(openWith.count()>0)
+    {
+        namaFile = openWith;
+        //qDebug() << openWith;
+    }
+    qDebug() << namaFile;
 
     ruangKerja = QDir::homePath()+"/.alldeb"; //direktori untuk pengaturan dan penyimpanan temporer alldeb
     programTar = "tar"; //perintah tar untuk mengekstrak dan melihat properti file
@@ -48,6 +53,7 @@ Dialog::~Dialog()
 
 void Dialog::on_btnCariFile_clicked()
 {
+    isiKotakFile = ui->tempatFile->text();
     if(isiKotakFile.isEmpty()) {
         namaFile = QFileDialog::getOpenFileName(this,tr("Pilih file alldeb"),QDir::homePath(),tr("File Paket (*.alldeb *.gz)"));
 
@@ -59,32 +65,41 @@ void Dialog::on_btnCariFile_clicked()
         namaFile = QFileDialog::getOpenFileName(this,tr("Pilih file alldeb"),info.absolutePath(),tr("File Paket (*.alldeb *.gz)"));
 
     }
+    if(!namaFile.isNull()){
+        ui->tempatFile->setText(namaFile);
 
-    profil.setFile(namaFile);
-    namaProfil = profil.completeBaseName();
+        profil.setFile(namaFile);
+        namaProfil = profil.completeBaseName();
 
-    QFile filePaket(namaFile);
-    QCryptographicHash crypto(QCryptographicHash::Md5);
-    filePaket.open(QFile::ReadOnly);
-    while(!filePaket.atEnd()){
-      crypto.addData(filePaket.readAll());
+        QFile filePaket(namaFile);
+        QCryptographicHash crypto(QCryptographicHash::Md5);
+        filePaket.open(QFile::ReadOnly);
+        while(!filePaket.atEnd()){
+          crypto.addData(filePaket.readAll());
+        }
+
+        QByteArray sum = crypto.result();
+        QString sums(sum.toHex());
+        ui->labelMd5Nilai->setText("<html><head/><body><p><span style=\" font-weight:600;\">"+sums+"</span></p></body></html>");
+
+        qint64 ukuran = 0;
+        ukuran = filePaket.size();
+        QString nilai = size_human(ukuran);
+        ui->labelUkuranNilai->setText("<html><head/><body><p><span style=\" font-weight:600;\">"+nilai+"</span></p></body></html>");
+        QStringList variabel;
+        variabel << "-tf" << namaFile;
+        daftarFile->start(programTar, variabel);
+        daftarFile->setReadChannel(QProcess::StandardOutput);
+
+        filePaket.close();
     }
-
-    QByteArray sum = crypto.result();
-    QString sums(sum.toHex());
-    ui->labelMd5Nilai->setText("<html><head/><body><p><span style=\" font-weight:600;\">"+sums+"</span></p></body></html>");
-
-    qint64 ukuran = 0;
-    ukuran = filePaket.size();
-    QString nilai = size_human(ukuran);
-    ui->labelUkuranNilai->setText("<html><head/><body><p><span style=\" font-weight:600;\">"+nilai+"</span></p></body></html>");
+    else
+    {
+        namaFile = isiKotakFile;
+    }
 
     if(!QDir(ruangKerja).exists()){
         QDir().mkdir(ruangKerja);
-    }
-
-    if(!namaFile.isNull()){
-        ui->tempatFile->setText(namaFile);
     }
 
     //ruangKerja.append();
@@ -97,7 +112,8 @@ void Dialog::on_btnCariFile_clicked()
 
     if(QFile(ruangKerja+"/"+namaProfil+"/keterangan_alldeb.txt").exists())
     {
-        bacaInfoFile();
+        ui->infoPaket->setPlainText(bacaTeks(ruangKerja+"/"+namaProfil+"/keterangan_alldeb.txt"));
+
     }
     else
     {
@@ -108,14 +124,9 @@ void Dialog::on_btnCariFile_clicked()
         bacaInfoFile();
     }
 
-    QStringList variabel;
-    variabel << "-tf" << namaFile;
-    daftarFile->start(programTar, variabel);
-    daftarFile->setReadChannel(QProcess::StandardOutput);
-
-    filePaket.close();
 }
 
+//fungsi untuk mengubah ukuran file ke satuan byte (human readable)
 QString Dialog::size_human(qint64 jumlah)
 {
     float num = jumlah;
@@ -133,10 +144,23 @@ QString Dialog::size_human(qint64 jumlah)
     return QString().setNum(num,'f',2)+" "+unit;
 }
 
-QString Dialog::bacaTeks(QFile namaBerkas)
+QString Dialog::bacaTeks(QString berkas)
 {
-    QString isiBerkas;
-    return isiBerkas;
+    QFile namaBerkas(berkas);
+    if (namaBerkas.exists() && namaBerkas.open(QIODevice::ReadOnly | QIODevice::Text))
+    {
+        QTextStream stream(&namaBerkas);
+        QString baris;
+        while (!stream.atEnd()){
+            baris = stream.readAll();
+            return baris;
+        }
+        namaBerkas.close();
+    }
+    else
+    {
+        return tr("Ada kesalahan");
+    }
 }
 
 void Dialog::bacaInfoFile()
@@ -254,8 +278,8 @@ void Dialog::on_btnInstal_clicked()
                  << "--skip-old-files" << "--keep-newer-files";
         ekstraksi->start(programTar, argumen3);
 
-        QString filename=ruangKerja+"/config/source_sementara.list";
-        QFile source( filename );
+        QString berkasSumber=ruangKerja+"/config/source_sementara.list";
+        QFile source( berkasSumber );
         if ( source.open(QIODevice::WriteOnly) )
         {
             QTextStream stream( &source );
