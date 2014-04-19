@@ -259,6 +259,9 @@
      </item>
      <item row="1" column="0" colspan="2">
       <widget class="QPushButton" name="btnInstal">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
        <property name="text">
         <string>Install</string>
        </property>
@@ -266,6 +269,9 @@
      </item>
      <item row="1" column="2">
       <widget class="QPushButton" name="btnSalin">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
        <property name="text">
         <string>Copy</string>
        </property>
@@ -273,6 +279,9 @@
      </item>
      <item row="1" column="3" colspan="2">
       <widget class="QPushButton" name="btnSalinIns">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
        <property name="text">
         <string>Both</string>
        </property>

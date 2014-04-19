@@ -31,28 +31,31 @@ public:
 
 private slots:
     void on_btnCariFile_clicked();
-
     void on_btnFolderApt_clicked();
     void on_btnSalin_clicked();
     void on_btnInstal_clicked();
-
+    void on_btnSalinIns_clicked();
+    void on_btnInfo_clicked();
     void bacaHasilPerintah();
     void bacaHasilAptget();
     void bacaInfoFile();
     void buatDaftarIsi();
     void bacaBikinInfo();
     void instalPaket();
-    QString size_human(qint64 jumlah);
-
-    void on_btnSalinIns_clicked();
-
-    void on_pushButton_clicked();
+    void memilihFile();
 
 private:
     Ui::Dialog *ui;
-//    QFileDialog *namaFile;
-    //QProcess *myProcess;
+    //QFileDialog *namaFile;
+    QString size_human(qint64 jumlah);
+    QString bacaTeks(QFile namaBerkas);
     QString sandiGui;
+    QString namaFile;
+    QString isiKotakFile;
+    QString ruangKerja;
+    QString namaProfil;
+    QString programTar;
+    QFileInfo profil;
     QProcess *ekstrak;
     QProcess *daftarFile;
     QProcess *buatPaketInfo;
