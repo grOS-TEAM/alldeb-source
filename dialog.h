@@ -26,7 +26,7 @@ class Dialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit Dialog(QString openWith=0, QWidget *parent = 0);
+    explicit Dialog(QString parameterNama=0, QWidget *parent = 0);
 
     QString size_human(qint64 jumlah);
     QString bacaTeks(QString berkas);
@@ -46,6 +46,7 @@ private slots:
     void bacaBikinInfo();
     void instalPaket();
     void memilihFile();
+    void hapusTemporer();
 
 private:
     Ui::Dialog *ui;
@@ -62,6 +63,7 @@ private:
     QProcess *buatPaketInfo;
     QProcess *apt_get1;
     QProcess *apt_get2;
+    bool fileSah;
     About *tentangProgram;
 };
 

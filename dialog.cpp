@@ -1,21 +1,30 @@
 #include "dialog.h"
 #include "ui_dialog.h"
 
-Dialog::Dialog(QString openWith, QWidget *parent) :
+Dialog::Dialog(QString parameterNama, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::Dialog)
 {
     ui->setupUi(this);
     ui->progressBar->hide();
-    if(openWith.count()>0)
+    fileSah = false;
+    if(parameterNama.count()>0)
     {
-        namaFile = openWith;
-        //qDebug() << openWith;
+        namaFile = parameterNama;
+        //qDebug() << parameterNama;
     }
-    qDebug() << namaFile;
+    //qDebug() << namaFile;
+    ui->tempatFile->setText(parameterNama);
 
     ruangKerja = QDir::homePath()+"/.alldeb"; //direktori untuk pengaturan dan penyimpanan temporer alldeb
     programTar = "tar"; //perintah tar untuk mengekstrak dan melihat properti file
+
+    if(!QDir(ruangKerja).exists()){
+        QDir().mkdir(ruangKerja);
+    }
+    if(!QDir(ruangKerja+"/config").exists()){
+        QDir().mkdir(ruangKerja+"/config");
+    }
 
     connect(ui->tempatFile,SIGNAL(textChanged(QString)),this,SLOT(memilihFile()));
     ekstrak = new QProcess(this);
@@ -29,6 +38,7 @@ Dialog::Dialog(QString openWith, QWidget *parent) :
     connect(apt_get1,SIGNAL(finished(int)),this,SLOT(instalPaket()));
     apt_get2 = new QProcess(this);
     connect(apt_get2,SIGNAL(readyRead()),this,SLOT(bacaHasilPerintah()));
+    connect(apt_get2,SIGNAL(finished(int)),this,SLOT(hapusTemporer()));
 
     QFile polkit("/usr/bin/pkexec"); //perintah front-end untuk meminta hak administratif dengan PolicyKit
     QFile kdesudo("/usr/bin/kdesudo"); //front-end sudo di KDE
@@ -55,75 +65,33 @@ void Dialog::on_btnCariFile_clicked()
 {
     isiKotakFile = ui->tempatFile->text();
     if(isiKotakFile.isEmpty()) {
-        namaFile = QFileDialog::getOpenFileName(this,tr("Pilih file alldeb"),QDir::homePath(),tr("File Paket (*.alldeb *.gz)"));
+        namaFile = QFileDialog::getOpenFileName(this,tr("Pilih file alldeb"),QDir::homePath(),tr("File Paket (*.alldeb)"));
 
     }
     else
     {
         QFile fael(isiKotakFile);
         QFileInfo info(fael);
-        namaFile = QFileDialog::getOpenFileName(this,tr("Pilih file alldeb"),info.absolutePath(),tr("File Paket (*.alldeb *.gz)"));
+        namaFile = QFileDialog::getOpenFileName(this,tr("Pilih file alldeb"),info.absolutePath(),tr("File Paket (*.alldeb)"));
 
     }
     if(!namaFile.isNull()){
-        ui->tempatFile->setText(namaFile);
+        //ui->tempatFile->setText(namaFile);
 
         profil.setFile(namaFile);
         namaProfil = profil.completeBaseName();
 
-        QFile filePaket(namaFile);
-        QCryptographicHash crypto(QCryptographicHash::Md5);
-        filePaket.open(QFile::ReadOnly);
-        while(!filePaket.atEnd()){
-          crypto.addData(filePaket.readAll());
-        }
-
-        QByteArray sum = crypto.result();
-        QString sums(sum.toHex());
-        ui->labelMd5Nilai->setText("<html><head/><body><p><span style=\" font-weight:600;\">"+sums+"</span></p></body></html>");
-
-        qint64 ukuran = 0;
-        ukuran = filePaket.size();
-        QString nilai = size_human(ukuran);
-        ui->labelUkuranNilai->setText("<html><head/><body><p><span style=\" font-weight:600;\">"+nilai+"</span></p></body></html>");
         QStringList variabel;
         variabel << "-tf" << namaFile;
         daftarFile->start(programTar, variabel);
         daftarFile->setReadChannel(QProcess::StandardOutput);
 
-        filePaket.close();
-    }
-    else
-    {
-        namaFile = isiKotakFile;
-    }
-
-    if(!QDir(ruangKerja).exists()){
-        QDir().mkdir(ruangKerja);
-    }
-
-    //ruangKerja.append();
-    if(!QDir(ruangKerja+"/"+namaProfil).exists()){
-        QDir().mkdir(ruangKerja+"/"+namaProfil);
-    }
-    if(!QDir(ruangKerja+"/config").exists()){
-        QDir().mkdir(ruangKerja+"/config");
-    }
-
-    if(QFile(ruangKerja+"/"+namaProfil+"/keterangan_alldeb.txt").exists())
-    {
-        ui->infoPaket->setPlainText(bacaTeks(ruangKerja+"/"+namaProfil+"/keterangan_alldeb.txt"));
 
     }
-    else
-    {
-
-        QStringList argumen;
-        argumen << "-xzf" << namaFile << "--directory="+ruangKerja+"/"+namaProfil << "keterangan_alldeb.txt";
-        ekstrak->start(programTar, argumen);
-        bacaInfoFile();
-    }
-
+//    else
+//    {
+//        namaFile = isiKotakFile;
+//    }
 }
 
 //fungsi untuk mengubah ukuran file ke satuan byte (human readable)
@@ -159,7 +127,8 @@ QString Dialog::bacaTeks(QString berkas)
     }
     else
     {
-        return tr("Ada kesalahan");
+        QString galat("Ada kesalahan");
+        return galat;
     }
 }
 
@@ -167,45 +136,72 @@ void Dialog::bacaInfoFile()
 {
 //    profil = ui->tempatFile->text();
 //    namaProfil = "/"+profil.completeBaseName();
-    QFile infoFile(ruangKerja+"/"+namaProfil+"/keterangan_alldeb.txt");
-    if (infoFile.exists() && infoFile.open(QIODevice::ReadOnly | QIODevice::Text))
-    {
-        QTextStream stream(&infoFile);
-        QString line;
-        while (!stream.atEnd()){
-            line = stream.readAll();
-            ui->infoPaket->setPlainText(line);
-            //qDebug() << "linea: "<<line;
-        }
-
-    }
-    else
-    {
-        ui->infoPaket->appendPlainText(tr("Ada kesalahan"));
-    }
-
-    infoFile.close();
+    ui->infoPaket->setPlainText(bacaTeks(ruangKerja+"/"+namaProfil+"/keterangan_alldeb.txt"));
 }
 
 void Dialog::buatDaftarIsi()
 {
-    if(ui->daftarPaket->count() != 0)
-    {
-        ui->daftarPaket->clear();
-    }
-
     QStringList daftarIsi;
     QString daftar(daftarFile->readAllStandardOutput());
     daftarIsi = daftar.split("\n");
     if(daftarIsi.contains("keterangan_alldeb.txt"))
     {
-    daftarIsi.removeOne("keterangan_alldeb.txt");
-    ui->daftarPaket->insertItems(0,daftarIsi);
+        fileSah = true;
+        if(ui->daftarPaket->count() != 0)
+        {
+            ui->daftarPaket->clear();
+        }
+
+        ui->tempatFile->setText(namaFile);
+        daftarIsi.removeOne("keterangan_alldeb.txt");
+        ui->daftarPaket->insertItems(0,daftarIsi);
+
+        if(!QDir(ruangKerja+"/"+namaProfil).exists()){
+            QDir().mkdir(ruangKerja+"/"+namaProfil);
+        }
+
+        QFile filePaket(namaFile);
+        QCryptographicHash crypto(QCryptographicHash::Md5);
+        filePaket.open(QFile::ReadOnly);
+        while(!filePaket.atEnd()){
+          crypto.addData(filePaket.readAll());
+        }
+
+        QByteArray sum = crypto.result();
+        QString sums(sum.toHex());
+        ui->labelMd5Nilai->setText("<html><head/><body><p><span style=\" font-weight:600;\">"+sums+"</span></p></body></html>");
+
+        qint64 ukuran = 0;
+        ukuran = filePaket.size();
+        QString nilai = size_human(ukuran);
+        ui->labelUkuranNilai->setText("<html><head/><body><p><span style=\" font-weight:600;\">"+nilai+"</span></p></body></html>");
+
+        filePaket.close();
+
+        if(QFile(ruangKerja+"/"+namaProfil+"/keterangan_alldeb.txt").exists())
+        {
+            ui->infoPaket->setPlainText(bacaTeks(ruangKerja+"/"+namaProfil+"/keterangan_alldeb.txt"));
+
+        }
+        else
+        {
+
+            QStringList argumen;
+            argumen << "-xzf" << namaFile << "--directory="+ruangKerja+"/"+namaProfil << "keterangan_alldeb.txt";
+            ekstrak->start(programTar, argumen);
+
+        }
+
+        int jml = ui->daftarPaket->count();
+        ui->daftarPaket->takeItem(jml-1);
+        ui->labelJumlahNilai->setText("<html><head/><body><p><span style=\" font-weight:600;\">"+QString::number(jml-1)+
+                                      "</span></p></body></html>");
     }
-    else if(isiKotakFile == 0)
-    {
-        //ui->infoPaket->clear();
-    }
+//    else if(isiKotakFile == 0)
+//    {
+//        //ui->infoPaket->clear();
+//        qDebug() << "file yang salah";
+//    }
     else
     {
         QMessageBox msgBox;
@@ -213,22 +209,20 @@ void Dialog::buatDaftarIsi()
         msgBox.setText(tr("Waduh, ini bukan file alldeb. Jangan dilanjutkan ya!"));
         msgBox.setIcon(QMessageBox::Warning);
         msgBox.exec();
+        //qDebug() << "bukan file alldeb";
+        //ui->tempatFile->clear();
     }
-
-    int jml = ui->daftarPaket->count();
-    ui->daftarPaket->takeItem(jml-1);
-    ui->labelJumlahNilai->setText("<html><head/><body><p><span style=\" font-weight:600;\">"+QString::number(jml)+
-                                  "</span></p></body></html>");
 
 }
 
 void Dialog::on_btnFolderApt_clicked()
 {
-    QString folderApt = QFileDialog::getExistingDirectory(this, tr("Buka folder"),
-                                                           ui->tempatApt->text(),
-                                                           QFileDialog::ShowDirsOnly
-                                                           | QFileDialog::DontResolveSymlinks);
-    ui->tempatApt->setText(folderApt);
+    QString folderApt = QFileDialog::getExistingDirectory(this,
+                                                          tr("Pilih folder tempat file DEB berada (Opsinal)"),
+                                                          ui->tempatApt->text(),QFileDialog::ShowDirsOnly
+                                                          | QFileDialog::DontResolveSymlinks);
+    if(!folderApt.isNull())
+        ui->tempatApt->setText(folderApt);
 }
 
 void Dialog::bacaBikinInfo()
@@ -265,11 +259,7 @@ void Dialog::bacaHasilPerintah()
 
 void Dialog::on_btnInstal_clicked()
 {
-    //ruangKerja = QDir::homePath()+"/.alldeb";
-//    profil = ui->tempatFile->text();
-//    namaProfil = profil.completeBaseName();
-
-    if(!namaFile.isEmpty())
+    if(fileSah)
     {
         ui->infoPaket->appendPlainText("-----------------------\n");
         QProcess *ekstraksi = new QProcess(this);
@@ -285,44 +275,50 @@ void Dialog::on_btnInstal_clicked()
             QTextStream stream( &source );
             stream << "deb file:"+ruangKerja+"/"+namaProfil+" ./" << endl;
         }
-    }
-    //cek apt-ftparchive dan dpkg-scanpackages
-    QFile ftpArchive("/usr/bin/apt-ftparchive");
-    QFile scanPackages("/usr/bin/dpkg-scanpackages");
-    if(ftpArchive.exists())
-    {
-        //apt-ftparchive packages . 2>/dev/null | gzip > ./Packages.gz
-        QStringList arg4;
-        arg4 << "-c" << "apt-ftparchive packages "+namaProfil+"/ 2>/dev/null | gzip > "+namaProfil+"/Packages.gz";
 
-        buatPaketInfo->setWorkingDirectory(ruangKerja);
-        buatPaketInfo->start("sh",arg4);
-        //qDebug() << argumen5;
+        //cek apt-ftparchive dan dpkg-scanpackages
+        QFile ftpArchive("/usr/bin/apt-ftparchive");
+        QFile scanPackages("/usr/bin/dpkg-scanpackages");
+        if(ftpArchive.exists())
+        {
+            //apt-ftparchive packages . 2>/dev/null | gzip > ./Packages.gz
+            QStringList arg4;
+            arg4 << "-c" << "apt-ftparchive packages "+namaProfil+"/ 2>/dev/null | gzip > "
+                    +namaProfil+"/Packages.gz";
+
+            buatPaketInfo->setWorkingDirectory(ruangKerja);
+            buatPaketInfo->start("sh",arg4);
+            //qDebug() << argumen5;
 
 
-        if(!QDir(ruangKerja+"/part.d").exists()){
-            QDir().mkdir(ruangKerja+"/part.d");
+            if(!QDir(ruangKerja+"/part.d").exists()){
+                QDir().mkdir(ruangKerja+"/part.d");
+            }
+            if(!QDir(ruangKerja+"/lists").exists()){
+                QDir().mkdir(ruangKerja+"/lists");
+            }
+            if(!QDir(ruangKerja+"/lists/partial").exists()){
+                QDir().mkdir(ruangKerja+"/lists/partial");
+            }
+
+
         }
-        if(!QDir(ruangKerja+"/lists").exists()){
-            QDir().mkdir(ruangKerja+"/lists");
+        else if(scanPackages.exists())
+        {
+            //BELUM ADA PROSES
         }
-        if(!QDir(ruangKerja+"/lists/partial").exists()){
-            QDir().mkdir(ruangKerja+"/lists/partial");
+        else
+        {
+            QMessageBox::warning(this,tr("Tidak bisa memeriksa"),
+                                 tr("Tanpa program pemindai paket, proses ini tidak bisa dilanjutkan.\n"
+                                    "Program yang dimaksud adalah apt-ftparchive (dari paket apt-utils) atau dpkg-scan-packages"));
         }
-
-
-    }
-    else if(scanPackages.exists())
-    {
-        //BELUM ADA PROSES
+        fileSah = false;
     }
     else
     {
-        QMessageBox::warning(this,tr("Tidak bisa memeriksa"),
-                             tr("Tanpa program pemindai paket, proses ini tidak bisa dilanjutkan.\n"
-                                "Program yang dimaksud adalah apt-ftparchive (dari paket apt-utils) atau dpkg-scan-packages"));
+        qDebug() << "sudah diinstal";
     }
-
 }
 
 void Dialog::on_btnSalin_clicked()
@@ -403,7 +399,22 @@ void Dialog::on_btnInfo_clicked()
 void Dialog::memilihFile()
 {
     //mengumpulkan perintah jika tombol pilih file diklik dan ui->tempatFile berubah isinya
-    ui->btnInstal->setDisabled(false);
-    ui->btnSalin->setDisabled(false);
-    ui->btnSalinIns->setDisabled(false);
+    if(!isiKotakFile.isEmpty() || !ui->btnInstal->isEnabled())
+    {
+        ui->btnInstal->setDisabled(false);
+        ui->btnSalin->setDisabled(false);
+        ui->btnSalinIns->setDisabled(false);
+    }
+}
+
+void Dialog::hapusTemporer()
+{
+    //menghapus file-file deb yang diekstrak
+    QDir dir(ruangKerja+"/"+namaProfil);
+    dir.setNameFilters(QStringList() << "*.deb");
+    dir.setFilter(QDir::Files);
+    foreach(QString fileDeb, dir.entryList())
+    {
+        dir.remove(fileDeb);
+    }
 }
