@@ -3,16 +3,51 @@ Section: utils
 Priority: optional
 Maintainer: Slamet Badwi <slamet.badwi@gmail.com>
 Build-Depends: debhelper (>= 9.0.0), cdbs,
-  dash,
-  libgcc1,
-  libphonon-dev,
-  libqtcore4,
-  libstdc++6,
-  libqt4-dev-bin,
-  libqt4-dev,
-  qt4-qmake,
+  libgssapi3-heimdal,
+  libqtgui4,
+  libsqlite3-0,
+  libk5crypto3,
+  libldap-2.4-2,
+  libgssapi-krb5-2,
+  libcurl3,
+  libp11-kit0,
+  libcomerr2,
+  liblzma5,
+  libssl1.0.0,
+  libidn11,
+  libheimntlm0-heimdal,
+  libarchive13,
+  libgnutls26,
+  libkeyutils1,
+  libsasl2-2,
+  libxml2,
+  libheimbase1-heimdal,
+  libkrb5support0,
+  librtmp0,
   libc6,
-  zlib1g
+  libffi6,
+  cmake,
+  libhx509-5-heimdal,
+  qt4-qmake,
+  libwind0-heimdal,
+  libasn1-8-heimdal,
+  liblzo2-2,
+  libgcc1,
+  libqtcore4,
+  libgpg-error0,
+  libgcrypt11,
+  libkrb5-3,
+  libbz2-1.0,
+  libkrb5-26-heimdal,
+  libqt4-dev,
+  zlib1g,
+  libattr1,
+  libroken18-heimdal,
+  libstdc++6,
+  libnettle4,
+  libtasn1-6,
+  libhcrypto4-heimdal,
+  cmake-data
 Standards-Version: 3.9.5
 Homepage: http://ubuntu-indonesia.com/forums/ubbthreads.php/topics/147963/1
 Vcs-Bzr: lp:alldeb-installer
@@ -20,7 +55,7 @@ Vcs-Bzr: lp:alldeb-installer
 Package: alldeb-installer
 Architecture: any
 Depends: ${shlibs:Depends},
- ${misc:Depends}
+ ${misc:Depends}, apt-utils, policykit-1
 Description: Program penginstal untuk berkas alldeb
  alldeb adalah kumpulan paket DEB yang dikemas
  dalam satu wadah berkas saja.
