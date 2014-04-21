@@ -7,14 +7,7 @@ Dialog::Dialog(QString parameterNama, QWidget *parent) :
 {
     ui->setupUi(this);
     ui->progressBar->hide();
-    fileSah = false;
-    if(parameterNama.count()>0)
-    {
-        namaFile = parameterNama;
-        //qDebug() << parameterNama;
-    }
-    //qDebug() << namaFile;
-    ui->tempatFile->setText(parameterNama);
+    fileSah = false;    
 
     ruangKerja = QDir::homePath()+"/.alldeb"; //direktori untuk pengaturan dan penyimpanan temporer alldeb
     programTar = "tar"; //perintah tar untuk mengekstrak dan melihat properti file
@@ -30,7 +23,7 @@ Dialog::Dialog(QString parameterNama, QWidget *parent) :
     ekstrak = new QProcess(this);
     connect(ekstrak,SIGNAL(finished(int)),this,SLOT(bacaInfoFile()));
     daftarFile = new QProcess(this);
-    connect(daftarFile,SIGNAL(finished(int)),this,SLOT(buatDaftarIsi()));
+    connect(daftarFile,SIGNAL(finished(int)),this,SLOT(bacaFile()));
     buatPaketInfo = new QProcess(this);
     connect(buatPaketInfo,SIGNAL(finished(int)),this,SLOT(bacaBikinInfo()));
     apt_get1 = new QProcess(this);
@@ -54,6 +47,17 @@ Dialog::Dialog(QString parameterNama, QWidget *parent) :
     {
         sandiGui = "gksudo";
     }
+    if(parameterNama.count()>0)
+    {
+        QFileInfo berkasAlldeb(parameterNama);
+        namaFile = berkasAlldeb.absoluteFilePath();
+        //qDebug() << parameterNama;
+
+        //ui->tempatFile->setText(namaFile);
+        bacaFileAlldeb();
+    }
+    //qDebug() << namaFile;
+    //berkasAlldeb.setFileName(parameterNama);
 }
 
 Dialog::~Dialog()
@@ -66,6 +70,7 @@ void Dialog::on_btnCariFile_clicked()
     isiKotakFile = ui->tempatFile->text();
     if(isiKotakFile.isEmpty()) {
         namaFile = QFileDialog::getOpenFileName(this,tr("Pilih file alldeb"),QDir::homePath(),tr("File Paket (*.alldeb)"));
+        bacaFileAlldeb();
 
     }
     else
@@ -74,24 +79,9 @@ void Dialog::on_btnCariFile_clicked()
         QFileInfo info(fael);
         namaFile = QFileDialog::getOpenFileName(this,tr("Pilih file alldeb"),info.absolutePath(),tr("File Paket (*.alldeb)"));
 
+        bacaFileAlldeb();
     }
-    if(!namaFile.isNull()){
-        //ui->tempatFile->setText(namaFile);
 
-        profil.setFile(namaFile);
-        namaProfil = profil.completeBaseName();
-
-        QStringList variabel;
-        variabel << "-tf" << namaFile;
-        daftarFile->start(programTar, variabel);
-        daftarFile->setReadChannel(QProcess::StandardOutput);
-
-
-    }
-//    else
-//    {
-//        namaFile = isiKotakFile;
-//    }
 }
 
 //fungsi untuk mengubah ukuran file ke satuan byte (human readable)
@@ -139,7 +129,28 @@ void Dialog::bacaInfoFile()
     ui->infoPaket->setPlainText(bacaTeks(ruangKerja+"/"+namaProfil+"/keterangan_alldeb.txt"));
 }
 
-void Dialog::buatDaftarIsi()
+void Dialog::bacaFileAlldeb()
+{
+    if(!namaFile.isNull()){
+        //ui->tempatFile->setText(namaFile);
+
+        profil.setFile(namaFile);
+        namaProfil = profil.completeBaseName();
+
+        QStringList variabel;
+        variabel << "-tf" << namaFile;
+        daftarFile->start(programTar, variabel);
+        daftarFile->setReadChannel(QProcess::StandardOutput);
+
+
+    }
+//    else
+//    {
+//        namaFile = isiKotakFile;
+//    }
+}
+
+void Dialog::bacaFile()
 {
     QStringList daftarIsi;
     QString daftar(daftarFile->readAllStandardOutput());
@@ -317,7 +328,7 @@ void Dialog::on_btnInstal_clicked()
     }
     else
     {
-        qDebug() << "sudah diinstal";
+        //qDebug() << "sudah diinstal";
     }
 }
 

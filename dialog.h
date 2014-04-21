@@ -42,7 +42,8 @@ private slots:
     void bacaHasilPerintah();
     void bacaHasilAptget();
     void bacaInfoFile();
-    void buatDaftarIsi();
+    void bacaFileAlldeb();
+    void bacaFile();
     void bacaBikinInfo();
     void instalPaket();
     void memilihFile();
@@ -58,6 +59,7 @@ private:
     QString namaProfil;
     QString programTar;
     QFileInfo profil;
+    //QFile berkasAlldeb;
     QProcess *ekstrak;
     QProcess *daftarFile;
     QProcess *buatPaketInfo;
