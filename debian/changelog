@@ -1,0 +1,29 @@
+alldeb-installer (0.1-ubuntu5) trusty; urgency=low
+
+  * Add postinst and postrm script
+
+ -- Slamet Badwi (bdeouin) <slamet.badwi@gmail.com>  Mon, 21 Apr 2014 22:14:56 +0700
+
+alldeb-installer (0.1-ubuntu4) trusty; urgency=low
+
+  * Third attempt
+
+ -- Slamet Badwi (bedouin) <slamet.badwi@gmail.com>  Mon, 21 Apr 2014 21:02:33 +0700
+
+alldeb-installer (0.1-ubuntu3) trusty; urgency=low
+
+  * Third packaging attempt
+
+ -- Slamet Badwi (bedouin) <slamet.badwi@gmail.com>  Mon, 21 Apr 2014 20:49:34 +0700
+
+alldeb-installer (0.1-ubuntu2) trusty; urgency=low
+
+  * Initial release, second packaging attempt
+
+ -- Slamet Badwi (bedouin) <slamet.badwi@gmail.com>  Mon, 21 Apr 2014 20:32:21 +0700
+
+alldeb-installer (0.1-ubuntu1) trusty; urgency=low
+
+  * Initial release
+
+ -- Slamet Badwi (bedouin) <slamet.badwi@gmail.com>  Sun, 20 Apr 2014 02:35:16 +0700

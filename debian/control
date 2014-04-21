@@ -1,0 +1,26 @@
+Source: alldeb-installer
+Section: utils
+Priority: optional
+Maintainer: Slamet Badwi <slamet.badwi@gmail.com>
+Build-Depends: debhelper (>= 9.0.0), cdbs,
+  dash,
+  libgcc1,
+  libphonon-dev,
+  libqtcore4,
+  libstdc++6,
+  libqt4-dev-bin,
+  libqt4-dev,
+  qt4-qmake,
+  libc6,
+  zlib1g
+Standards-Version: 3.9.5
+Homepage: http://ubuntu-indonesia.com/forums/ubbthreads.php/topics/147963/1
+Vcs-Bzr: lp:alldeb-installer
+
+Package: alldeb-installer
+Architecture: any
+Depends: ${shlibs:Depends},
+ ${misc:Depends}
+Description: Program penginstal untuk berkas alldeb
+ alldeb adalah kumpulan paket DEB yang dikemas
+ dalam satu wadah berkas saja.

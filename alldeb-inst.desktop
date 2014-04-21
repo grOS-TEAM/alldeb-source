@@ -1,0 +1,10 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=AllDeb Installer
+Comment=Program penginstal untuk berkas alldeb
+TryExec=alldeb-installer
+Exec=alldeb-installer %F
+Icon=start-here
+MimeType=application/alldeb;application/gzip;
+Categories=Qt;Utility;Application;
