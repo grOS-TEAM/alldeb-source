@@ -18,11 +18,12 @@ Dialog::Dialog(QString parameterNama, QWidget *parent) :
     if(!QDir(ruangKerja+"/config").exists()){
         QDir().mkdir(ruangKerja+"/config");
     }
-
+    tentangProgram = new About(this);
 
     QAction *aksiAbout = new QAction(QIcon::fromTheme("help-about"),tr("Tentang"),this);
     connect(aksiAbout,SIGNAL(triggered()),this,SLOT(infoTentang()));
-
+    QAction *aksiGuide = new QAction(QIcon::fromTheme("help-contents"),tr("Panduan"),this);
+    connect(aksiGuide,SIGNAL(triggered()),this,SLOT(infoPanduan()));
 
     //pilihan bahasa. sementara hanya dua
     QAction *indBahasa = new QAction(tr("Indonesia"),this);
@@ -40,6 +41,7 @@ Dialog::Dialog(QString parameterNama, QWidget *parent) :
     pilihBahasa->setExclusive(true);
     pilihBahasa->addAction(indBahasa);
     pilihBahasa->addAction(engBahasa);
+    btnMenu->addAction(aksiGuide);
     btnMenu->addAction(aksiAbout);
     ui->btnInfo->setMenu(btnMenu);
     connect(pilihBahasa,SIGNAL(triggered(QAction*)),this,SLOT(gantiBahasa(QAction *)));
@@ -56,7 +58,7 @@ Dialog::Dialog(QString parameterNama, QWidget *parent) :
     else
     {
         engBahasa->setChecked(true);
-        terjemahan.load("alldeb_en",QDir::currentPath()); //+bahasa, "/usr/share/alldeb/installer/lang"
+        terjemahan.load("alldeb_en","/usr/share/alldeb/installer/lang"); //+bahasa,
         qApp->installTranslator(&terjemahan);
         ui->retranslateUi(this);
 
@@ -75,6 +77,7 @@ Dialog::Dialog(QString parameterNama, QWidget *parent) :
     apt_get2 = new QProcess(this);
     connect(apt_get2,SIGNAL(readyRead()),this,SLOT(bacaHasilPerintah()));
     connect(apt_get2,SIGNAL(finished(int)),this,SLOT(hapusTemporer()));
+
 
     QFile polkit("/usr/bin/pkexec"); //perintah front-end untuk meminta hak administratif dengan PolicyKit
     QFile kdesudo("/usr/bin/kdesudo"); //front-end sudo di KDE
@@ -106,6 +109,7 @@ Dialog::Dialog(QString parameterNama, QWidget *parent) :
 
 Dialog::~Dialog()
 {
+
     delete ui;
 }
 
@@ -252,11 +256,7 @@ void Dialog::bacaFile()
         ui->labelJumlahNilai->setText("<html><head/><body><p><span style=\" font-weight:600;\">"+QString::number(jml-1)+
                                       "</span></p></body></html>");
     }
-//    else if(isiKotakFile == 0)
-//    {
-//        //ui->infoPaket->clear();
-//        qDebug() << "file yang salah";
-//    }
+
     else
     {
         QMessageBox msgBox;
@@ -273,7 +273,7 @@ void Dialog::bacaFile()
 void Dialog::on_btnFolderApt_clicked()
 {
     QString folderApt = QFileDialog::getExistingDirectory(this,
-                                                          tr("Pilih folder tempat file DEB berada (Opsinal)"),
+                                                          tr("Pilih folder tempat file DEB berada"),
                                                           ui->tempatApt->text(),QFileDialog::ShowDirsOnly
                                                           | QFileDialog::DontResolveSymlinks);
     if(!folderApt.isNull())
@@ -373,23 +373,47 @@ void Dialog::on_btnInstal_clicked()
     else
     {
         //qDebug() << "sudah diinstal";
+        QMessageBox::warning(this,tr("Sudah diinstal"),tr("Anda sudah mengklik tombol ini."));
     }
 }
 
 void Dialog::on_btnSalin_clicked()
 {
     //masih percobaan juga
+    if(!namaFile.isEmpty())
+    {
+    ui->progressBar->show();
+    ui->progressBar->setMinimum(0);
+    ui->progressBar->setMaximum(0);
+    QStringList argSalin;
+    argSalin << "-u" << "root" << programTar << "-xzf" << namaFile << "--directory="+ui->tempatApt->text()
+             << "--skip-old-files" << "--keep-newer-files";
+    QProcess *salin = new QProcess(this);
+    salin->start(sandiGui,argSalin);
 
+    connect(salin,SIGNAL(readyRead()),this,SLOT(updateProgress()));
+    connect(salin,SIGNAL(finished(int)),this,SLOT(progresSelesai()));
+    }
+}
+
+void Dialog::updateProgress()
+{
+    ui->progressBar->setMaximum(10);
+}
+
+void Dialog::progresSelesai()
+{
+    ui->progressBar->setValue(10);
+    ui->progressBar->hide();
+    ui->infoPaket->appendPlainText("-----------------------------\nSudah tersalin semua.");
 }
 
 void Dialog::on_btnSalinIns_clicked()
 {
     //Masih percobaan. Nanti harus diubah.
 
-//    QStringList arg2;
-//    arg2 << "--user" << "root" << "apt-get" << "install" << "texmaker";
-//    apt_get2->setProcessChannelMode(QProcess::MergedChannels);
-//    apt_get2->start(sandiGui,arg2,QIODevice::ReadWrite);
+    QMessageBox::information(this,tr("Masih tahap beta"),
+                             tr("Fitur ini belum ditambahkan, karena masih belum final.\nTerima kasih sudah mencoba."));
 }
 
 void Dialog::instalPaket()
@@ -428,7 +452,7 @@ void Dialog::instalPaket()
         arg2 << "--user" << "root" << "apt-get" << "-o" << "dir::etc::sourcelist="+ruangKerja+
                 "/config/source_sementara.list" << "-o" << "dir::etc::sourceparts="+ruangKerja+
                 "/part.d" << "-o" << "dir::state::lists="+ruangKerja+"/lists" << "install" <<
-                "--allow-unauthenticated" << "-y" << "-s";
+                "--allow-unauthenticated" << "-y"; // simulasi: << "-s"
         arg2.append(arg5);
         apt_get2->setWorkingDirectory(ruangKerja);
         apt_get2->setProcessChannelMode(QProcess::MergedChannels);
@@ -473,8 +497,14 @@ void Dialog::hapusTemporer()
 
 void Dialog::infoTentang()
 {
-    tentangProgram = new About(this);
+
     tentangProgram->pilihTab(1);
+    tentangProgram->show();
+}
+
+void Dialog::infoPanduan()
+{
+    tentangProgram->pilihTab(0);
     tentangProgram->show();
 }
 
@@ -482,7 +512,33 @@ void Dialog::gantiBahasa(QAction *aksi)
 {
     QString lokal = aksi->data().toString();
 
-    terjemahan.load("alldeb_"+lokal,QDir::currentPath());//"/usr/share/alldeb/installer/lang"
+    terjemahan.load("alldeb_"+lokal,"/usr/share/alldeb/installer/lang");//
     qApp->installTranslator(&terjemahan);
     ui->retranslateUi(this);
+}
+
+void Dialog::on_btnKeluarProg_clicked()
+{
+    if(!namaFile.isEmpty())
+    {
+    QMessageBox tanyaHapus;
+    tanyaHapus.setWindowTitle(tr("Hapus tembolok?"));
+    tanyaHapus.setText(tr("Apakah anda ingin menghapus file sementara yang tersimpan di:\n")+ruangKerja+" ?");
+    tanyaHapus.setIcon(QMessageBox::Question);
+    QPushButton *btnYes = tanyaHapus.addButton(tr("Ya"), QMessageBox::YesRole);
+    tanyaHapus.addButton(tr("Tidak"),QMessageBox::NoRole);
+    tanyaHapus.exec();
+    if(tanyaHapus.clickedButton() == btnYes)
+    {
+        QDir dir(ruangKerja+"/"+namaProfil);
+        dir.setNameFilters(QStringList() << "keterangan_alldeb.txt" << "Packages.gz");
+        dir.setFilter(QDir::Files);
+        foreach(QString fileDeb, dir.entryList())
+        {
+            dir.remove(fileDeb);
+        }
+        dir.rmdir(ruangKerja+"/"+namaProfil);
+    }
+    }
+    qApp->quit();
 }

@@ -21,6 +21,7 @@
 #include <QActionEvent>
 #include <QTranslator>
 #include <QLocale>
+#include <QCloseEvent>
 #include "about.h"
 
 namespace Ui {
@@ -56,6 +57,10 @@ private slots:
     void hapusTemporer();
     void infoTentang();
     void gantiBahasa(QAction *aksi);
+    void infoPanduan();
+    void on_btnKeluarProg_clicked();
+    void updateProgress();
+    void progresSelesai();
 
 private:
     Ui::Dialog *ui;

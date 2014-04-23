@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>596</width>
-    <height>391</height>
+    <width>582</width>
+    <height>425</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,7 +18,7 @@
     <normaloff/>
    </iconset>
   </property>
-  <layout class="QGridLayout" name="gridLayout_4">
+  <layout class="QGridLayout" name="gridLayout_2">
    <item row="0" column="0" colspan="3">
     <layout class="QHBoxLayout" name="horizontalLayout_2">
      <item>
@@ -69,18 +69,40 @@
         <string/>
        </property>
        <property name="icon">
-        <iconset theme="preferences-other"/>
+        <iconset theme="preferences-other">
+         <normaloff/>
+        </iconset>
        </property>
       </widget>
      </item>
     </layout>
    </item>
    <item row="1" column="0" colspan="3">
-    <widget class="QProgressBar" name="progressBar">
-     <property name="textVisible">
-      <bool>false</bool>
-     </property>
-    </widget>
+    <layout class="QHBoxLayout" name="horizontalLayout_4">
+     <item>
+      <widget class="QProgressBar" name="progressBar">
+       <property name="textVisible">
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="verticalSpacer">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+       <property name="sizeType">
+        <enum>QSizePolicy::Fixed</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>10</width>
+         <height>24</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
    </item>
    <item row="2" column="0" colspan="3">
     <widget class="QGroupBox" name="groupBox">
@@ -177,27 +199,37 @@
     </widget>
    </item>
    <item row="3" column="0">
-    <layout class="QGridLayout" name="gridLayout_2">
-     <item row="1" column="0">
-      <widget class="QPushButton" name="btnFolderApt">
-       <property name="text">
-        <string>Jelajah</string>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="1">
-      <widget class="QLineEdit" name="tempatApt">
-       <property name="text">
-        <string notr="true">/var/cache/apt/archives</string>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="1">
+    <layout class="QVBoxLayout" name="verticalLayout">
+     <item>
       <widget class="QLabel" name="labelArsip">
        <property name="text">
         <string>Lokasi Arsip APT</string>
        </property>
       </widget>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_3">
+       <item>
+        <widget class="QPushButton" name="btnFolderApt">
+         <property name="text">
+          <string>Jelajah</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="tempatApt">
+         <property name="minimumSize">
+          <size>
+           <width>153</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="text">
+          <string notr="true">/var/cache/apt/archives</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
      </item>
     </layout>
    </item>
@@ -206,12 +238,9 @@
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
-     <property name="sizeType">
-      <enum>QSizePolicy::Preferred</enum>
-     </property>
      <property name="sizeHint" stdset="0">
       <size>
-       <width>40</width>
+       <width>52</width>
        <height>20</height>
       </size>
      </property>
@@ -263,6 +292,9 @@
        <property name="enabled">
         <bool>false</bool>
        </property>
+       <property name="toolTip">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Mengekstrak file alldeb ke folder sementara, lalu melakukan instalasi seluruh file DEB dari sana.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
        <property name="text">
         <string>Install</string>
        </property>
@@ -272,6 +304,9 @@
       <widget class="QPushButton" name="btnSalin">
        <property name="enabled">
         <bool>false</bool>
+       </property>
+       <property name="toolTip">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Mengekstrak file Alldeb ke /var/cache/apt/archive atau lokasi arsip APT yang anda tentukan sendiri.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
        <property name="text">
         <string>Copy</string>
@@ -283,6 +318,9 @@
        <property name="enabled">
         <bool>false</bool>
        </property>
+       <property name="toolTip">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Lakukan kedua proses di samping, pertama menginstal, lalu menyalin atau memindahkannya ke lokasi arsip APT.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
        <property name="text">
         <string>Both</string>
        </property>
@@ -290,10 +328,46 @@
      </item>
     </layout>
    </item>
+   <item row="4" column="0" colspan="3">
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <spacer name="horizontalSpacer_4">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>225</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="btnKeluarProg">
+       <property name="text">
+        <string>Keluar</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer_5">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>245</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
+   </item>
   </layout>
   <zorder>groupBox</zorder>
   <zorder>horizontalSpacer_3</zorder>
-  <zorder>progressBar</zorder>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <tabstops>
