@@ -12,7 +12,7 @@ int main(int argc, char *argv[])
     }
     else
     {
-        w = new Dialog();
+        w = new Dialog(0);
     }
 
     w->show();

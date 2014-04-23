@@ -14,6 +14,7 @@ class About : public QDialog
 public:
     explicit About(QWidget *parent = 0);
     ~About();
+    void pilihTab(int indeks);
 
 private:
     Ui::About *ui;

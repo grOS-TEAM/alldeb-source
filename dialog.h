@@ -15,6 +15,12 @@
 #include <QMessageBox>
 #include <QDebug>
 #include <QStringRef>
+#include <QMenu>
+#include <QAction>
+#include <QActionGroup>
+#include <QActionEvent>
+#include <QTranslator>
+#include <QLocale>
 #include "about.h"
 
 namespace Ui {
@@ -48,10 +54,15 @@ private slots:
     void instalPaket();
     void memilihFile();
     void hapusTemporer();
+    void infoTentang();
+    void gantiBahasa(QAction *aksi);
 
 private:
     Ui::Dialog *ui;
     //QFileDialog *namaFile;
+    QTranslator terjemahan;
+    //QActionGroup *pilihBahasa;
+    QString bahasa;
     QString sandiGui;
     QString namaFile;
     QString isiKotakFile;
@@ -64,7 +75,7 @@ private:
     QProcess *daftarFile;
     QProcess *buatPaketInfo;
     QProcess *apt_get1;
-    QProcess *apt_get2;
+    QProcess *apt_get2;    
     bool fileSah;
     About *tentangProgram;
 };

@@ -19,6 +19,49 @@ Dialog::Dialog(QString parameterNama, QWidget *parent) :
         QDir().mkdir(ruangKerja+"/config");
     }
 
+
+    QAction *aksiAbout = new QAction(QIcon::fromTheme("help-about"),tr("Tentang"),this);
+    connect(aksiAbout,SIGNAL(triggered()),this,SLOT(infoTentang()));
+
+
+    //pilihan bahasa. sementara hanya dua
+    QAction *indBahasa = new QAction(tr("Indonesia"),this);
+    indBahasa->setCheckable(true);
+    indBahasa->setData("id");
+    QAction *engBahasa = new QAction(tr("English"),this);
+    engBahasa->setCheckable(true);
+    engBahasa->setData("en");
+
+    QMenu *btnMenu = new QMenu(this);
+    btnMenu->addAction(indBahasa);
+    btnMenu->addAction(engBahasa);
+    btnMenu->addSeparator();
+    QActionGroup *pilihBahasa = new QActionGroup(btnMenu);
+    pilihBahasa->setExclusive(true);
+    pilihBahasa->addAction(indBahasa);
+    pilihBahasa->addAction(engBahasa);
+    btnMenu->addAction(aksiAbout);
+    ui->btnInfo->setMenu(btnMenu);
+    connect(pilihBahasa,SIGNAL(triggered(QAction*)),this,SLOT(gantiBahasa(QAction *)));
+
+    // melihat bahasa lokal sistem
+    bahasa = QLocale::system().name();        // e.g. "id_ID"
+    bahasa.truncate(bahasa.lastIndexOf('_')); // e.g. "id"
+    //qDebug() << bahasa;
+    // memilih bahasa Inggris jika sistem bukan dalam locale Indonesia
+    if(bahasa == "id")
+    {
+        indBahasa->setChecked(true);
+    }
+    else
+    {
+        engBahasa->setChecked(true);
+        terjemahan.load("alldeb_en",QDir::currentPath()); //+bahasa, "/usr/share/alldeb/installer/lang"
+        qApp->installTranslator(&terjemahan);
+        ui->retranslateUi(this);
+
+    }
+
     connect(ui->tempatFile,SIGNAL(textChanged(QString)),this,SLOT(memilihFile()));
     ekstrak = new QProcess(this);
     connect(ekstrak,SIGNAL(finished(int)),this,SLOT(bacaInfoFile()));
@@ -58,6 +101,7 @@ Dialog::Dialog(QString parameterNama, QWidget *parent) :
     }
     //qDebug() << namaFile;
     //berkasAlldeb.setFileName(parameterNama);
+
 }
 
 Dialog::~Dialog()
@@ -92,7 +136,7 @@ QString Dialog::size_human(qint64 jumlah)
     list << "KB" << "MB" << "GB" << "TB";
 
     QStringListIterator i(list);
-    QString unit("bytes");
+    QString unit = tr("bytes");
 
     while(num >= 1024.0 && i.hasNext())
     {
@@ -117,7 +161,7 @@ QString Dialog::bacaTeks(QString berkas)
     }
     else
     {
-        QString galat("Ada kesalahan");
+        QString galat = tr("Ada kesalahan");
         return galat;
     }
 }
@@ -335,10 +379,7 @@ void Dialog::on_btnInstal_clicked()
 void Dialog::on_btnSalin_clicked()
 {
     //masih percobaan juga
-//    QString pencarian = ui->infoPaket->toPlainText();
-//    int pos = pencarian.indexOf("\"");
-//    QStringRef cari(&pencarian,pos+1,pencarian.lastIndexOf("\"")-pos-1);
-//    qDebug() << cari.toString();
+
 }
 
 void Dialog::on_btnSalinIns_clicked()
@@ -402,9 +443,9 @@ void Dialog::instalPaket()
 }
 
 void Dialog::on_btnInfo_clicked()
-{
-    tentangProgram = new About(this);
-    tentangProgram->show();
+{    
+    ui->btnInfo->showMenu();
+
 }
 
 void Dialog::memilihFile()
@@ -428,4 +469,20 @@ void Dialog::hapusTemporer()
     {
         dir.remove(fileDeb);
     }
+}
+
+void Dialog::infoTentang()
+{
+    tentangProgram = new About(this);
+    tentangProgram->pilihTab(1);
+    tentangProgram->show();
+}
+
+void Dialog::gantiBahasa(QAction *aksi)
+{
+    QString lokal = aksi->data().toString();
+
+    terjemahan.load("alldeb_"+lokal,QDir::currentPath());//"/usr/share/alldeb/installer/lang"
+    qApp->installTranslator(&terjemahan);
+    ui->retranslateUi(this);
 }

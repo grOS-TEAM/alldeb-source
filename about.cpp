@@ -12,3 +12,8 @@ About::~About()
 {
     delete ui;
 }
+
+void About::pilihTab(int indeks)
+{
+    ui->tabWidget->setCurrentIndex(indeks);
+}
