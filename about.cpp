@@ -17,3 +17,8 @@ void About::pilihTab(int indeks)
 {
     ui->tabWidget->setCurrentIndex(indeks);
 }
+
+void About::gantiBahasa()
+{
+    ui->retranslateUi(this);
+}

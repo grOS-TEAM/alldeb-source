@@ -15,6 +15,7 @@ public:
     explicit About(QWidget *parent = 0);
     ~About();
     void pilihTab(int indeks);
+    void gantiBahasa();
 
 private:
     Ui::About *ui;

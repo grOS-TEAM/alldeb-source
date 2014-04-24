@@ -81,6 +81,9 @@
     <layout class="QHBoxLayout" name="horizontalLayout_4">
      <item>
       <widget class="QProgressBar" name="progressBar">
+       <property name="maximum">
+        <number>0</number>
+       </property>
        <property name="textVisible">
         <bool>false</bool>
        </property>

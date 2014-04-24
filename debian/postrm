@@ -1,3 +1,4 @@
 #!/bin/sh
 
+sudo xdg-mime uninstall --mode system /usr/share/mime/application/alldeb.xml
 sudo update-mime-database /usr/share/mime

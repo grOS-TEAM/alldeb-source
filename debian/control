@@ -2,7 +2,7 @@ Source: alldeb-installer
 Section: utils
 Priority: optional
 Maintainer: Slamet Badwi <slamet.badwi@gmail.com>
-Build-Depends: debhelper (>= 9.0.0), cdbs,
+Build-Depends: debhelper (>= 8.0.0), cdbs,
   libgssapi3-heimdal,
   libqtgui4,
   libsqlite3-0,
@@ -16,7 +16,7 @@ Build-Depends: debhelper (>= 9.0.0), cdbs,
   libssl1.0.0,
   libidn11,
   libheimntlm0-heimdal,
-  libarchive13,
+  libarchive13 | libarchive12,
   libgnutls26,
   libkeyutils1,
   libsasl2-2,
@@ -45,10 +45,10 @@ Build-Depends: debhelper (>= 9.0.0), cdbs,
   libroken18-heimdal,
   libstdc++6,
   libnettle4,
-  libtasn1-6,
+  libtasn1-6 | libtasn1-3,
   libhcrypto4-heimdal,
   cmake-data
-Standards-Version: 3.9.5
+Standards-Version: 3.9.3
 Homepage: http://ubuntu-indonesia.com/forums/ubbthreads.php/topics/147963/1
 Vcs-Bzr: lp:alldeb-installer
 

@@ -22,6 +22,7 @@
 #include <QTranslator>
 #include <QLocale>
 #include <QCloseEvent>
+#include <QTimer>
 #include "about.h"
 
 namespace Ui {
@@ -60,6 +61,7 @@ private slots:
     void infoPanduan();
     void on_btnKeluarProg_clicked();
     void updateProgress();
+    void prosesSelesai();
     void progresSelesai();
 
 private:

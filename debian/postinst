@@ -1,3 +1,5 @@
 #!/bin/sh
 
+sudo xdg-mime install --novendor --mode system /usr/share/mime/application/alldeb.xml
+sudo xdg-mime default alldeb-installer.desktop application/alldeb
 sudo update-mime-database /usr/share/mime

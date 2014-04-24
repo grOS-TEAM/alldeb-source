@@ -7,9 +7,9 @@ Dialog::Dialog(QString parameterNama, QWidget *parent) :
 {
     ui->setupUi(this);
     ui->progressBar->hide();
-    fileSah = false;    
+    fileSah = false;
 
-    ruangKerja = QDir::homePath()+"/.alldeb"; //direktori untuk pengaturan dan penyimpanan temporer alldeb
+    ruangKerja = QDir::homePath()+"/.alldeb"; //direktori untuk penyimpanan temporer dan pengaturan alldeb
     programTar = "tar"; //perintah tar untuk mengekstrak dan melihat properti file
 
     if(!QDir(ruangKerja).exists()){
@@ -37,6 +37,7 @@ Dialog::Dialog(QString parameterNama, QWidget *parent) :
     btnMenu->addAction(indBahasa);
     btnMenu->addAction(engBahasa);
     btnMenu->addSeparator();
+
     QActionGroup *pilihBahasa = new QActionGroup(btnMenu);
     pilihBahasa->setExclusive(true);
     pilihBahasa->addAction(indBahasa);
@@ -61,6 +62,7 @@ Dialog::Dialog(QString parameterNama, QWidget *parent) :
         terjemahan.load("alldeb_en","/usr/share/alldeb/installer/lang"); //+bahasa,
         qApp->installTranslator(&terjemahan);
         ui->retranslateUi(this);
+        tentangProgram->gantiBahasa();
 
     }
 
@@ -77,6 +79,7 @@ Dialog::Dialog(QString parameterNama, QWidget *parent) :
     apt_get2 = new QProcess(this);
     connect(apt_get2,SIGNAL(readyRead()),this,SLOT(bacaHasilPerintah()));
     connect(apt_get2,SIGNAL(finished(int)),this,SLOT(hapusTemporer()));
+    connect(apt_get2,SIGNAL(finished(int)),this,SLOT(progresSelesai()));
 
 
     QFile polkit("/usr/bin/pkexec"); //perintah front-end untuk meminta hak administratif dengan PolicyKit
@@ -152,28 +155,39 @@ QString Dialog::size_human(qint64 jumlah)
 
 QString Dialog::bacaTeks(QString berkas)
 {
-    QFile namaBerkas(berkas);
-    if (namaBerkas.exists() && namaBerkas.open(QIODevice::ReadOnly | QIODevice::Text))
+    if(!berkas.isEmpty())
     {
-        QTextStream stream(&namaBerkas);
-        QString baris;
-        while (!stream.atEnd()){
-            baris = stream.readAll();
+        QFile namaBerkas(berkas);
+        if (namaBerkas.exists() && namaBerkas.open(QIODevice::ReadOnly | QIODevice::Text))
+        {
+            QTextStream stream(&namaBerkas);
+            QString baris;
+            while (!stream.atEnd()){
+                baris = stream.readAll();
+
+            }
             return baris;
+            namaBerkas.close();
+            return 0; //inilah senjata mujarab untuk menghilangkan:
+            //warning: control reaches end of non-void function [-Wreturn-type]
         }
-        namaBerkas.close();
+        else
+        {
+            QString galat = tr("Ada kesalahan");
+            return galat;
+        }
     }
     else
     {
-        QString galat = tr("Ada kesalahan");
-        return galat;
+        QString kosong = berkas+" tidak ada";
+        return kosong;
     }
 }
 
 void Dialog::bacaInfoFile()
 {
-//    profil = ui->tempatFile->text();
-//    namaProfil = "/"+profil.completeBaseName();
+    //    profil = ui->tempatFile->text();
+    //    namaProfil = "/"+profil.completeBaseName();
     ui->infoPaket->setPlainText(bacaTeks(ruangKerja+"/"+namaProfil+"/keterangan_alldeb.txt"));
 }
 
@@ -192,10 +206,10 @@ void Dialog::bacaFileAlldeb()
 
 
     }
-//    else
-//    {
-//        namaFile = isiKotakFile;
-//    }
+    //    else
+    //    {
+    //        namaFile = isiKotakFile;
+    //    }
 }
 
 void Dialog::bacaFile()
@@ -223,7 +237,7 @@ void Dialog::bacaFile()
         QCryptographicHash crypto(QCryptographicHash::Md5);
         filePaket.open(QFile::ReadOnly);
         while(!filePaket.atEnd()){
-          crypto.addData(filePaket.readAll());
+            crypto.addData(filePaket.readAll());
         }
 
         QByteArray sum = crypto.result();
@@ -288,9 +302,9 @@ void Dialog::bacaBikinInfo()
     //ruangKerja = QDir::homePath()+"/.alldeb";
 
     QStringList arg1;
-//    arg1 << "-c" << "sudo -u "+userN+" apt-get -o dir::etc::sourcelist="+folderKerja1+
-//            "/source_sementara.list -o dir::etc::sourceparts="+folderKerja1+
-//            "/part.d -o dir::state::lists="+folderKerja1+"/lists update";
+    //    arg1 << "-c" << "sudo -u "+userN+" apt-get -o dir::etc::sourcelist="+folderKerja1+
+    //            "/source_sementara.list -o dir::etc::sourceparts="+folderKerja1+
+    //            "/part.d -o dir::state::lists="+folderKerja1+"/lists update";
     arg1 << "-u" << "root" << "apt-get" << "-o" << "dir::etc::sourcelist="+ruangKerja+"/config/source_sementara.list"
          << "-o" << "dir::etc::sourceparts="+ruangKerja+"/part.d"
          << "-o" << "dir::state::lists="+ruangKerja+"/lists" << "update";
@@ -316,12 +330,14 @@ void Dialog::on_btnInstal_clicked()
 {
     if(fileSah)
     {
+        ui->progressBar->show();
         ui->infoPaket->appendPlainText("-----------------------\n");
         QProcess *ekstraksi = new QProcess(this);
         QStringList argumen3;
         argumen3 << "-xzf" << namaFile << "--directory="+ruangKerja+"/"+namaProfil
                  << "--skip-old-files" << "--keep-newer-files";
         ekstraksi->start(programTar, argumen3);
+        connect(ekstraksi,SIGNAL(started()),this,SLOT(updateProgress()));
 
         QString berkasSumber=ruangKerja+"/config/source_sementara.list";
         QFile source( berkasSumber );
@@ -380,32 +396,41 @@ void Dialog::on_btnInstal_clicked()
 void Dialog::on_btnSalin_clicked()
 {
     //masih percobaan juga
-    if(!namaFile.isEmpty())
+    if(!namaFile.isEmpty() || !isiKotakFile.isEmpty())
     {
-    ui->progressBar->show();
-    ui->progressBar->setMinimum(0);
-    ui->progressBar->setMaximum(0);
-    QStringList argSalin;
-    argSalin << "-u" << "root" << programTar << "-xzf" << namaFile << "--directory="+ui->tempatApt->text()
-             << "--skip-old-files" << "--keep-newer-files";
-    QProcess *salin = new QProcess(this);
-    salin->start(sandiGui,argSalin);
+        ui->progressBar->show();
+        if(namaFile.isEmpty())
+            namaFile = isiKotakFile;
 
-    connect(salin,SIGNAL(readyRead()),this,SLOT(updateProgress()));
-    connect(salin,SIGNAL(finished(int)),this,SLOT(progresSelesai()));
+        QStringList argSalin;
+        argSalin << "-u" << "root" << programTar << "-xzf" << namaFile << "--directory="+ui->tempatApt->text()
+                 << "--skip-old-files" << "--keep-newer-files";
+        QProcess *salin = new QProcess(this);
+        salin->start(sandiGui,argSalin);
+
+        connect(salin,SIGNAL(started()),this,SLOT(updateProgress()));
+        connect(salin,SIGNAL(finished(int)),this,SLOT(progresSelesai()));
     }
 }
 
 void Dialog::updateProgress()
 {
     ui->progressBar->setMaximum(10);
+    ui->progressBar->setValue(5);
+}
+
+void Dialog::prosesSelesai()
+{
+
+    ui->progressBar->hide();
+
 }
 
 void Dialog::progresSelesai()
 {
     ui->progressBar->setValue(10);
-    ui->progressBar->hide();
-    ui->infoPaket->appendPlainText("-----------------------------\nSudah tersalin semua.");
+    ui->infoPaket->appendPlainText(tr("-----------------------------\nProses sudah selesai."));
+    QTimer::singleShot(2000,this,SLOT(prosesSelesai()));
 }
 
 void Dialog::on_btnSalinIns_clicked()
@@ -418,8 +443,8 @@ void Dialog::on_btnSalinIns_clicked()
 
 void Dialog::instalPaket()
 {
-//    profil = ui->tempatFile->text();
-//    namaProfil = profil.completeBaseName();
+    //    profil = ui->tempatFile->text();
+    //    namaProfil = profil.completeBaseName();
     QFile infoFile1(ruangKerja+"/"+namaProfil+"/keterangan_alldeb.txt");
     int pos1 = 0;
     //QStringRef cari1;
@@ -436,9 +461,9 @@ void Dialog::instalPaket()
         QString paketTermuat = cari1.toString();
         //ruangKerja = QDir::homePath()+"/.alldeb";
 
-//        Menemukan nama pengguna ubuntu;
-//        QStringList user(QString(QDir::homePath()).split("/"));
-//        QString userN(user.at(2));
+        //        Menemukan nama pengguna ubuntu;
+        //        QStringList user(QString(QDir::homePath()).split("/"));
+        //        QString userN(user.at(2));
 
         QStringList arg2,arg5;
         if(paketTermuat.contains(" "))
@@ -463,7 +488,7 @@ void Dialog::instalPaket()
     else
     {
         ui->infoPaket->appendPlainText(tr("Ada kesalahan"));
-    }    
+    }
 }
 
 void Dialog::on_btnInfo_clicked()
@@ -497,7 +522,6 @@ void Dialog::hapusTemporer()
 
 void Dialog::infoTentang()
 {
-
     tentangProgram->pilihTab(1);
     tentangProgram->show();
 }
@@ -514,31 +538,33 @@ void Dialog::gantiBahasa(QAction *aksi)
 
     terjemahan.load("alldeb_"+lokal,"/usr/share/alldeb/installer/lang");//
     qApp->installTranslator(&terjemahan);
+
     ui->retranslateUi(this);
+    tentangProgram->gantiBahasa();
 }
 
 void Dialog::on_btnKeluarProg_clicked()
 {
-    if(!namaFile.isEmpty())
+    if(!namaFile.isEmpty() || !isiKotakFile.isEmpty())
     {
-    QMessageBox tanyaHapus;
-    tanyaHapus.setWindowTitle(tr("Hapus tembolok?"));
-    tanyaHapus.setText(tr("Apakah anda ingin menghapus file sementara yang tersimpan di:\n")+ruangKerja+" ?");
-    tanyaHapus.setIcon(QMessageBox::Question);
-    QPushButton *btnYes = tanyaHapus.addButton(tr("Ya"), QMessageBox::YesRole);
-    tanyaHapus.addButton(tr("Tidak"),QMessageBox::NoRole);
-    tanyaHapus.exec();
-    if(tanyaHapus.clickedButton() == btnYes)
-    {
-        QDir dir(ruangKerja+"/"+namaProfil);
-        dir.setNameFilters(QStringList() << "keterangan_alldeb.txt" << "Packages.gz");
-        dir.setFilter(QDir::Files);
-        foreach(QString fileDeb, dir.entryList())
+        QMessageBox tanyaHapus;
+        tanyaHapus.setWindowTitle(tr("Hapus tembolok?"));
+        tanyaHapus.setText(tr("Apakah anda ingin menghapus file sementara yang tersimpan di:\n")+ruangKerja+" ?");
+        tanyaHapus.setIcon(QMessageBox::Question);
+        QPushButton *btnYes = tanyaHapus.addButton(tr("Ya"), QMessageBox::YesRole);
+        tanyaHapus.addButton(tr("Tidak"),QMessageBox::NoRole);
+        tanyaHapus.exec();
+        if(tanyaHapus.clickedButton() == btnYes)
         {
-            dir.remove(fileDeb);
+            QDir dir(ruangKerja+"/"+namaProfil);
+            dir.setNameFilters(QStringList() << "keterangan_alldeb.txt" << "Packages.gz");
+            dir.setFilter(QDir::Files);
+            foreach(QString fileDeb, dir.entryList())
+            {
+                dir.remove(fileDeb);
+            }
+            QDir().rmdir(ruangKerja+"/"+namaProfil);
         }
-        dir.rmdir(ruangKerja+"/"+namaProfil);
-    }
     }
     qApp->quit();
 }

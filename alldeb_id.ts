@@ -97,8 +97,8 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="dialog.ui" line="27"/>
-        <location filename="dialog.cpp" line="120"/>
-        <location filename="dialog.cpp" line="128"/>
+        <location filename="dialog.cpp" line="123"/>
+        <location filename="dialog.cpp" line="131"/>
         <source>Pilih file alldeb</source>
         <translation type="unfinished"></translation>
     </message>
@@ -108,72 +108,72 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dialog.ui" line="110"/>
+        <location filename="dialog.ui" line="113"/>
         <source>Isi file alldeb</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dialog.ui" line="129"/>
+        <location filename="dialog.ui" line="132"/>
         <source>Jumlah:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dialog.ui" line="155"/>
+        <location filename="dialog.ui" line="158"/>
         <source>Ukuran:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dialog.ui" line="181"/>
+        <location filename="dialog.ui" line="184"/>
         <source>md5sum:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dialog.ui" line="215"/>
+        <location filename="dialog.ui" line="218"/>
         <source>Jelajah</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dialog.ui" line="349"/>
+        <location filename="dialog.ui" line="352"/>
         <source>Keluar</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dialog.ui" line="206"/>
+        <location filename="dialog.ui" line="209"/>
         <source>Lokasi Arsip APT</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dialog.ui" line="270"/>
+        <location filename="dialog.ui" line="273"/>
         <source>Aksi yang ingin dilakukan</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dialog.ui" line="296"/>
+        <location filename="dialog.ui" line="299"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Mengekstrak file alldeb ke folder sementara, lalu melakukan instalasi seluruh file DEB dari sana.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dialog.ui" line="299"/>
+        <location filename="dialog.ui" line="302"/>
         <source>Install</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dialog.ui" line="309"/>
+        <location filename="dialog.ui" line="312"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Mengekstrak file Alldeb ke /var/cache/apt/archive atau lokasi arsip APT yang anda tentukan sendiri.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dialog.ui" line="312"/>
+        <location filename="dialog.ui" line="315"/>
         <source>Copy</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dialog.ui" line="322"/>
+        <location filename="dialog.ui" line="325"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Lakukan kedua proses di samping, pertama menginstal, lalu menyalin atau memindahkannya ke lokasi arsip APT.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dialog.ui" line="325"/>
+        <location filename="dialog.ui" line="328"/>
         <source>Both</source>
         <translation type="unfinished"></translation>
     </message>
@@ -198,88 +198,94 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dialog.cpp" line="120"/>
-        <location filename="dialog.cpp" line="128"/>
+        <location filename="dialog.cpp" line="123"/>
+        <location filename="dialog.cpp" line="131"/>
         <source>File Paket (*.alldeb)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dialog.cpp" line="143"/>
+        <location filename="dialog.cpp" line="146"/>
         <source>bytes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dialog.cpp" line="168"/>
-        <location filename="dialog.cpp" line="465"/>
+        <location filename="dialog.cpp" line="176"/>
+        <location filename="dialog.cpp" line="490"/>
         <source>Ada kesalahan</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dialog.cpp" line="263"/>
+        <location filename="dialog.cpp" line="277"/>
         <source>Kesalahan</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dialog.cpp" line="264"/>
+        <location filename="dialog.cpp" line="278"/>
         <source>Waduh, ini bukan file alldeb. Jangan dilanjutkan ya!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dialog.cpp" line="276"/>
+        <location filename="dialog.cpp" line="290"/>
         <source>Pilih folder tempat file DEB berada</source>
         <oldsource>Pilih folder tempat file DEB berada (Opsinal)</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dialog.cpp" line="367"/>
+        <location filename="dialog.cpp" line="383"/>
         <source>Tidak bisa memeriksa</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dialog.cpp" line="368"/>
+        <location filename="dialog.cpp" line="384"/>
         <source>Tanpa program pemindai paket, proses ini tidak bisa dilanjutkan.
 Program yang dimaksud adalah apt-ftparchive (dari paket apt-utils) atau dpkg-scan-packages</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dialog.cpp" line="376"/>
+        <location filename="dialog.cpp" line="392"/>
         <source>Sudah diinstal</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dialog.cpp" line="376"/>
+        <location filename="dialog.cpp" line="392"/>
         <source>Anda sudah mengklik tombol ini.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dialog.cpp" line="415"/>
+        <location filename="dialog.cpp" line="432"/>
+        <source>-----------------------------
+Proses sudah selesai.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="dialog.cpp" line="440"/>
         <source>Masih tahap beta</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dialog.cpp" line="416"/>
+        <location filename="dialog.cpp" line="441"/>
         <source>Fitur ini belum ditambahkan, karena masih belum final.
 Terima kasih sudah mencoba.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dialog.cpp" line="525"/>
+        <location filename="dialog.cpp" line="551"/>
         <source>Hapus tembolok?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dialog.cpp" line="526"/>
+        <location filename="dialog.cpp" line="552"/>
         <source>Apakah anda ingin menghapus file sementara yang tersimpan di:
 </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dialog.cpp" line="528"/>
+        <location filename="dialog.cpp" line="554"/>
         <source>Ya</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dialog.cpp" line="529"/>
+        <location filename="dialog.cpp" line="555"/>
         <source>Tidak</source>
         <translation type="unfinished"></translation>
     </message>
