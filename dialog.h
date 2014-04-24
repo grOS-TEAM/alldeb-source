@@ -47,6 +47,7 @@ private slots:
     void on_btnInstal_clicked();
     void on_btnSalinIns_clicked();
     void on_btnInfo_clicked();
+    void on_btnKeluarProg_clicked();
     void bacaHasilPerintah();
     void bacaHasilAptget();
     void bacaInfoFile();
@@ -56,13 +57,13 @@ private slots:
     void instalPaket();
     void memilihFile();
     void hapusTemporer();
-    void infoTentang();
     void gantiBahasa(QAction *aksi);
-    void infoPanduan();
-    void on_btnKeluarProg_clicked();
+    void infoTentang();    
+    void infoPanduan();    
     void updateProgress();
     void prosesSelesai();
     void progresSelesai();
+    void prosesGagal();
 
 private:
     Ui::Dialog *ui;

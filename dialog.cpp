@@ -69,17 +69,22 @@ Dialog::Dialog(QString parameterNama, QWidget *parent) :
     connect(ui->tempatFile,SIGNAL(textChanged(QString)),this,SLOT(memilihFile()));
     ekstrak = new QProcess(this);
     connect(ekstrak,SIGNAL(finished(int)),this,SLOT(bacaInfoFile()));
+    connect(ekstrak,SIGNAL(error(QProcess::ProcessError)),this,SLOT(prosesGagal()));
     daftarFile = new QProcess(this);
     connect(daftarFile,SIGNAL(finished(int)),this,SLOT(bacaFile()));
+    connect(daftarFile,SIGNAL(error(QProcess::ProcessError)),this,SLOT(prosesGagal()));
     buatPaketInfo = new QProcess(this);
     connect(buatPaketInfo,SIGNAL(finished(int)),this,SLOT(bacaBikinInfo()));
+    connect(buatPaketInfo,SIGNAL(error(QProcess::ProcessError)),this,SLOT(prosesGagal()));
     apt_get1 = new QProcess(this);
     connect(apt_get1,SIGNAL(readyRead()),this,SLOT(bacaHasilAptget()));
     connect(apt_get1,SIGNAL(finished(int)),this,SLOT(instalPaket()));
+    connect(apt_get1,SIGNAL(error(QProcess::ProcessError)),this,SLOT(prosesGagal()));
     apt_get2 = new QProcess(this);
     connect(apt_get2,SIGNAL(readyRead()),this,SLOT(bacaHasilPerintah()));
     connect(apt_get2,SIGNAL(finished(int)),this,SLOT(hapusTemporer()));
     connect(apt_get2,SIGNAL(finished(int)),this,SLOT(progresSelesai()));
+    connect(apt_get2,SIGNAL(error(QProcess::ProcessError)),this,SLOT(prosesGagal()));
 
 
     QFile polkit("/usr/bin/pkexec"); //perintah front-end untuk meminta hak administratif dengan PolicyKit
@@ -324,6 +329,9 @@ void Dialog::bacaHasilPerintah()
 {
     QString output(apt_get2->readAll());
     ui->infoPaket->appendPlainText(output);
+    if(output.contains("E:")){
+        ui->infoPaket->appendPlainText("=================\nMaaf, instalasi belum berhasil.");
+    }
 }
 
 void Dialog::on_btnInstal_clicked()
@@ -331,13 +339,15 @@ void Dialog::on_btnInstal_clicked()
     if(fileSah)
     {
         ui->progressBar->show();
-        ui->infoPaket->appendPlainText("-----------------------\n");
+        ui->infoPaket->appendPlainText("=================\n");
         QProcess *ekstraksi = new QProcess(this);
         QStringList argumen3;
         argumen3 << "-xzf" << namaFile << "--directory="+ruangKerja+"/"+namaProfil
-                 << "--skip-old-files" << "--keep-newer-files";
+                 << "--keep-newer-files";
+        // di Ubuntu 12.04, tar belum menerima argumen --skip-old-files, maka argumen ini dihapus
         ekstraksi->start(programTar, argumen3);
         connect(ekstraksi,SIGNAL(started()),this,SLOT(updateProgress()));
+        connect(ekstraksi,SIGNAL(error(QProcess::ProcessError)),this,SLOT(prosesGagal()));
 
         QString berkasSumber=ruangKerja+"/config/source_sementara.list";
         QFile source( berkasSumber );
@@ -404,19 +414,20 @@ void Dialog::on_btnSalin_clicked()
 
         QStringList argSalin;
         argSalin << "-u" << "root" << programTar << "-xzf" << namaFile << "--directory="+ui->tempatApt->text()
-                 << "--skip-old-files" << "--keep-newer-files";
+                 << "--keep-newer-files"; // "--skip-old-files" tidak kompatibel dengan Ubuntu 12.04
         QProcess *salin = new QProcess(this);
         salin->start(sandiGui,argSalin);
 
         connect(salin,SIGNAL(started()),this,SLOT(updateProgress()));
         connect(salin,SIGNAL(finished(int)),this,SLOT(progresSelesai()));
+        connect(salin,SIGNAL(error(QProcess::ProcessError)),this,SLOT(prosesGagal()));
     }
 }
 
 void Dialog::updateProgress()
 {
     ui->progressBar->setMaximum(10);
-    ui->progressBar->setValue(5);
+    ui->progressBar->setValue(3);
 }
 
 void Dialog::prosesSelesai()
@@ -567,4 +578,9 @@ void Dialog::on_btnKeluarProg_clicked()
         }
     }
     qApp->quit();
+}
+
+void Dialog::prosesGagal()
+{
+    ui->infoPaket->appendPlainText(tr("=================\nProses gagal\n================="));
 }

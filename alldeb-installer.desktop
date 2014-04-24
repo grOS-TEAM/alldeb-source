@@ -1,0 +1,12 @@
+#!/usr/bin/env xdg-open
+[Desktop Entry]
+Version=1.0
+Type=Application
+GenericName=Front-end untuk alldeb-installer
+Name=AllDeb Installer
+Comment=Program penginstal untuk berkas alldeb
+TryExec=alldeb-installer
+Exec=alldeb-installer %f
+Icon=start-here
+MimeType=application/alldeb;application/gzip;
+Categories=Qt;Utility;Application;
