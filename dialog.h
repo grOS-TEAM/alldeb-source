@@ -36,7 +36,7 @@ class Dialog : public QDialog
 public:
     explicit Dialog(QString parameterNama=0, QWidget *parent = 0);
 
-    QString size_human(qint64 jumlah);
+    QString bacaUkuran(qint64 jumlah);
     QString bacaTeks(QString berkas);
     ~Dialog();
 
@@ -53,7 +53,8 @@ private slots:
     void bacaInfoFile();
     void bacaFileAlldeb();
     void bacaFile();
-    void bacaBikinInfo();
+    void bacaInfo();
+    void buatInfo();
     void instalPaket();
     void memilihFile();
     void hapusTemporer();
@@ -63,7 +64,7 @@ private slots:
     void updateProgress();
     void prosesSelesai();
     void progresSelesai();
-    void prosesGagal();
+    void prosesGagal();    
 
 private:
     Ui::Dialog *ui;
@@ -85,6 +86,7 @@ private:
     QProcess *apt_get1;
     QProcess *apt_get2;    
     bool fileSah;
+    bool berhasil;
     About *tentangProgram;
 };
 

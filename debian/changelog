@@ -1,3 +1,9 @@
+alldeb-installer (0.2-ubuntu5) trusty; urgency=low
+
+  * Modified source, rearranged objects
+
+ -- Slamet Badwi (bedouin) <slamet.badwi@gmail.com>  Fri, 25 Apr 2014 19:35:13 +0700
+
 alldeb-installer (0.2-ubuntu1) trusty; urgency=low
 
   * First beta version

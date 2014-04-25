@@ -49,7 +49,7 @@ Build-Depends: debhelper (>= 8.0.0), cdbs,
   libhcrypto4-heimdal,
   cmake-data
 Standards-Version: 3.9.3
-Homepage: http://ubuntu-indonesia.com/forums/ubbthreads.php/topics/147963/1
+Homepage: https://launchpad.net/alldeb-installer
 Vcs-Bzr: lp:alldeb-installer
 
 Package: alldeb-installer

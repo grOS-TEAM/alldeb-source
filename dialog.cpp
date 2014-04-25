@@ -8,6 +8,7 @@ Dialog::Dialog(QString parameterNama, QWidget *parent) :
     ui->setupUi(this);
     ui->progressBar->hide();
     fileSah = false;
+    berhasil = false;
 
     ruangKerja = QDir::homePath()+"/.alldeb"; //direktori untuk penyimpanan temporer dan pengaturan alldeb
     programTar = "tar"; //perintah tar untuk mengekstrak dan melihat properti file
@@ -66,7 +67,6 @@ Dialog::Dialog(QString parameterNama, QWidget *parent) :
 
     }
 
-    connect(ui->tempatFile,SIGNAL(textChanged(QString)),this,SLOT(memilihFile()));
     ekstrak = new QProcess(this);
     connect(ekstrak,SIGNAL(finished(int)),this,SLOT(bacaInfoFile()));
     connect(ekstrak,SIGNAL(error(QProcess::ProcessError)),this,SLOT(prosesGagal()));
@@ -74,7 +74,7 @@ Dialog::Dialog(QString parameterNama, QWidget *parent) :
     connect(daftarFile,SIGNAL(finished(int)),this,SLOT(bacaFile()));
     connect(daftarFile,SIGNAL(error(QProcess::ProcessError)),this,SLOT(prosesGagal()));
     buatPaketInfo = new QProcess(this);
-    connect(buatPaketInfo,SIGNAL(finished(int)),this,SLOT(bacaBikinInfo()));
+    connect(buatPaketInfo,SIGNAL(finished(int)),this,SLOT(bacaInfo()));
     connect(buatPaketInfo,SIGNAL(error(QProcess::ProcessError)),this,SLOT(prosesGagal()));
     apt_get1 = new QProcess(this);
     connect(apt_get1,SIGNAL(readyRead()),this,SLOT(bacaHasilAptget()));
@@ -85,7 +85,7 @@ Dialog::Dialog(QString parameterNama, QWidget *parent) :
     connect(apt_get2,SIGNAL(finished(int)),this,SLOT(hapusTemporer()));
     connect(apt_get2,SIGNAL(finished(int)),this,SLOT(progresSelesai()));
     connect(apt_get2,SIGNAL(error(QProcess::ProcessError)),this,SLOT(prosesGagal()));
-
+    connect(ui->tempatFile,SIGNAL(textChanged(QString)),this,SLOT(memilihFile()));
 
     QFile polkit("/usr/bin/pkexec"); //perintah front-end untuk meminta hak administratif dengan PolicyKit
     QFile kdesudo("/usr/bin/kdesudo"); //front-end sudo di KDE
@@ -126,22 +126,36 @@ void Dialog::on_btnCariFile_clicked()
     isiKotakFile = ui->tempatFile->text();
     if(isiKotakFile.isEmpty()) {
         namaFile = QFileDialog::getOpenFileName(this,tr("Pilih file alldeb"),QDir::homePath(),tr("File Paket (*.alldeb)"));
-        bacaFileAlldeb();
-
+        if(!namaFile.isNull())
+            bacaFileAlldeb();
     }
     else
     {
-        QFile fael(isiKotakFile);
-        QFileInfo info(fael);
-        namaFile = QFileDialog::getOpenFileName(this,tr("Pilih file alldeb"),info.absolutePath(),tr("File Paket (*.alldeb)"));
-
-        bacaFileAlldeb();
+        QFile terbuka(isiKotakFile);
+        QFileInfo berkas(terbuka); //berkas saat ini
+        namaFile = QFileDialog::getOpenFileName(this,tr("Pilih file alldeb"),berkas.absolutePath(),tr("File Paket (*.alldeb)"));
+        if(!namaFile.isNull())
+            bacaFileAlldeb();
     }
 
 }
 
+void Dialog::bacaFileAlldeb()
+{
+    if(!namaFile.isNull()){
+        //ui->tempatFile->setText(namaFile);
+        profil.setFile(namaFile);
+        namaProfil = profil.completeBaseName();
+
+        QStringList variabel;
+        variabel << "-tf" << namaFile;
+        daftarFile->start(programTar, variabel);
+        daftarFile->setReadChannel(QProcess::StandardOutput);
+    }
+}
+
 //fungsi untuk mengubah ukuran file ke satuan byte (human readable)
-QString Dialog::size_human(qint64 jumlah)
+QString Dialog::bacaUkuran(qint64 jumlah)
 {
     float num = jumlah;
     QStringList list;
@@ -189,34 +203,6 @@ QString Dialog::bacaTeks(QString berkas)
     }
 }
 
-void Dialog::bacaInfoFile()
-{
-    //    profil = ui->tempatFile->text();
-    //    namaProfil = "/"+profil.completeBaseName();
-    ui->infoPaket->setPlainText(bacaTeks(ruangKerja+"/"+namaProfil+"/keterangan_alldeb.txt"));
-}
-
-void Dialog::bacaFileAlldeb()
-{
-    if(!namaFile.isNull()){
-        //ui->tempatFile->setText(namaFile);
-
-        profil.setFile(namaFile);
-        namaProfil = profil.completeBaseName();
-
-        QStringList variabel;
-        variabel << "-tf" << namaFile;
-        daftarFile->start(programTar, variabel);
-        daftarFile->setReadChannel(QProcess::StandardOutput);
-
-
-    }
-    //    else
-    //    {
-    //        namaFile = isiKotakFile;
-    //    }
-}
-
 void Dialog::bacaFile()
 {
     QStringList daftarIsi;
@@ -251,7 +237,7 @@ void Dialog::bacaFile()
 
         qint64 ukuran = 0;
         ukuran = filePaket.size();
-        QString nilai = size_human(ukuran);
+        QString nilai = bacaUkuran(ukuran);
         ui->labelUkuranNilai->setText("<html><head/><body><p><span style=\" font-weight:600;\">"+nilai+"</span></p></body></html>");
 
         filePaket.close();
@@ -284,38 +270,79 @@ void Dialog::bacaFile()
         msgBox.setIcon(QMessageBox::Warning);
         msgBox.exec();
         //qDebug() << "bukan file alldeb";
-        //ui->tempatFile->clear();
     }
 
 }
 
-void Dialog::on_btnFolderApt_clicked()
+void Dialog::bacaInfoFile()
 {
-    QString folderApt = QFileDialog::getExistingDirectory(this,
-                                                          tr("Pilih folder tempat file DEB berada"),
-                                                          ui->tempatApt->text(),QFileDialog::ShowDirsOnly
-                                                          | QFileDialog::DontResolveSymlinks);
-    if(!folderApt.isNull())
-        ui->tempatApt->setText(folderApt);
+    ui->infoPaket->setPlainText(bacaTeks(ruangKerja+"/"+namaProfil+"/keterangan_alldeb.txt"));
 }
 
-void Dialog::bacaBikinInfo()
+void Dialog::bacaInfo()
 {
     QString output(buatPaketInfo->readAllStandardOutput());
     ui->infoPaket->appendPlainText(output);
-    //qDebug() << output;
-    //ruangKerja = QDir::homePath()+"/.alldeb";
 
     QStringList arg1;
-    //    arg1 << "-c" << "sudo -u "+userN+" apt-get -o dir::etc::sourcelist="+folderKerja1+
-    //            "/source_sementara.list -o dir::etc::sourceparts="+folderKerja1+
-    //            "/part.d -o dir::state::lists="+folderKerja1+"/lists update";
     arg1 << "-u" << "root" << "apt-get" << "-o" << "dir::etc::sourcelist="+ruangKerja+"/config/source_sementara.list"
          << "-o" << "dir::etc::sourceparts="+ruangKerja+"/part.d"
          << "-o" << "dir::state::lists="+ruangKerja+"/lists" << "update";
     apt_get1->setWorkingDirectory(ruangKerja);
     apt_get1->setProcessChannelMode(QProcess::MergedChannels);
     apt_get1->start(sandiGui,arg1,QIODevice::ReadWrite);
+}
+
+void Dialog::buatInfo()
+{
+    QString berkasSumber=ruangKerja+"/config/source_sementara.list";
+    QFile source( berkasSumber );
+    if ( source.open(QIODevice::WriteOnly) )
+    {
+        QTextStream stream( &source );
+        stream << "deb file:"+ruangKerja+"/"+namaProfil+" ./" << endl;
+    }
+
+    //cek apt-ftparchive dan dpkg-scanpackages
+    QFile ftpArchive("/usr/bin/apt-ftparchive");
+    QFile scanPackages("/usr/bin/dpkg-scanpackages");
+    if(ftpArchive.exists())
+    {
+        //apt-ftparchive packages . 2>/dev/null | gzip > ./Packages.gz
+        QStringList arg4;
+        arg4 << "-c" << "apt-ftparchive packages "+namaProfil+"/ 2>/dev/null | gzip > "
+                +namaProfil+"/Packages.gz";
+
+        buatPaketInfo->setWorkingDirectory(ruangKerja);
+        buatPaketInfo->start("sh",arg4);
+        //qDebug() << argumen5;
+
+
+        if(!QDir(ruangKerja+"/part.d").exists()){
+            QDir().mkdir(ruangKerja+"/part.d");
+        }
+        if(!QDir(ruangKerja+"/lists").exists()){
+            QDir().mkdir(ruangKerja+"/lists");
+        }
+        if(!QDir(ruangKerja+"/lists/partial").exists()){
+            QDir().mkdir(ruangKerja+"/lists/partial");
+        }
+
+
+    }
+    else if(scanPackages.exists())
+    {
+        //BELUM ADA PROSES
+        //karena dependensi paket sudah menyertakan apt-utils, maka apt-ftparchive akan selalu ada
+        //ini bisa dijadikan opsi
+    }
+    else
+    {
+        QMessageBox::warning(this,tr("Tidak bisa memeriksa"),
+                             tr("Tanpa program pemindai paket, proses ini tidak bisa dilanjutkan.\n"
+                                "Program yang dimaksud adalah apt-ftparchive (dari paket apt-utils) atau dpkg-scan-packages"));
+    }
+    fileSah = false;
 }
 
 void Dialog::bacaHasilAptget()
@@ -331,125 +358,12 @@ void Dialog::bacaHasilPerintah()
     ui->infoPaket->appendPlainText(output);
     if(output.contains("E:")){
         ui->infoPaket->appendPlainText("=================\nMaaf, instalasi belum berhasil.");
-    }
-}
-
-void Dialog::on_btnInstal_clicked()
-{
-    if(fileSah)
-    {
-        ui->progressBar->show();
-        ui->infoPaket->appendPlainText("=================\n");
-        QProcess *ekstraksi = new QProcess(this);
-        QStringList argumen3;
-        argumen3 << "-xzf" << namaFile << "--directory="+ruangKerja+"/"+namaProfil
-                 << "--keep-newer-files";
-        // di Ubuntu 12.04, tar belum menerima argumen --skip-old-files, maka argumen ini dihapus
-        ekstraksi->start(programTar, argumen3);
-        connect(ekstraksi,SIGNAL(started()),this,SLOT(updateProgress()));
-        connect(ekstraksi,SIGNAL(error(QProcess::ProcessError)),this,SLOT(prosesGagal()));
-
-        QString berkasSumber=ruangKerja+"/config/source_sementara.list";
-        QFile source( berkasSumber );
-        if ( source.open(QIODevice::WriteOnly) )
-        {
-            QTextStream stream( &source );
-            stream << "deb file:"+ruangKerja+"/"+namaProfil+" ./" << endl;
-        }
-
-        //cek apt-ftparchive dan dpkg-scanpackages
-        QFile ftpArchive("/usr/bin/apt-ftparchive");
-        QFile scanPackages("/usr/bin/dpkg-scanpackages");
-        if(ftpArchive.exists())
-        {
-            //apt-ftparchive packages . 2>/dev/null | gzip > ./Packages.gz
-            QStringList arg4;
-            arg4 << "-c" << "apt-ftparchive packages "+namaProfil+"/ 2>/dev/null | gzip > "
-                    +namaProfil+"/Packages.gz";
-
-            buatPaketInfo->setWorkingDirectory(ruangKerja);
-            buatPaketInfo->start("sh",arg4);
-            //qDebug() << argumen5;
-
-
-            if(!QDir(ruangKerja+"/part.d").exists()){
-                QDir().mkdir(ruangKerja+"/part.d");
-            }
-            if(!QDir(ruangKerja+"/lists").exists()){
-                QDir().mkdir(ruangKerja+"/lists");
-            }
-            if(!QDir(ruangKerja+"/lists/partial").exists()){
-                QDir().mkdir(ruangKerja+"/lists/partial");
-            }
-
-
-        }
-        else if(scanPackages.exists())
-        {
-            //BELUM ADA PROSES
-        }
-        else
-        {
-            QMessageBox::warning(this,tr("Tidak bisa memeriksa"),
-                                 tr("Tanpa program pemindai paket, proses ini tidak bisa dilanjutkan.\n"
-                                    "Program yang dimaksud adalah apt-ftparchive (dari paket apt-utils) atau dpkg-scan-packages"));
-        }
-        fileSah = false;
+        berhasil = false;
     }
     else
     {
-        //qDebug() << "sudah diinstal";
-        QMessageBox::warning(this,tr("Sudah diinstal"),tr("Anda sudah mengklik tombol ini."));
+        berhasil = true;
     }
-}
-
-void Dialog::on_btnSalin_clicked()
-{
-    //masih percobaan juga
-    if(!namaFile.isEmpty() || !isiKotakFile.isEmpty())
-    {
-        ui->progressBar->show();
-        if(namaFile.isEmpty())
-            namaFile = isiKotakFile;
-
-        QStringList argSalin;
-        argSalin << "-u" << "root" << programTar << "-xzf" << namaFile << "--directory="+ui->tempatApt->text()
-                 << "--keep-newer-files"; // "--skip-old-files" tidak kompatibel dengan Ubuntu 12.04
-        QProcess *salin = new QProcess(this);
-        salin->start(sandiGui,argSalin);
-
-        connect(salin,SIGNAL(started()),this,SLOT(updateProgress()));
-        connect(salin,SIGNAL(finished(int)),this,SLOT(progresSelesai()));
-        connect(salin,SIGNAL(error(QProcess::ProcessError)),this,SLOT(prosesGagal()));
-    }
-}
-
-void Dialog::updateProgress()
-{
-    ui->progressBar->setMaximum(10);
-    ui->progressBar->setValue(3);
-}
-
-void Dialog::prosesSelesai()
-{
-
-    ui->progressBar->hide();
-
-}
-
-void Dialog::progresSelesai()
-{
-    ui->progressBar->setValue(10);
-    ui->infoPaket->appendPlainText(tr("-----------------------------\nProses sudah selesai."));
-    QTimer::singleShot(2000,this,SLOT(prosesSelesai()));
-}
-
-void Dialog::on_btnSalinIns_clicked()
-{
-    //Masih percobaan. Nanti harus diubah.
-
-    QMessageBox::information(this,tr("Masih tahap beta"),
-                             tr("Fitur ini belum ditambahkan, karena masih belum final.\nTerima kasih sudah mencoba."));
 }
 
 void Dialog::instalPaket()
@@ -502,6 +416,110 @@ void Dialog::instalPaket()
     }
 }
 
+void Dialog::hapusTemporer()
+{
+    //menghapus file-file deb yang diekstrak
+    QDir dir(ruangKerja+"/"+namaProfil);
+    dir.setNameFilters(QStringList() << "*.deb");
+    dir.setFilter(QDir::Files);
+    foreach(QString fileDeb, dir.entryList())
+    {
+        dir.remove(fileDeb);
+    }
+}
+
+void Dialog::on_btnFolderApt_clicked()
+{
+    QString folderApt = QFileDialog::getExistingDirectory(this,
+                                                          tr("Pilih folder tempat file DEB berada"),
+                                                          ui->tempatApt->text(),QFileDialog::ShowDirsOnly
+                                                          | QFileDialog::DontResolveSymlinks);
+    if(!folderApt.isNull())
+        ui->tempatApt->setText(folderApt);
+}
+
+void Dialog::on_btnInstal_clicked()
+{
+    if(fileSah)
+    {
+        ui->progressBar->show();
+        ui->infoPaket->appendPlainText("=================\n");
+        QProcess *ekstraksi = new QProcess(this);
+        QStringList argumen3;
+        argumen3 << "-xzf" << namaFile << "--directory="+ruangKerja+"/"+namaProfil
+                 << "--keep-newer-files";
+        // di Ubuntu 12.04, tar belum menerima argumen --skip-old-files, maka argumen ini dihapus
+        ekstraksi->start(programTar, argumen3);
+        connect(ekstraksi,SIGNAL(started()),this,SLOT(updateProgress()));
+        connect(ekstraksi,SIGNAL(error(QProcess::ProcessError)),this,SLOT(prosesGagal()));
+        connect(ekstraksi,SIGNAL(finished(int)),this,SLOT(buatInfo()));
+    }
+    else
+    {
+        //qDebug() << "sudah diinstal";
+        QMessageBox::warning(this,tr("Sudah diinstal"),tr("Anda sudah mengklik tombol ini."));
+    }
+}
+
+void Dialog::on_btnSalin_clicked()
+{
+    //masih percobaan juga
+    if(!namaFile.isEmpty() || !isiKotakFile.isEmpty())
+    {
+        ui->progressBar->show();
+        if(namaFile.isEmpty())
+            namaFile = isiKotakFile;
+
+        QStringList argSalin;
+        argSalin << "-u" << "root" << programTar << "-xzf" << namaFile << "--directory="+ui->tempatApt->text()
+                 << "--keep-newer-files";
+        // "--skip-old-files" tidak kompatibel dengan Ubuntu 12.04
+        QProcess *salin = new QProcess(this);
+        salin->start(sandiGui,argSalin);
+
+        connect(salin,SIGNAL(started()),this,SLOT(updateProgress()));
+        connect(salin,SIGNAL(finished(int)),this,SLOT(progresSelesai()));
+        connect(salin,SIGNAL(error(QProcess::ProcessError)),this,SLOT(prosesGagal()));
+    }
+}
+
+void Dialog::updateProgress()
+{
+    ui->progressBar->setMaximum(10);
+    ui->progressBar->setValue(3);
+}
+
+void Dialog::prosesSelesai()
+{
+
+    ui->progressBar->hide();
+
+}
+
+void Dialog::progresSelesai()
+{
+    if(berhasil)
+    {
+        ui->progressBar->setValue(10);
+        ui->infoPaket->appendPlainText(tr("---------------------\nProses sudah selesai."));
+        QTimer::singleShot(2000,this,SLOT(prosesSelesai()));
+    }
+}
+
+void Dialog::prosesGagal()
+{
+    ui->infoPaket->appendPlainText(tr("=================\nProses gagal\n================="));
+}
+
+void Dialog::on_btnSalinIns_clicked()
+{
+    //Masih percobaan. Nanti harus diubah.
+
+    QMessageBox::information(this,tr("Masih tahap beta"),
+                             tr("Fitur ini belum ditambahkan, karena masih belum final.\nTerima kasih sudah mencoba."));
+}
+
+
 void Dialog::on_btnInfo_clicked()
 {    
     ui->btnInfo->showMenu();
@@ -516,18 +534,6 @@ void Dialog::memilihFile()
         ui->btnInstal->setDisabled(false);
         ui->btnSalin->setDisabled(false);
         ui->btnSalinIns->setDisabled(false);
-    }
-}
-
-void Dialog::hapusTemporer()
-{
-    //menghapus file-file deb yang diekstrak
-    QDir dir(ruangKerja+"/"+namaProfil);
-    dir.setNameFilters(QStringList() << "*.deb");
-    dir.setFilter(QDir::Files);
-    foreach(QString fileDeb, dir.entryList())
-    {
-        dir.remove(fileDeb);
     }
 }
 
@@ -578,9 +584,4 @@ void Dialog::on_btnKeluarProg_clicked()
         }
     }
     qApp->quit();
-}
-
-void Dialog::prosesGagal()
-{
-    ui->infoPaket->appendPlainText(tr("=================\nProses gagal\n================="));
 }
