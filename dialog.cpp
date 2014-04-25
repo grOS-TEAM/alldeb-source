@@ -358,6 +358,7 @@ void Dialog::bacaHasilPerintah()
     ui->infoPaket->appendPlainText(output);
     if(output.contains("E:")){
         ui->infoPaket->appendPlainText("=================\nMaaf, instalasi belum berhasil.");
+        prosesGagal();
         berhasil = false;
     }
     else
@@ -509,6 +510,8 @@ void Dialog::progresSelesai()
 void Dialog::prosesGagal()
 {
     ui->infoPaket->appendPlainText(tr("=================\nProses gagal\n================="));
+    ui->progressBar->setMaximum(0);
+    QTimer::singleShot(3000,this,SLOT(prosesSelesai()));
 }
 
 void Dialog::on_btnSalinIns_clicked()

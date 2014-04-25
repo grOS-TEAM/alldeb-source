@@ -2,7 +2,7 @@
 [Desktop Entry]
 Version=1.0
 Type=Application
-GenericName=Front-end untuk alldeb-installer
+GenericName=Front-end untuk alldeb_user
 Name=AllDeb Installer
 Comment=Program penginstal untuk berkas alldeb
 TryExec=alldeb-installer
