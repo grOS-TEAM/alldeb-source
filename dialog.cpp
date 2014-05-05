@@ -82,7 +82,7 @@ Dialog::Dialog(QString parameterNama, QWidget *parent) :
     connect(apt_get1,SIGNAL(error(QProcess::ProcessError)),this,SLOT(prosesGagal()));
     apt_get2 = new QProcess(this);
     connect(apt_get2,SIGNAL(readyRead()),this,SLOT(bacaHasilPerintah()));
-    connect(apt_get2,SIGNAL(finished(int)),this,SLOT(hapusTemporer()));
+    //connect(apt_get2,SIGNAL(finished(int)),this,SLOT(hapusTemporer()));
     connect(apt_get2,SIGNAL(finished(int)),this,SLOT(progresSelesai()));
     connect(apt_get2,SIGNAL(error(QProcess::ProcessError)),this,SLOT(prosesGagal()));
     connect(ui->tempatFile,SIGNAL(textChanged(QString)),this,SLOT(memilihFile()));
@@ -300,7 +300,7 @@ void Dialog::buatInfo()
     if ( source.open(QIODevice::WriteOnly) )
     {
         QTextStream stream( &source );
-        stream << "deb file:"+ruangKerja+"/"+namaProfil+" ./" << endl;
+        stream << "deb file:"+ruangKerja+" "+namaProfil+"/" << endl;
     }
 
     //cek apt-ftparchive dan dpkg-scanpackages
@@ -356,8 +356,9 @@ void Dialog::bacaHasilPerintah()
 {
     QString output(apt_get2->readAll());
     ui->infoPaket->appendPlainText(output);
-    if(output.contains("E:")){
-        ui->infoPaket->appendPlainText("=================\nMaaf, instalasi belum berhasil.");
+    ui->infoPaket->ensureCursorVisible();
+    if(output.contains("E:") || output.contains("Error")){
+        ui->infoPaket->appendPlainText(tr("=================\nMaaf, instalasi belum berhasil."));
         prosesGagal();
         berhasil = false;
     }
@@ -492,7 +493,7 @@ void Dialog::updateProgress()
 
 void Dialog::prosesSelesai()
 {
-
+    hapusTemporer();
     ui->progressBar->hide();
 
 }

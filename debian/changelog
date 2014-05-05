@@ -1,3 +1,9 @@
+alldeb-installer (0.2-ubuntu6) trusty; urgency=low
+
+  * Edited apt-ftparchive command
+
+ -- Slamet Badwi (bedouin) <slamet.badwi@gmail.com>  Mon, 05 May 2014 13:22:26 +0700
+
 alldeb-installer (0.2-ubuntu5) trusty; urgency=low
 
   * Modified source, rearranged objects
