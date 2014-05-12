@@ -23,6 +23,7 @@
 #include <QLocale>
 #include <QCloseEvent>
 #include <QTimer>
+#include <QDate>
 #include "about.h"
 
 namespace Ui {
@@ -37,15 +38,12 @@ public:
     explicit Dialog(QString parameterNama=0, QWidget *parent = 0);
 
     QString bacaUkuran(qint64 jumlah);
-    QString bacaTeks(QString berkas);
+    QString bacaTeks(QString berkas, int enume=0);
     ~Dialog();
 
 private slots:
     void on_btnCariFile_clicked();
-    void on_btnFolderApt_clicked();
-    void on_btnSalin_clicked();
     void on_btnInstal_clicked();
-    void on_btnSalinIns_clicked();
     void on_btnInfo_clicked();
     void on_btnKeluarProg_clicked();
     void bacaHasilPerintah();
@@ -59,16 +57,19 @@ private slots:
     void memilihFile();
     void hapusTemporer();
     void gantiBahasa(QAction *aksi);
-    void infoTentang();    
-    void infoPanduan();    
+    void infoPanduan();
+    void infoProgram();
     void updateProgress();
     void prosesSelesai();
     void progresSelesai();
-    void prosesGagal();    
+    void prosesGagal();
+    void on_btnMundur_clicked();
+    void titleofWindow(QString name);
+    void progresEkstrak();
+    void on_btnReport_clicked();
 
 private:
     Ui::Dialog *ui;
-    //QFileDialog *namaFile;
     QTranslator terjemahan;
     //QActionGroup *pilihBahasa;
     QString bahasa;
@@ -78,15 +79,19 @@ private:
     QString ruangKerja;
     QString namaProfil;
     QString programTar;
+    QString paketPaket;
+    QString perintahAptget;
     QFileInfo profil;
-    //QFile berkasAlldeb;
     QProcess *ekstrak;
+    QProcess *ekstraksi;
     QProcess *daftarFile;
     QProcess *buatPaketInfo;
     QProcess *apt_get1;
     QProcess *apt_get2;    
     bool fileSah;
     bool berhasil;
+    bool debconf;
+    int jml;
     About *tentangProgram;
 };
 
