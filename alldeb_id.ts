@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.0" language="id_ID">
+<TS version="2.1" language="id_ID">
 <context>
     <name>About</name>
     <message>
         <location filename="about.ui" line="14"/>
         <source>Bantuan</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="about.ui" line="72"/>
+        <source>Tutup</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -73,206 +78,221 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Bahasa Inggris: &lt;span style=&quot; font-weight:600;&quot;&gt;Ikhwan Setiawan&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
-    <message>
-        <location filename="about.ui" line="72"/>
-        <source>Tutup</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>Dialog</name>
     <message>
         <location filename="dialog.ui" line="14"/>
         <source>AllDebInstaller</source>
-        <translation type="unfinished"></translation>
+        <translation>AllDebInstaller</translation>
     </message>
     <message>
         <location filename="dialog.ui" line="25"/>
         <source>Choose alldeb file</source>
-        <translation type="unfinished"></translation>
+        <translation>Pilih file alldeb</translation>
     </message>
     <message>
         <location filename="dialog.ui" line="32"/>
         <source>Select</source>
-        <translation type="unfinished"></translation>
+        <translation>Pilih</translation>
     </message>
     <message>
         <location filename="dialog.ui" line="112"/>
         <source>The contents of the alldeb file including dependencies. Please make sure that MD5 hash sum is correct.</source>
-        <translation type="unfinished"></translation>
+        <translation>Isi dari file allden termasuk dependensinya. Pastikan MD5 hash sum benar.</translation>
     </message>
     <message>
         <location filename="dialog.ui" line="132"/>
         <source>Total</source>
-        <translation type="unfinished"></translation>
+        <translation>Jumlah</translation>
     </message>
     <message>
         <location filename="dialog.ui" line="158"/>
         <source>Size</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="dialog.ui" line="208"/>
-        <source>Click Install button to begin installing.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="dialog.ui" line="268"/>
-        <source>Report</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="dialog.ui" line="275"/>
-        <source>Quit</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="dialog.ui" line="287"/>
-        <source>Back</source>
-        <translation type="unfinished"></translation>
+        <translation>Ukuran</translation>
     </message>
     <message>
         <location filename="dialog.ui" line="184"/>
         <source>md5sum:</source>
-        <translation type="unfinished"></translation>
+        <translation>md5sum:</translation>
+    </message>
+    <message>
+        <location filename="dialog.ui" line="208"/>
+        <source>Click Install button to begin installing.</source>
+        <translation>Klik tombol Instal untuk mulai menginstal.</translation>
+    </message>
+    <message>
+        <location filename="dialog.ui" line="268"/>
+        <source>Report</source>
+        <translation>Laporkan</translation>
+    </message>
+    <message>
+        <location filename="dialog.ui" line="275"/>
+        <source>Quit</source>
+        <translation>Keluar</translation>
+    </message>
+    <message>
+        <location filename="dialog.ui" line="287"/>
+        <source>Back</source>
+        <translation>Mundur</translation>
+    </message>
+    <message>
+        <location filename="dialog.ui" line="299"/>
+        <location filename="dialog.cpp" line="161"/>
+        <location filename="dialog.cpp" line="650"/>
+        <source>Next</source>
+        <translation>Maju</translation>
     </message>
     <message>
         <location filename="dialog.cpp" line="26"/>
         <source>About</source>
-        <translation type="unfinished"></translation>
+        <translation>Tentang</translation>
+    </message>
+    <message>
+        <location filename="dialog.cpp" line="28"/>
+        <source>Guide</source>
+        <translation>Panduan</translation>
     </message>
     <message>
         <location filename="dialog.cpp" line="32"/>
         <source>Indonesian</source>
-        <translation type="unfinished"></translation>
+        <translation>Indonesian</translation>
     </message>
     <message>
         <location filename="dialog.cpp" line="35"/>
         <source>English</source>
-        <translation type="unfinished"></translation>
+        <translation>English</translation>
     </message>
     <message>
-        <location filename="dialog.cpp" line="134"/>
-        <location filename="dialog.cpp" line="145"/>
+        <location filename="dialog.cpp" line="139"/>
+        <location filename="dialog.cpp" line="150"/>
         <source>Select an alldeb file</source>
-        <translation type="unfinished"></translation>
+        <translation>Pilih satu file alldeb</translation>
     </message>
     <message>
-        <location filename="dialog.cpp" line="134"/>
-        <location filename="dialog.cpp" line="145"/>
+        <location filename="dialog.cpp" line="139"/>
+        <location filename="dialog.cpp" line="150"/>
         <source>AllDeb file (*.alldeb)</source>
-        <translation type="unfinished"></translation>
+        <translation>File Alldeb (*.alldeb)</translation>
     </message>
     <message>
-        <location filename="dialog.ui" line="299"/>
-        <location filename="dialog.cpp" line="156"/>
-        <location filename="dialog.cpp" line="640"/>
-        <source>Next</source>
-        <translation type="unfinished"></translation>
+        <location filename="dialog.cpp" line="199"/>
+        <source>bytes</source>
+        <translation>bytes</translation>
     </message>
     <message>
-        <location filename="dialog.cpp" line="224"/>
+        <location filename="dialog.cpp" line="229"/>
         <source>An error occured</source>
-        <translation type="unfinished"></translation>
+        <translation>Terjadi kesalahan</translation>
     </message>
     <message>
-        <location filename="dialog.cpp" line="299"/>
+        <location filename="dialog.cpp" line="304"/>
         <source>Error</source>
-        <translation type="unfinished"></translation>
+        <translation>Kesalahan</translation>
     </message>
     <message>
-        <location filename="dialog.cpp" line="300"/>
+        <location filename="dialog.cpp" line="305"/>
         <source>This is not alldeb file we expected. Don&apos;t proceed, please!</source>
-        <translation type="unfinished"></translation>
+        <translation>Ini bukan file alldeb yang bisa diproses. Mohon jangan dilanjut!</translation>
     </message>
     <message>
-        <location filename="dialog.cpp" line="313"/>
-        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;h2&gt;Installation&lt;/h2&gt;&lt;p&gt;You are going to install following meta-package(s):&lt;/p&gt;&lt;p&gt;&lt;strong&gt;%1&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;p&gt;Always make sure that this alldeb file is from reliable source.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <location filename="dialog.cpp" line="318"/>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;h2&gt;Installation&lt;/h2&gt;&lt;p&gt;You are going to install the following meta-package(s):&lt;/p&gt;&lt;p&gt;&lt;strong&gt;%1&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;p&gt;Always make sure that this alldeb file is from a reliable source.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;h2&gt;Installation&lt;/h2&gt;&lt;p&gt;Anda hendak menginstal meta-paket berikut ini:&lt;/p&gt;&lt;p&gt;&lt;strong&gt;%1&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;p&gt;Selalu pastikan bahwa file ini dari sumber terpercaya.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="dialog.cpp" line="381"/>
+        <location filename="dialog.cpp" line="386"/>
         <source>Cannot checking</source>
+        <translation>Tidak bisa memeriksa</translation>
+    </message>
+    <message>
+        <location filename="dialog.cpp" line="387"/>
+        <source>Tanpa program pemindai paket, proses ini tidak bisa dilanjutkan.
+Program yang dimaksud adalah apt-ftparchive (dari paket apt-utils) atau dpkg-scan-packages</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="dialog.cpp" line="463"/>
+        <location filename="dialog.cpp" line="468"/>
         <source>Error occured</source>
-        <translation type="unfinished"></translation>
+        <translation>Terjadi kesalahan</translation>
     </message>
     <message>
-        <location filename="dialog.cpp" line="497"/>
-        <source>---------------------
-Process was relocated to terminal emulator.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="dialog.cpp" line="502"/>
-        <source>---------------------
-Process has been finished.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="dialog.cpp" line="511"/>
+        <location filename="dialog.cpp" line="498"/>
         <source>=================
 Process failed
 Please report this error by clicking the Report button below
 =================
 This report was created on %1</source>
-        <translation type="unfinished"></translation>
+        <translation>=================
+Proses gagal
+Mohon laporkan kesalahan ini dengan mengklik tombol Laporkan di bawah ini
+=================
+Laporan ini dibuat pada %1</translation>
     </message>
     <message>
-        <location filename="dialog.cpp" line="562"/>
+        <location filename="dialog.cpp" line="511"/>
+        <source>---------------------
+Process was relocated to terminal emulator.</source>
+        <translation>---------------------
+Proses telah dipindahkan ke terminal emulator.</translation>
+    </message>
+    <message>
+        <location filename="dialog.cpp" line="516"/>
+        <source>---------------------
+Process has been finished.</source>
+        <translation>---------------------
+Proses telah selesai.</translation>
+    </message>
+    <message>
+        <location filename="dialog.cpp" line="525"/>
+        <source>Extracting: </source>
+        <translation>Mengekstrak: </translation>
+    </message>
+    <message>
+        <location filename="dialog.cpp" line="574"/>
+        <source>AllDebInstaller - Delete cache?</source>
+        <translation>AllDebInstaller - Hapus tembolok?</translation>
+    </message>
+    <message>
         <source>Delete cache?</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">Hapus tembolok?</translation>
     </message>
     <message>
-        <location filename="dialog.cpp" line="563"/>
+        <location filename="dialog.cpp" line="575"/>
         <source>Do you want to remove temporary files in:
 </source>
-        <translation type="unfinished"></translation>
+        <translation>Apakah file tembolok ingin dihapus: </translation>
     </message>
     <message>
-        <location filename="dialog.cpp" line="565"/>
+        <location filename="dialog.cpp" line="577"/>
         <source>Yes</source>
-        <translation type="unfinished"></translation>
+        <translation>Ya</translation>
     </message>
     <message>
-        <location filename="dialog.cpp" line="566"/>
+        <location filename="dialog.cpp" line="578"/>
         <source>No</source>
-        <translation type="unfinished"></translation>
+        <translation>Tidak</translation>
     </message>
     <message>
-        <location filename="dialog.cpp" line="598"/>
-        <location filename="dialog.cpp" line="638"/>
+        <location filename="dialog.cpp" line="610"/>
+        <location filename="dialog.cpp" line="648"/>
         <source>Install</source>
-        <translation type="unfinished"></translation>
+        <translation>Instal</translation>
     </message>
     <message>
-        <location filename="dialog.cpp" line="676"/>
+        <location filename="dialog.cpp" line="670"/>
         <source>A report file had been created in:
 %1
 Entitled alldeb-report.txt
 
 Please send it to author&apos;s email or to project&apos;s Bug reporting homepage in Launchpad.
 We&apos;re sorry for this inconvenience.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="dialog.cpp" line="194"/>
-        <source>bytes</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="dialog.cpp" line="28"/>
-        <source>Guide</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="dialog.cpp" line="382"/>
-        <source>Tanpa program pemindai paket, proses ini tidak bisa dilanjutkan.
-Program yang dimaksud adalah apt-ftparchive (dari paket apt-utils) atau dpkg-scan-packages</source>
-        <translation type="unfinished"></translation>
+        <translation>File laporan telah dibuat di:
+%1
+Dengan nama alldeb-report.txt
+
+Silakan kirimkan ke surel penulis atau laman pelaporan Bug di Launchpad.
+Mohon maaf atas ketidaknyamanan ini.</translation>
     </message>
 </context>
 </TS>

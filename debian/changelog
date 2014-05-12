@@ -1,3 +1,9 @@
+alldeb-installer (0.2-ubuntu7) trusty; urgency=low
+
+  * Merged with alldeb-installer next branch.
+
+ -- Slamet Badwi (bedouin) <slamet.badwi@gmail.com>  Mon, 12 May 2014 18:55:23 +0700
+
 alldeb-installer (0.2-ubuntu6) trusty; urgency=low
 
   * Edited apt-ftparchive command

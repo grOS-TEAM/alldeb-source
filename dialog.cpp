@@ -69,6 +69,7 @@ Dialog::Dialog(QString parameterNama, QWidget *parent) :
 
     }
 
+    connect(qApp,SIGNAL(aboutToQuit()),this,SLOT(on_btnKeluarProg_clicked()));
     ekstrak = new QProcess(this);
     connect(ekstrak,SIGNAL(finished(int)),this,SLOT(bacaInfoFile()));
     connect(ekstrak,SIGNAL(error(QProcess::ProcessError)),this,SLOT(prosesGagal()));
@@ -114,11 +115,15 @@ Dialog::Dialog(QString parameterNama, QWidget *parent) :
         //ui->tempatFile->setText(namaFile);
         bacaFileAlldeb();
     }
+    else
+    {
+        ui->btnInstal->setDisabled(true);
+    }
     //qDebug() << namaFile;
     //berkasAlldeb.setFileName(parameterNama);
     jml = 0;                        //objek untuk jumlah file deb
     ui->btnMundur->setDisabled(true);
-    ui->btnInstal->setDisabled(true);
+
 }
 
 Dialog::~Dialog()
@@ -310,8 +315,8 @@ void Dialog::bacaInfoFile()
     //ui->infoPaket->setPlainText(bacaTeks(ruangKerja+"/"+namaProfil+"/keterangan_alldeb.txt"));
     paketPaket = bacaTeks(ruangKerja+"/"+namaProfil+"/keterangan_alldeb.txt",1);
     //QStringList paketIsi = namaPaket.split(" ");
-    ui->textEdit->setHtml(tr("<html><head/><body><h2>Installation</h2><p>You are going to install following meta-package(s):</p>"
-                          "<p><strong>%1</strong></p><p><br/></p><p>Always make sure that this alldeb file is from reliable source.</p></body></html>").arg(paketPaket));
+    ui->textEdit->setHtml(tr("<html><head/><body><h2>Installation</h2><p>You are going to install the following meta-package(s):</p>"
+                          "<p><strong>%1</strong></p><p><br/></p><p>Always make sure that this alldeb file is from a reliable source.</p></body></html>").arg(paketPaket));
     //info paling depan
 
     perintahAptget = "You are going to excute below command:\nsudo apt-get -o dir::etc::sourcelist="
@@ -487,6 +492,15 @@ void Dialog::prosesSelesai()
     ui->progressBar->hide();
 }
 
+void Dialog::prosesGagal()
+{
+
+    ui->infoPaket->appendPlainText(tr("=================\nProcess failed\nPlease report this error by clicking the Report button below\n=================\nThis report was created on %1").arg(QDate::currentDate().toString("dddd, dd MMMM yyyy")));
+    ui->btnReport->setHidden(false);
+    ui->progressBar->setMaximum(0);
+    QTimer::singleShot(3000,this,SLOT(prosesSelesai()));
+}
+
 void Dialog::progresSelesai()
 {
     if(berhasil)
@@ -505,24 +519,16 @@ void Dialog::progresSelesai()
     }
 }
 
-void Dialog::prosesGagal()
+void Dialog::progresEkstrak()
 {
-
-    ui->infoPaket->appendPlainText(tr("=================\nProcess failed\nPlease report this error by clicking the Report button below\n=================\nThis report was created on %1").arg(QDate::currentDate().toString("dddd, dd MMMM yyyy")));
-    ui->btnReport->setHidden(false);
-    ui->progressBar->setMaximum(0);
-    QTimer::singleShot(3000,this,SLOT(prosesSelesai()));
-}
-
-void Dialog::on_btnInfo_clicked()
-{    
-    ui->btnInfo->showMenu();
-
+    QString output(ekstraksi->readAll());
+    ui->infoPaket->appendPlainText(tr("Extracting: ")+output);
+    ui->progressBar->setValue(ui->progressBar->value()+1);
 }
 
 void Dialog::memilihFile()
 {
-    //mengumpulkan perintah jika tombol pilih file diklik dan ui->tempaile berubah isinya
+    //mengumpulkan perintah jika tombol pilih file diklik dan ui->tempatFile berubah isinya
     if(!isiKotakFile.isEmpty() || !ui->btnInstal->isEnabled())
     {
         ui->btnInstal->setDisabled(false);
@@ -554,12 +560,18 @@ void Dialog::gantiBahasa(QAction *aksi)
     tentangProgram->gantiBahasa();
 }
 
+void Dialog::on_btnInfo_clicked()
+{
+    ui->btnInfo->showMenu();
+
+}
+
 void Dialog::on_btnKeluarProg_clicked()
 {
     if(!namaFile.isEmpty() || !isiKotakFile.isEmpty())
     {
         QMessageBox tanyaHapus;
-        tanyaHapus.setWindowTitle(tr("Delete cache?"));
+        tanyaHapus.setWindowTitle(tr("AllDebInstaller - Delete cache?"));
         tanyaHapus.setText(tr("Do you want to remove temporary files in:\n")+ruangKerja+" ?");
         tanyaHapus.setIcon(QMessageBox::Question);
         QPushButton *btnYes = tanyaHapus.addButton(tr("Yes"), QMessageBox::YesRole);
@@ -583,7 +595,7 @@ void Dialog::on_btnKeluarProg_clicked()
 void Dialog::on_btnInstal_clicked()
 {
     int indekStak = ui->stackedWidget->currentIndex();
-    int jumlah = ui->stackedWidget->count();
+    //int jumlah = ui->stackedWidget->count();
 
     if(indekStak == 0 && (ui->labelJumlahNilai->text().isEmpty() || !namaFile.isEmpty()))
     {
@@ -591,16 +603,15 @@ void Dialog::on_btnInstal_clicked()
         variabel << "-tzf" << namaFile;
         daftarFile->start(programTar, variabel);
         daftarFile->setReadChannel(QProcess::StandardOutput);
-        ui->btnInstal->setDisabled(false);
+        //ui->btnInstal->setDisabled(false);
     }
-    else if(indekStak == jumlah-2)
+    else if(indekStak == 1)
     {
         ui->btnInstal->setText(tr("Install"));
         ui->btnInstal->setIcon(QIcon::fromTheme("download"));
         ui->infoPaket->setPlainText(perintahAptget);
     }
-
-    if(fileSah && ui->stackedWidget->currentIndex() == 2)
+    else if(fileSah && indekStak == 2)
     {
         ui->progressBar->show();
         //ui->infoPaket->appendPlainText("=================");
@@ -614,17 +625,16 @@ void Dialog::on_btnInstal_clicked()
         connect(ekstraksi,SIGNAL(readyRead()),this,SLOT(progresEkstrak()));
         connect(ekstraksi,SIGNAL(error(QProcess::ProcessError)),this,SLOT(prosesGagal()));
         connect(ekstraksi,SIGNAL(finished(int)),this,SLOT(buatInfo()));
+        ui->btnInstal->setDisabled(true);
+        fileSah = false;
     }
-    else
-    {
-        //qDebug() << "sudah diinstal";
-        //QMessageBox::warning(this,tr("Sudah diinstal"),tr("Anda sudah mengklik tombol ini."));
-        ui->stackedWidget->setCurrentIndex(ui->stackedWidget->currentIndex() + 1);
-        if(!ui->btnMundur->isEnabled())
-            ui->btnMundur->setEnabled(true);
-    }
+
+    if(!ui->btnMundur->isEnabled())
+        ui->btnMundur->setEnabled(true);
+
     //qDebug() << indekStak;
     //qDebug() << jumlah;
+    ui->stackedWidget->setCurrentIndex(ui->stackedWidget->currentIndex() + 1);
 }
 
 void Dialog::on_btnMundur_clicked()
@@ -639,12 +649,25 @@ void Dialog::on_btnMundur_clicked()
     {
         ui->btnInstal->setText(tr("Next"));
         ui->btnInstal->setIcon(QIcon::fromTheme("go-next"));
+        ui->btnInstal->setDisabled(false);
     }
-    //masih percobaan juga
 
     ui->stackedWidget->setCurrentIndex(ui->stackedWidget->currentIndex() - 1);
 
     //qDebug() << indekStak;
+}
+
+void Dialog::on_btnReport_clicked()
+{
+    QString galat = ui->infoPaket->toPlainText();
+
+    QFile laporan(QDir::homePath()+"/alldeb-report.txt");
+    //QTextStream kesalahan(&laporan);
+    laporan.open(QIODevice::WriteOnly);
+    laporan.write(galat.toLatin1());
+    laporan.close();
+
+    ui->infoPaket->setPlainText(tr("A report file had been created in:\n%1\nEntitled alldeb-report.txt\n\nPlease send it to author's email or to project's Bug reporting homepage in Launchpad.\nWe're sorry for this inconvenience.").arg(QDir::homePath()));
 }
 
 void Dialog::titleofWindow(QString name)
@@ -661,23 +684,4 @@ void Dialog::titleofWindow(QString name)
     }
     //qDebug() << parameterNama;
     this->setWindowTitle("AllDebInstaller - "+berkas);
-}
-
-void Dialog::on_btnReport_clicked()
-{
-    QString galat = ui->infoPaket->toPlainText();
-
-    QFile laporan(QDir::homePath()+"/alldeb-report.txt");
-    //QTextStream kesalahan(&laporan);
-    laporan.open(QIODevice::WriteOnly);
-    laporan.write(galat.toLatin1());
-    laporan.close();
-
-    ui->infoPaket->setPlainText(tr("A report file had been created in:\n%1\nEntitled alldeb-report.txt\n\nPlease send it to author's email or to project's Bug reporting homepage in Launchpad.\nWe're sorry for this inconvenience.").arg(QDir::homePath()));
-}
-
-void Dialog::progresEkstrak()
-{
-    ekstraksi->readAll();
-    ui->progressBar->setValue(ui->progressBar->value()+1);
 }
