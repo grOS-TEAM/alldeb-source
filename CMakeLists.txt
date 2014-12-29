@@ -22,5 +22,5 @@ TARGET_LINK_LIBRARIES(alldeb-installer ${QT_LIBRARIES})
 
 install(TARGETS alldeb-installer RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX}/bin)
 install(FILES ${QM_files} DESTINATION ${CMAKE_INSTALL_PREFIX}/share/alldeb/installer/lang)
-install(FILES alldeb-installer.desktop DESTINATION /usr/share/applications)
-
+install(FILES assets/alldeb-installer.desktop DESTINATION ${CMAKE_INSTALL_PREFIX}/share/applications)
+install(FILES assets/icon.svg DESTINATION ${CMAKE_INSTALL_PREFIX}/share/alldeb/icons)
