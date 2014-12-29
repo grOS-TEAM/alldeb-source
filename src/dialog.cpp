@@ -8,9 +8,11 @@ Dialog::Dialog(QString parameterNama, QWidget *parent) :
     /*
      * Initialize objects
      */
+    this->setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
     ui->setupUi(this);
     ui->progressBar->hide();
     ui->btnReport->hide();
+    ui->infoPaket->hide();
     fileSah = false;
     berhasil = false;
     debconf = false;
@@ -29,16 +31,18 @@ Dialog::Dialog(QString parameterNama, QWidget *parent) :
     /*
      * Create actions for about button
      */
-    QAction *aksiAbout = new QAction(QIcon::fromTheme("help-about"),tr("About"),this);
+    QAction *aksiAbout = new QAction(QIcon::fromTheme("help-about"),tr("Perihal"),this);
     connect(aksiAbout,SIGNAL(triggered()),this,SLOT(infoProgram()));
-    QAction *aksiGuide = new QAction(QIcon::fromTheme("help-contents"),tr("Guide"),this);
+    QAction *aksiGuide = new QAction(QIcon::fromTheme("help-contents"),tr("Panduan"),this);
     connect(aksiGuide,SIGNAL(triggered()),this,SLOT(infoPanduan()));
+    QAction *aboutQt = new QAction(tr("Tentang Qt"),this);
+    connect(aboutQt,SIGNAL(triggered()),qApp,SLOT(aboutQt()));
 
     // Pilihan bahasa. Sementara hanya dua.
-    QAction *indBahasa = new QAction(tr("Indonesian"),this);
+    QAction *indBahasa = new QAction(tr("Bahasa Indonesia"),this);
     indBahasa->setCheckable(true);
     indBahasa->setData("id");
-    QAction *engBahasa = new QAction(tr("English"),this);
+    QAction *engBahasa = new QAction(tr("Bahasa Inggris"),this);
     engBahasa->setCheckable(true);
     engBahasa->setData("en");
 
@@ -59,6 +63,8 @@ Dialog::Dialog(QString parameterNama, QWidget *parent) :
     pilihBahasa->addAction(engBahasa);
     btnMenu->addAction(aksiGuide);
     btnMenu->addAction(aksiAbout);
+    btnMenu->addSeparator();
+    btnMenu->addAction(aboutQt);
     ui->btnInfo->setMenu(btnMenu);
     connect(pilihBahasa,SIGNAL(triggered(QAction*)),this,SLOT(gantiBahasa(QAction *)));
 
@@ -156,7 +162,7 @@ void Dialog::on_btnCariFile_clicked()
 {
     isiKotakFile = ui->tempatFile->text();
     if(isiKotakFile.isEmpty()) {
-        namaFile = QFileDialog::getOpenFileName(this,tr("Select an alldeb file"),QDir::homePath(),tr("AllDeb file (*.alldeb)"));
+        namaFile = QFileDialog::getOpenFileName(this,tr("Pilih satu file Alldeb"),QDir::homePath(),tr("File AllDeb (*.alldeb)"));
         if(!namaFile.isNull())
         {
             bacaFileAlldeb();
@@ -167,7 +173,7 @@ void Dialog::on_btnCariFile_clicked()
     {
         QFile terbuka(isiKotakFile);
         QFileInfo berkas(terbuka); //berkas saat ini
-        namaFile = QFileDialog::getOpenFileName(this,tr("Select an alldeb file"),berkas.absolutePath(),tr("AllDeb file (*.alldeb)"));
+        namaFile = QFileDialog::getOpenFileName(this,tr("Pilih satu file Alldeb"),berkas.absolutePath(),tr("File AllDeb (*.alldeb)"));
         if(!namaFile.isNull())
         {
             bacaFileAlldeb();
@@ -257,7 +263,7 @@ QString Dialog::bacaTeks(QString berkas,int enume)
         }
         else
         {
-            QString galat = tr("An error occured");
+            QString galat = tr("Terjadi kesalahan");
             return galat;
         }
     }
@@ -280,7 +286,7 @@ QString Dialog::bacaTeks(QString berkas,int enume)
     }
     else
     {
-        QString kosong = berkas+" doesn't exist";
+        QString kosong = berkas+" tidak ada";
         return kosong;
     }
 }
@@ -336,8 +342,8 @@ void Dialog::bacaFile()
     else
     {
         QMessageBox msgBox;
-        msgBox.setWindowTitle(tr("Error"));
-        msgBox.setText(tr("This is not alldeb file we expected. Don't proceed, please!"));
+        msgBox.setWindowTitle(tr("Galat"));
+        msgBox.setText(tr("Tampaknya ini bukanlah file Alldeb. Mohon jangan dilanjutkan!"));
         msgBox.setIcon(QMessageBox::Warning);
         msgBox.exec();
         //qDebug() << "bukan file alldeb";
@@ -355,11 +361,11 @@ void Dialog::bacaInfoFile()
     //ui->infoPaket->setPlainText(bacaTeks(ruangKerja+"/"+namaProfil+"/keterangan_alldeb.txt"));
     paketPaket = bacaTeks(ruangKerja+"/"+namaProfil+"/keterangan_alldeb.txt",1);
     //QStringList paketIsi = namaPaket.split(" ");
-    ui->textEdit->setHtml(tr("<html><head/><body><h2>Installation</h2><p>You are going to install the following meta-package(s):</p>"
-                          "<p><strong>%1</strong></p><p><br/></p><p>Always make sure that this alldeb file is from a reliable source.</p></body></html>").arg(paketPaket));
+    ui->textEdit->setHtml(tr("<html><head/><body><h2>Instalasi paket</h2><p>Anda akan menginstal meta-paket berikut ini:</p>"
+                          "<p><strong>%1</strong></p><p><br/></p><p>Selalu pastikan file ini diperoleh dari sumber yang terpercaya.</p></body></html>").arg(paketPaket));
     //info paling depan
 
-    perintahAptget = "You are going to excute below command:\nsudo apt-get -o dir::etc::sourcelist="
+    perintahAptget = "Anda akan menjalankan perintah berikut ini:\nsudo apt-get -o dir::etc::sourcelist="
             +ruangKerja+"/config/source_sementara.list -o dir::etc::sourceparts="+ruangKerja+"/part.d -o dir::state::lists="
             +ruangKerja+"/lists install --allow-unauthenticated -y " + paketPaket +"\n";
 }
@@ -433,7 +439,7 @@ void Dialog::buatInfo()
     }
     else
     {
-        QMessageBox::warning(this,tr("Cannot checking"),
+        QMessageBox::warning(this,tr("Tidak bisa memeriksa"),
                              tr("Tanpa program pemindai paket, proses ini tidak bisa dilanjutkan.\n"
                                 "Program yang dimaksud adalah apt-ftparchive (dari paket apt-utils) atau dpkg-scan-packages"));
     }
@@ -448,6 +454,7 @@ void Dialog::bacaHasilAptget()
 {
     QString output(apt_get1->readAll());
     ui->infoPaket->appendPlainText(output);
+    ui->labelStatus->setText(output);
     ui->progressBar->setValue(ui->progressBar->value()+1);
     //qDebug() << output;
 }
@@ -460,9 +467,14 @@ void Dialog::bacaHasilPerintah()
 {
     QString output(apt_get2->readAll());
     ui->infoPaket->appendPlainText(output);
+    if(!output.isEmpty())
+    {
+        ui->labelStatus->setText(output);
+    }
     ui->progressBar->setValue(ui->progressBar->value()+1);
     if(output.contains("E:") || output.contains("Err")){
-        ui->infoPaket->appendPlainText("=================\nSorry, installation not succeed.");
+        ui->infoPaket->appendPlainText(tr("=================\nInstalasi gagal."));
+        ui->labelStatus->setText(tr("Instalasi Gagal"));
         prosesGagal();
         berhasil = false;
     }
@@ -527,7 +539,8 @@ void Dialog::instalPaket()
 
     else
     {
-        ui->infoPaket->appendPlainText(tr("Error occured"));
+        ui->infoPaket->appendPlainText(tr("Terjadi kesalahan."));
+        ui->labelStatus->setText(tr("Terjadi Kesalahan"));
     }
 }
 
@@ -570,7 +583,8 @@ void Dialog::prosesSelesai()
 void Dialog::prosesGagal()
 {
 
-    ui->infoPaket->appendPlainText(tr("=================\nProcess failed\nPlease report this error by clicking the Report button below\n=================\nThis report was created on %1").arg(QDate::currentDate().toString("dddd, dd MMMM yyyy")));
+    ui->infoPaket->appendPlainText(tr("=================\nProses gagal\nSilakan laporkan kesalahan ini dengan mengklik tombol Laporkan di bawah ini\n=================\nThis report was created on %1").arg(QDate::currentDate().toString("dddd, dd MMMM yyyy")));
+    ui->labelStatus->setText(tr("Proses gagal. Silakan laporkan kesalahan ini dengan mengklik tombol Laporkan di bawah ini\nLaporan dibuat pada %1").arg(QDate::currentDate().toString("dddd, dd MMMM yyyy")));
     ui->btnReport->setHidden(false);
     ui->progressBar->setMaximum(0);
     QTimer::singleShot(3000,this,SLOT(prosesSelesai()));
@@ -587,12 +601,14 @@ void Dialog::progresSelesai()
         ui->progressBar->setValue(jml*4+10);
         if(debconf)
         {
-            ui->infoPaket->appendPlainText(tr("---------------------\nProcess was relocated to terminal emulator."));
+            ui->infoPaket->appendPlainText(tr("---------------------\nProses dipindahkan ke terminal emulator."));
+            ui->labelStatus->setText(tr("Proses dipindahkan ke terminal emulator"));
             debconf = false;
         }
         else
         {
-            ui->infoPaket->appendPlainText(tr("---------------------\nProcess has been finished."));
+            ui->infoPaket->appendPlainText(tr("---------------------\nProses telah selesai."));
+            ui->labelStatus->setText(tr("Proses telah selesai"));
         }
         QTimer::singleShot(2000,this,SLOT(prosesSelesai()));
     }
@@ -601,7 +617,8 @@ void Dialog::progresSelesai()
 void Dialog::progresEkstrak()
 {
     QString output(ekstraksi->readAll());
-    ui->infoPaket->appendPlainText(tr("Extracting: ")+output);
+    ui->infoPaket->appendPlainText(tr("Mengekstrak: ")+output);
+    ui->labelStatus->setText(tr("Mengekstrak: ")+output);
     ui->progressBar->setValue(ui->progressBar->value()+1);
 }
 
@@ -654,11 +671,11 @@ void Dialog::on_btnKeluarProg_clicked()
     if(!namaFile.isEmpty() || !isiKotakFile.isEmpty())
     {
         QMessageBox tanyaHapus;
-        tanyaHapus.setWindowTitle(tr("AllDebInstaller - Delete cache?"));
-        tanyaHapus.setText(tr("Do you want to remove temporary files in:\n")+ruangKerja+" ?");
+        tanyaHapus.setWindowTitle(tr("AllDebInstaller - Hapus tembolok?"));
+        tanyaHapus.setText(tr("Apakah anda ingin menghapus berkas sementara di:\n")+ruangKerja+" ?");
         tanyaHapus.setIcon(QMessageBox::Question);
-        QPushButton *btnYes = tanyaHapus.addButton(tr("Yes"), QMessageBox::YesRole);
-        tanyaHapus.addButton(tr("No"),QMessageBox::NoRole);
+        QPushButton *btnYes = tanyaHapus.addButton(tr("Ya"), QMessageBox::YesRole);
+        tanyaHapus.addButton(tr("Tidak"),QMessageBox::NoRole);
         tanyaHapus.exec();
         if(tanyaHapus.clickedButton() == btnYes)
         {
@@ -690,9 +707,12 @@ void Dialog::on_btnInstal_clicked()
     }
     else if(indekStak == 1)
     {
-        ui->btnInstal->setText(tr("Install"));
+        ui->btnInstal->setText(tr("Instal"));
         ui->btnInstal->setIcon(QIcon::fromTheme("download"));
-        ui->infoPaket->setPlainText(perintahAptget);
+        if(ui->infoPaket->toPlainText().isEmpty())
+        {
+            ui->infoPaket->setPlainText(perintahAptget);
+        }
     }
     else if(fileSah && indekStak == 2)
     {
@@ -728,9 +748,9 @@ void Dialog::on_btnMundur_clicked()
     {
         ui->btnMundur->setDisabled(true);
     }
-    else if(ui->btnInstal->text() == tr("Install"))
+    else if(ui->btnInstal->text() == tr("Instal"))
     {
-        ui->btnInstal->setText(tr("Next"));
+        ui->btnInstal->setText(tr("Maju"));
         ui->btnInstal->setIcon(QIcon::fromTheme("go-next"));
         ui->btnInstal->setDisabled(false);
     }
@@ -754,7 +774,8 @@ void Dialog::on_btnReport_clicked()
     laporan.write(galat.toLatin1());
     laporan.close();
 
-    ui->infoPaket->setPlainText(tr("A report file had been created in:\n%1\nEntitled alldeb-report.txt\n\nPlease send it to author's email or to project's Bug reporting homepage in Launchpad.\nWe're sorry for this inconvenience.").arg(QDir::homePath()));
+    ui->infoPaket->show();
+    ui->infoPaket->setPlainText(tr("File laporan sudah dibuat di:\n%1\nBernama alldeb-report.txt\n\nSilakan kirimkan ke surel pengembang atau ke laman pelaporan Bug di Launchpad.\nMohon maaf atas ketidaknyamanan ini.").arg(QDir::homePath()));
 }
 
 void Dialog::titleofWindow(QString name)

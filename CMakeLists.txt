@@ -11,13 +11,13 @@ file(GLOB TERJEMAH ts/alldeb_*.ts)
 FIND_PACKAGE(Qt4 REQUIRED)
 INCLUDE(${QT_USE_FILE})
 
-qt4_wrap_ui(UISrcs ui/dialog.ui)
+qt4_wrap_ui(UISrcs ui/dialog.ui ui/about.ui)
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR})
-
+qt4_add_resources(QT_res assets/icon.qrc)
 qt4_add_translation(QM_files ${TERJEMAH})
 
-ADD_EXECUTABLE(alldeb-installer main.cpp dialog.cpp about.cpp ${MOCSrcs} ${UISrcs} ${QM_files})
+ADD_EXECUTABLE(alldeb-installer src/main.cpp src/dialog.cpp src/about.cpp ${MOCSrcs} ${UISrcs} ${QT_res} ${QM_files})
 TARGET_LINK_LIBRARIES(alldeb-installer ${QT_LIBRARIES})
 
 install(TARGETS alldeb-installer RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX}/bin)
