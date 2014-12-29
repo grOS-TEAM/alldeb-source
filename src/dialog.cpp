@@ -5,6 +5,9 @@ Dialog::Dialog(QString parameterNama, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::Dialog)
 {
+    /*
+     * Initialize objects
+     */
     ui->setupUi(this);
     ui->progressBar->hide();
     ui->btnReport->hide();
@@ -23,12 +26,15 @@ Dialog::Dialog(QString parameterNama, QWidget *parent) :
     }
     tentangProgram = new About(this);
 
+    /*
+     * Create actions for about button
+     */
     QAction *aksiAbout = new QAction(QIcon::fromTheme("help-about"),tr("About"),this);
     connect(aksiAbout,SIGNAL(triggered()),this,SLOT(infoProgram()));
     QAction *aksiGuide = new QAction(QIcon::fromTheme("help-contents"),tr("Guide"),this);
     connect(aksiGuide,SIGNAL(triggered()),this,SLOT(infoPanduan()));
 
-    //pilihan bahasa. sementara hanya dua
+    // Pilihan bahasa. Sementara hanya dua.
     QAction *indBahasa = new QAction(tr("Indonesian"),this);
     indBahasa->setCheckable(true);
     indBahasa->setData("id");
@@ -36,11 +42,17 @@ Dialog::Dialog(QString parameterNama, QWidget *parent) :
     engBahasa->setCheckable(true);
     engBahasa->setData("en");
 
+    /*
+     * Create about button to be drop down
+     */
     QMenu *btnMenu = new QMenu(this);
     btnMenu->addAction(indBahasa);
     btnMenu->addAction(engBahasa);
     btnMenu->addSeparator();
 
+    /*
+     * Add menu to the about button
+     */
     QActionGroup *pilihBahasa = new QActionGroup(btnMenu);
     pilihBahasa->setExclusive(true);
     pilihBahasa->addAction(indBahasa);
@@ -50,11 +62,12 @@ Dialog::Dialog(QString parameterNama, QWidget *parent) :
     ui->btnInfo->setMenu(btnMenu);
     connect(pilihBahasa,SIGNAL(triggered(QAction*)),this,SLOT(gantiBahasa(QAction *)));
 
-    // melihat bahasa lokal sistem
+    // Melihat bahasa lokal sistem
     bahasa = QLocale::system().name();          // e.g. "id_ID"
     bahasa.truncate(bahasa.lastIndexOf('_'));   // e.g. "id"
     //qDebug() << bahasa;
-    // memilih bahasa Inggris jika sistem bukan dalam locale Indonesia
+
+    // Memilih bahasa Inggris jika sistem bukan dalam locale Indonesia
     if(bahasa == "id")
     {
         indBahasa->setChecked(true);
@@ -69,6 +82,9 @@ Dialog::Dialog(QString parameterNama, QWidget *parent) :
 
     }
 
+    /*
+     * Connect objects
+     */
     connect(qApp,SIGNAL(aboutToQuit()),this,SLOT(on_btnKeluarProg_clicked()));
     ekstrak = new QProcess(this);
     connect(ekstrak,SIGNAL(finished(int)),this,SLOT(bacaInfoFile()));
@@ -90,8 +106,12 @@ Dialog::Dialog(QString parameterNama, QWidget *parent) :
     connect(apt_get2,SIGNAL(error(QProcess::ProcessError)),this,SLOT(prosesGagal()));
     connect(ui->tempatFile,SIGNAL(textChanged(QString)),this,SLOT(memilihFile()));
 
-    QFile polkit("/usr/bin/pkexec");        //perintah front-end untuk meminta hak administratif dengan PolicyKit
-    QFile kdesudo("/usr/bin/kdesudo");      //front-end sudo di KDE
+    /*
+     * pkexec adalah perintah front-end untuk meminta hak administratif dengan PolicyKit
+     * kdesudo adalah front-end sudo di KDE
+     */
+    QFile polkit("/usr/bin/pkexec");
+    QFile kdesudo("/usr/bin/kdesudo");
     if(polkit.exists())
     {
         sandiGui = "pkexec";
@@ -105,7 +125,7 @@ Dialog::Dialog(QString parameterNama, QWidget *parent) :
         sandiGui = "gksudo";
     }
 
-    //jika program dijalankan dengan "Open with..."
+    // Jika program dijalankan dengan "Open with..."
     if(parameterNama.count()>0)
     {
         ui->labelPilih->hide();
@@ -162,6 +182,10 @@ void Dialog::on_btnCariFile_clicked()
     ui->btnInstal->setIcon(QIcon::fromTheme("go-next"));
 }
 
+/*
+ * Fungsi untuk melihat isi dari file Alldeb
+ *
+ */
 void Dialog::bacaFileAlldeb()
 {
     if(!namaFile.isNull()){
@@ -188,7 +212,10 @@ void Dialog::bacaFileAlldeb()
     }
 }
 
-//fungsi untuk mengubah ukuran file ke satuan byte (human readable)
+/*
+ * Fungsi untuk mengubah ukuran file ke satuan byte (human readable)
+ *
+ */
 QString Dialog::bacaUkuran(qint64 jumlah)
 {
     float num = jumlah;
@@ -206,6 +233,10 @@ QString Dialog::bacaUkuran(qint64 jumlah)
     return QString().setNum(num,'f',2)+" "+unit;
 }
 
+/*
+ * Fungsi untuk membaca file teks
+ *
+ */
 QString Dialog::bacaTeks(QString berkas,int enume)
 {
     QFile namaBerkas(berkas);
@@ -254,6 +285,10 @@ QString Dialog::bacaTeks(QString berkas,int enume)
     }
 }
 
+/*
+ * Fungsi untuk memeriksa keberadaan keterangan_alldeb.txt
+ *
+ */
 void Dialog::bacaFile()
 {
     QStringList daftarIsi;
@@ -310,6 +345,11 @@ void Dialog::bacaFile()
 
 }
 
+/*
+ * Fungsi untuk mengambil string nama paket utama yang
+ * terdapat dalam file alldeb
+ *
+ */
 void Dialog::bacaInfoFile()
 {
     //ui->infoPaket->setPlainText(bacaTeks(ruangKerja+"/"+namaProfil+"/keterangan_alldeb.txt"));
@@ -324,6 +364,10 @@ void Dialog::bacaInfoFile()
             +ruangKerja+"/lists install --allow-unauthenticated -y " + paketPaket +"\n";
 }
 
+/*
+ * Slot untuk menampilkan info file alldeb
+ *
+ */
 void Dialog::bacaInfo()
 {
     QString output(buatPaketInfo->readAllStandardOutput());
@@ -338,6 +382,12 @@ void Dialog::bacaInfo()
     apt_get1->start(sandiGui,arg1,QIODevice::ReadWrite);
 }
 
+/*
+ * Fungsi untuk membuat file sources.list sementara
+ * untuk digunakan apt-get update memperbarui cache
+ * basis data APT
+ *
+ */
 void Dialog::buatInfo()
 {
     QString berkasSumber=ruangKerja+"/config/source_sementara.list";
@@ -390,6 +440,10 @@ void Dialog::buatInfo()
     fileSah = false;
 }
 
+/*
+ * Slot untuk membaca hasil perintah apt-get
+ *
+ */
 void Dialog::bacaHasilAptget()
 {
     QString output(apt_get1->readAll());
@@ -398,6 +452,10 @@ void Dialog::bacaHasilAptget()
     //qDebug() << output;
 }
 
+/*
+ * Slot untuk membaca hasil perintah apt-get install
+ *
+ */
 void Dialog::bacaHasilPerintah()
 {
     QString output(apt_get2->readAll());
@@ -414,6 +472,10 @@ void Dialog::bacaHasilPerintah()
     }
 }
 
+/*
+ * Fungsi untuk menjalankan apt-get install paket
+ *
+ */
 void Dialog::instalPaket()
 {
     QFile infoFile1(ruangKerja+"/"+namaProfil+"/keterangan_alldeb.txt");
@@ -469,6 +531,11 @@ void Dialog::instalPaket()
     }
 }
 
+/*
+ * Fungsi untuk menghapus file temporer
+ * yang berada di /home/namauser/.alldeb/namafile_alldeb
+ *
+ */
 void Dialog::hapusTemporer()
 {
     //menghapus file-file deb yang diekstrak
@@ -481,6 +548,10 @@ void Dialog::hapusTemporer()
     }
 }
 
+/*
+ * Fungsi untuk memperbarui progressbar
+ *
+ */
 void Dialog::updateProgress()
 {
     ui->progressBar->setMaximum(jml*4+10);
@@ -492,6 +563,10 @@ void Dialog::prosesSelesai()
     ui->progressBar->hide();
 }
 
+/*
+ * Fungsi untuk dijalankan ketika proses gagal
+ *
+ */
 void Dialog::prosesGagal()
 {
 
@@ -501,6 +576,10 @@ void Dialog::prosesGagal()
     QTimer::singleShot(3000,this,SLOT(prosesSelesai()));
 }
 
+/*
+ * Fungsi untuk mengeset progressbar ke 100%
+ *
+ */
 void Dialog::progresSelesai()
 {
     if(berhasil)
@@ -549,6 +628,10 @@ void Dialog::infoProgram()
     tentangProgram->show();
 }
 
+/*
+ * Fungsi untuk mengganti bahasa aplikasi secara langsung
+ *
+ */
 void Dialog::gantiBahasa(QAction *aksi)
 {
     QString lokal = aksi->data().toString();
@@ -657,6 +740,10 @@ void Dialog::on_btnMundur_clicked()
     //qDebug() << indekStak;
 }
 
+/*
+ * Fungsi untuk membuat file laporan
+ *
+ */
 void Dialog::on_btnReport_clicked()
 {
     QString galat = ui->infoPaket->toPlainText();

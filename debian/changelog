@@ -1,3 +1,9 @@
+alldeb-installer (0.2-ubuntu8) trusty; urgency=medium
+
+  * Manually merged alldeb-installer next branch, once more.
+
+ -- Slamet Badwi (bedouin) <slamet.badwi@gmail.com>  Sun, 28 Dec 2014 11:31:29 +0700
+
 alldeb-installer (0.2-ubuntu7) trusty; urgency=low
 
   * Merged with alldeb-installer next branch.
