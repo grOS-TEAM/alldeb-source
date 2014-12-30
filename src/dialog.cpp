@@ -88,10 +88,13 @@ Dialog::Dialog(QString parameterNama, QWidget *parent) :
 
     }
 
-    /*
+    /**
+     * @brief connect
+     *
      * Connect objects
+     *
      */
-    connect(qApp,SIGNAL(aboutToQuit()),this,SLOT(on_btnKeluarProg_clicked()));
+    //connect(qApp,SIGNAL(aboutToQuit()),this,SLOT(on_btnKeluarProg_clicked()));
     ekstrak = new QProcess(this);
     connect(ekstrak,SIGNAL(finished(int)),this,SLOT(bacaInfoFile()));
     connect(ekstrak,SIGNAL(error(QProcess::ProcessError)),this,SLOT(prosesGagal()));
@@ -112,9 +115,12 @@ Dialog::Dialog(QString parameterNama, QWidget *parent) :
     connect(apt_get2,SIGNAL(error(QProcess::ProcessError)),this,SLOT(prosesGagal()));
     connect(ui->tempatFile,SIGNAL(textChanged(QString)),this,SLOT(memilihFile()));
 
-    /*
+    /**
+     * @brief polkit
+     *
      * pkexec adalah perintah front-end untuk meminta hak administratif dengan PolicyKit
      * kdesudo adalah front-end sudo di KDE
+     *
      */
     QFile polkit("/usr/bin/pkexec");
     QFile kdesudo("/usr/bin/kdesudo");
@@ -188,7 +194,9 @@ void Dialog::on_btnCariFile_clicked()
     ui->btnInstal->setIcon(QIcon::fromTheme("go-next"));
 }
 
-/*
+/**
+ * @brief Dialog::bacaFileAlldeb
+ *
  * Fungsi untuk melihat isi dari file Alldeb
  *
  */
@@ -218,8 +226,14 @@ void Dialog::bacaFileAlldeb()
     }
 }
 
-/*
- * Fungsi untuk mengubah ukuran file ke satuan byte (human readable)
+/**
+ * @brief Dialog::bacaUkuran
+ * @param jumlah
+ * @return
+ *
+ * Fungsi untuk mengubah ukuran file ke satuan byte (human readable).
+ * Ukuran pada informasi paket DEB mungkin sudah dalam byte,
+ * jadi fungsi ini mungkin tidak diperlukan.
  *
  */
 QString Dialog::bacaUkuran(qint64 jumlah)
@@ -239,8 +253,15 @@ QString Dialog::bacaUkuran(qint64 jumlah)
     return QString().setNum(num,'f',2)+" "+unit;
 }
 
-/*
+/**
+ * @brief Dialog::bacaTeks
+ * @param berkas
+ * @param enume
+ * @return
+ *
  * Fungsi untuk membaca file teks
+ * dari URI berkas.
+ * enume adalah parameter untuk memproses enumerasi
  *
  */
 QString Dialog::bacaTeks(QString berkas,int enume)
@@ -291,7 +312,9 @@ QString Dialog::bacaTeks(QString berkas,int enume)
     }
 }
 
-/*
+/**
+ * @brief Dialog::bacaFile
+ *
  * Fungsi untuk memeriksa keberadaan keterangan_alldeb.txt
  *
  */
@@ -351,7 +374,9 @@ void Dialog::bacaFile()
 
 }
 
-/*
+/**
+ * @brief Dialog::bacaInfoFile
+ *
  * Fungsi untuk mengambil string nama paket utama yang
  * terdapat dalam file alldeb
  *
@@ -370,7 +395,9 @@ void Dialog::bacaInfoFile()
             +ruangKerja+"/lists install --allow-unauthenticated -y " + paketPaket +"\n";
 }
 
-/*
+/**
+ * @brief Dialog::bacaInfo
+ *
  * Slot untuk menampilkan info file alldeb
  *
  */
@@ -388,7 +415,9 @@ void Dialog::bacaInfo()
     apt_get1->start(sandiGui,arg1,QIODevice::ReadWrite);
 }
 
-/*
+/**
+ * @brief Dialog::buatInfo
+ *
  * Fungsi untuk membuat file sources.list sementara
  * untuk digunakan apt-get update memperbarui cache
  * basis data APT
@@ -446,30 +475,34 @@ void Dialog::buatInfo()
     fileSah = false;
 }
 
-/*
+/**
+ * @brief Dialog::bacaHasilAptget
+ *
  * Slot untuk membaca hasil perintah apt-get
  *
  */
 void Dialog::bacaHasilAptget()
 {
     QString output(apt_get1->readAll());
-    ui->infoPaket->appendPlainText(output);
+    ui->infoPaket->appendPlainText(output.simplified());
     ui->labelStatus->setText(output);
     ui->progressBar->setValue(ui->progressBar->value()+1);
     //qDebug() << output;
 }
 
-/*
+/**
+ * @brief Dialog::bacaHasilPerintah
+ *
  * Slot untuk membaca hasil perintah apt-get install
  *
  */
 void Dialog::bacaHasilPerintah()
 {
     QString output(apt_get2->readAll());
-    ui->infoPaket->appendPlainText(output);
+    ui->infoPaket->appendPlainText(output.simplified());
     if(!output.isEmpty())
     {
-        ui->labelStatus->setText(output);
+        ui->labelStatus->setText(output.simplified());
     }
     ui->progressBar->setValue(ui->progressBar->value()+1);
     if(output.contains("E:") || output.contains("Err")){
@@ -484,7 +517,9 @@ void Dialog::bacaHasilPerintah()
     }
 }
 
-/*
+/**
+ * @brief Dialog::instalPaket
+ *
  * Fungsi untuk menjalankan apt-get install paket
  *
  */
@@ -544,7 +579,9 @@ void Dialog::instalPaket()
     }
 }
 
-/*
+/**
+ * @brief Dialog::hapusTemporer
+ *
  * Fungsi untuk menghapus file temporer
  * yang berada di /home/namauser/.alldeb/namafile_alldeb
  *
@@ -561,7 +598,9 @@ void Dialog::hapusTemporer()
     }
 }
 
-/*
+/**
+ * @brief Dialog::updateProgress
+ *
  * Fungsi untuk memperbarui progressbar
  *
  */
@@ -576,7 +615,9 @@ void Dialog::prosesSelesai()
     ui->progressBar->hide();
 }
 
-/*
+/**
+ * @brief Dialog::prosesGagal
+ *
  * Fungsi untuk dijalankan ketika proses gagal
  *
  */
@@ -590,7 +631,9 @@ void Dialog::prosesGagal()
     QTimer::singleShot(3000,this,SLOT(prosesSelesai()));
 }
 
-/*
+/**
+ * @brief Dialog::progresSelesai
+ *
  * Fungsi untuk mengeset progressbar ke 100%
  *
  */
@@ -611,14 +654,16 @@ void Dialog::progresSelesai()
             ui->labelStatus->setText(tr("Proses telah selesai"));
         }
         QTimer::singleShot(2000,this,SLOT(prosesSelesai()));
+        ui->btnKeluarProg->setText(tr("Keluar"));
+        ui->btnMundur->setDisabled(true);
     }
 }
 
 void Dialog::progresEkstrak()
 {
     QString output(ekstraksi->readAll());
-    ui->infoPaket->appendPlainText(tr("Mengekstrak: ")+output);
-    ui->labelStatus->setText(tr("Mengekstrak: ")+output);
+    ui->infoPaket->appendPlainText(tr("Mengekstrak: ")+output.simplified());
+    ui->labelStatus->setText(tr("Mengekstrak: ")+output.simplified());
     ui->progressBar->setValue(ui->progressBar->value()+1);
 }
 
@@ -645,8 +690,12 @@ void Dialog::infoProgram()
     tentangProgram->show();
 }
 
-/*
+/**
+ * @brief Dialog::gantiBahasa
+ * @param aksi
+ *
  * Fungsi untuk mengganti bahasa aplikasi secara langsung
+ * aksi adalah event penggantian bahasa
  *
  */
 void Dialog::gantiBahasa(QAction *aksi)
@@ -666,6 +715,13 @@ void Dialog::on_btnInfo_clicked()
 
 }
 
+/**
+ * @brief Dialog::on_btnKeluarProg_clicked
+ *
+ * Slot untuk menangani event klik pada
+ * tombol Batal atau menutup program
+ *
+ */
 void Dialog::on_btnKeluarProg_clicked()
 {
     if(!namaFile.isEmpty() || !isiKotakFile.isEmpty())
@@ -692,6 +748,13 @@ void Dialog::on_btnKeluarProg_clicked()
     qApp->quit();
 }
 
+/**
+ * @brief Dialog::on_btnInstal_clicked
+ *
+ * Slot untuk menangani event klik pada tombol
+ * Instal
+ *
+ */
 void Dialog::on_btnInstal_clicked()
 {
     int indekStak = ui->stackedWidget->currentIndex();
@@ -740,6 +803,13 @@ void Dialog::on_btnInstal_clicked()
     ui->stackedWidget->setCurrentIndex(ui->stackedWidget->currentIndex() + 1);
 }
 
+/**
+ * @brief Dialog::on_btnMundur_clicked
+ *
+ * Slot untuk menangani event klik pada tombol
+ * mundur
+ *
+ */
 void Dialog::on_btnMundur_clicked()
 {
     //int indekStak = ui->stackedWidget->currentIndex();
@@ -760,7 +830,9 @@ void Dialog::on_btnMundur_clicked()
     //qDebug() << indekStak;
 }
 
-/*
+/**
+ * @brief Dialog::on_btnReport_clicked
+ *
  * Fungsi untuk membuat file laporan
  *
  */
@@ -778,6 +850,14 @@ void Dialog::on_btnReport_clicked()
     ui->infoPaket->setPlainText(tr("File laporan sudah dibuat di:\n%1\nBernama alldeb-report.txt\n\nSilakan kirimkan ke surel pengembang atau ke laman pelaporan Bug di Launchpad.\nMohon maaf atas ketidaknyamanan ini.").arg(QDir::homePath()));
 }
 
+/**
+ * @brief Dialog::titleofWindow
+ * @param name
+ *
+ * Fungsi untuk mengubah judul jendela
+ * menjadi AlldebInstaller + name
+ *
+ */
 void Dialog::titleofWindow(QString name)
 {
     QFileInfo berkasAlldeb(name);
@@ -792,4 +872,18 @@ void Dialog::titleofWindow(QString name)
     }
     //qDebug() << parameterNama;
     this->setWindowTitle("AllDebInstaller - "+berkas);
+}
+
+/**
+ * @brief Dialog::closeEvent(QCloseEvent *event)
+ *
+ * Slot untuk menangani closeEvent
+ * yang menanyakan apakah ingin menghapus
+ * berkas DEB yang diekstrak ke folder temporer
+ *
+ */
+void Dialog::closeEvent(QCloseEvent *event)
+{
+    event->ignore();
+    emit this->on_btnKeluarProg_clicked();
 }

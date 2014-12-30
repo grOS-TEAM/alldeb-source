@@ -24,6 +24,7 @@
 #include <QCloseEvent>
 #include <QTimer>
 #include <QDate>
+#include <QCloseEvent>
 #include "about.h"
 
 namespace Ui {
@@ -40,6 +41,9 @@ public:
     QString bacaUkuran(qint64 jumlah);
     QString bacaTeks(QString berkas, int enume=0);
     ~Dialog();
+
+protected:
+    void closeEvent(QCloseEvent * event);
 
 private slots:
     void on_btnCariFile_clicked();

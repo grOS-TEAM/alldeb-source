@@ -175,7 +175,7 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Kembali</translation>
     </message>
     <message>
-        <location filename="../src/dialog.cpp" line="187"/>
+        <location filename="../src/dialog.cpp" line="193"/>
         <source>Next</source>
         <translation>Lanjut</translation>
     </message>
@@ -228,7 +228,7 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Tidak</translation>
     </message>
     <message>
-        <location filename="../src/dialog.cpp" line="232"/>
+        <location filename="../src/dialog.cpp" line="246"/>
         <source>bytes</source>
         <translation type="unfinished"></translation>
     </message>
@@ -258,65 +258,65 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/dialog.cpp" line="165"/>
-        <location filename="../src/dialog.cpp" line="176"/>
+        <location filename="../src/dialog.cpp" line="171"/>
+        <location filename="../src/dialog.cpp" line="182"/>
         <source>Pilih satu file Alldeb</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/dialog.cpp" line="165"/>
-        <location filename="../src/dialog.cpp" line="176"/>
+        <location filename="../src/dialog.cpp" line="171"/>
+        <location filename="../src/dialog.cpp" line="182"/>
         <source>File AllDeb (*.alldeb)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/dialog.cpp" line="266"/>
+        <location filename="../src/dialog.cpp" line="287"/>
         <source>Terjadi kesalahan</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/dialog.cpp" line="345"/>
+        <location filename="../src/dialog.cpp" line="368"/>
         <source>Galat</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/dialog.cpp" line="346"/>
+        <location filename="../src/dialog.cpp" line="369"/>
         <source>Tampaknya ini bukanlah file Alldeb. Mohon jangan dilanjutkan!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/dialog.cpp" line="364"/>
+        <location filename="../src/dialog.cpp" line="389"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;h2&gt;Instalasi paket&lt;/h2&gt;&lt;p&gt;Anda akan menginstal meta-paket berikut ini:&lt;/p&gt;&lt;p&gt;&lt;strong&gt;%1&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;p&gt;Selalu pastikan file ini diperoleh dari sumber yang terpercaya.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/dialog.cpp" line="442"/>
+        <location filename="../src/dialog.cpp" line="471"/>
         <source>Tidak bisa memeriksa</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/dialog.cpp" line="476"/>
+        <location filename="../src/dialog.cpp" line="509"/>
         <source>=================
 Instalasi gagal.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/dialog.cpp" line="477"/>
+        <location filename="../src/dialog.cpp" line="510"/>
         <source>Instalasi Gagal</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/dialog.cpp" line="542"/>
+        <location filename="../src/dialog.cpp" line="577"/>
         <source>Terjadi kesalahan.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/dialog.cpp" line="543"/>
+        <location filename="../src/dialog.cpp" line="578"/>
         <source>Terjadi Kesalahan</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/dialog.cpp" line="586"/>
+        <location filename="../src/dialog.cpp" line="627"/>
         <source>=================
 Proses gagal
 Silakan laporkan kesalahan ini dengan mengklik tombol Laporkan di bawah ini
@@ -325,73 +325,78 @@ This report was created on %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/dialog.cpp" line="587"/>
+        <location filename="../src/dialog.cpp" line="628"/>
         <source>Proses gagal. Silakan laporkan kesalahan ini dengan mengklik tombol Laporkan di bawah ini
 Laporan dibuat pada %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/dialog.cpp" line="604"/>
+        <location filename="../src/dialog.cpp" line="647"/>
         <source>---------------------
 Proses dipindahkan ke terminal emulator.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/dialog.cpp" line="605"/>
+        <location filename="../src/dialog.cpp" line="648"/>
         <source>Proses dipindahkan ke terminal emulator</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/dialog.cpp" line="610"/>
+        <location filename="../src/dialog.cpp" line="653"/>
         <source>---------------------
 Proses telah selesai.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/dialog.cpp" line="611"/>
+        <location filename="../src/dialog.cpp" line="654"/>
         <source>Proses telah selesai</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/dialog.cpp" line="620"/>
-        <location filename="../src/dialog.cpp" line="621"/>
+        <location filename="../src/dialog.cpp" line="657"/>
+        <source>Keluar</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/dialog.cpp" line="665"/>
+        <location filename="../src/dialog.cpp" line="666"/>
         <source>Mengekstrak: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/dialog.cpp" line="674"/>
+        <location filename="../src/dialog.cpp" line="730"/>
         <source>AllDebInstaller - Hapus tembolok?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/dialog.cpp" line="675"/>
+        <location filename="../src/dialog.cpp" line="731"/>
         <source>Apakah anda ingin menghapus berkas sementara di:
 </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/dialog.cpp" line="677"/>
+        <location filename="../src/dialog.cpp" line="733"/>
         <source>Ya</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/dialog.cpp" line="678"/>
+        <location filename="../src/dialog.cpp" line="734"/>
         <source>Tidak</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/dialog.cpp" line="710"/>
-        <location filename="../src/dialog.cpp" line="751"/>
+        <location filename="../src/dialog.cpp" line="773"/>
+        <location filename="../src/dialog.cpp" line="821"/>
         <source>Instal</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/dialog.cpp" line="753"/>
+        <location filename="../src/dialog.cpp" line="823"/>
         <source>Maju</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/dialog.cpp" line="778"/>
+        <location filename="../src/dialog.cpp" line="850"/>
         <source>File laporan sudah dibuat di:
 %1
 Bernama alldeb-report.txt
@@ -401,7 +406,7 @@ Mohon maaf atas ketidaknyamanan ini.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/dialog.cpp" line="443"/>
+        <location filename="../src/dialog.cpp" line="472"/>
         <source>Tanpa program pemindai paket, proses ini tidak bisa dilanjutkan.
 Program yang dimaksud adalah apt-ftparchive (dari paket apt-utils) atau dpkg-scan-packages</source>
         <translation type="unfinished"></translation>

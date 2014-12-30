@@ -55,7 +55,9 @@ Vcs-Bzr: lp:alldeb-installer
 Package: alldeb-installer
 Architecture: any
 Depends: ${shlibs:Depends},
- ${misc:Depends}, apt-utils, policykit-1
+ ${misc:Depends}, apt-utils, policykit-desktop-privileges, policykit-1,
+ polkit-kde-1 | policykit-1-gnome | lxpolkit | mate-polkit |
+ lxqt-policykit | razorqt-policykit-agent
 Description: Program penginstal untuk berkas alldeb
  alldeb adalah kumpulan paket DEB yang dikemas
  dalam satu wadah berkas saja.

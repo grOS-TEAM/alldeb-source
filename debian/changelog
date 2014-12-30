@@ -1,3 +1,9 @@
+alldeb-installer (0.2-ubuntu9) trusty; urgency=medium
+
+  * Added Policykit agent programs as dependency
+
+ -- Slamet Badwi (bedouin) <slamet.badwi@gmail.com>  Tue, 30 Dec 2014 13:51:48 +0700
+
 alldeb-installer (0.2-ubuntu8) trusty; urgency=medium
 
   * Manually merged alldeb-installer next branch, once more.
