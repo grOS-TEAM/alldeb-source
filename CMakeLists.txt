@@ -24,3 +24,4 @@ install(TARGETS alldeb-installer RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX}/bin
 install(FILES ${QM_files} DESTINATION ${CMAKE_INSTALL_PREFIX}/share/alldeb/installer/lang)
 install(FILES assets/alldeb-installer.desktop DESTINATION ${CMAKE_INSTALL_PREFIX}/share/applications)
 install(FILES assets/icon.svg DESTINATION ${CMAKE_INSTALL_PREFIX}/share/alldeb/icons)
+install(FILES assets/application-alldeb.svg DESTINATION ${CMAKE_INSTALL_PREFIX}/share/icons/hicolor/scalable/mimetypes)

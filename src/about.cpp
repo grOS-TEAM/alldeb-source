@@ -5,7 +5,9 @@ About::About(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::About)
 {
+    this->setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint & ~Qt::WindowMaximizeButtonHint);
     ui->setupUi(this);
+    ui->labelVersiQt_2->setText(QT_VERSION_STR);
 }
 
 About::~About()

@@ -24,6 +24,7 @@
 #include <QCloseEvent>
 #include <QTimer>
 #include <QDate>
+#include <QEvent>
 #include <QCloseEvent>
 #include "about.h"
 
@@ -44,16 +45,19 @@ public:
 
 protected:
     void closeEvent(QCloseEvent * event);
+    void changeEvent(QEvent *);
 
 private slots:
     void on_btnCariFile_clicked();
     void on_btnInstal_clicked();
     void on_btnInfo_clicked();
     void on_btnKeluarProg_clicked();
+    void on_btnMundur_clicked();
+    void on_btnReport_clicked();
     void bacaHasilPerintah();
     void bacaHasilAptget();
     void bacaInfoFile();
-    void bacaFileAlldeb();
+    void bacaFileAlldeb(QString uri);
     void bacaFile();
     void bacaInfo();
     void buatInfo();
@@ -63,14 +67,15 @@ private slots:
     void gantiBahasa(QAction *aksi);
     void infoPanduan();
     void infoProgram();
+    void laporKutu();
     void updateProgress();
     void prosesSelesai();
     void progresSelesai();
     void prosesGagal();
-    void on_btnMundur_clicked();
     void titleofWindow(QString name);
     void progresEkstrak();
-    void on_btnReport_clicked();
+    void cekSistem();
+    void buatMenu();
 
 private:
     Ui::Dialog *ui;
