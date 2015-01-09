@@ -100,6 +100,7 @@ private:
     bool fileSah;
     bool berhasil;
     bool debconf;
+    bool polkitAgent;
     int jml;
     About *tentangProgram;
 };

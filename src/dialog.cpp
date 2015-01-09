@@ -32,6 +32,7 @@ Dialog::Dialog(QString parameterNama, QWidget *parent) :
     fileSah = false;
     berhasil = false;
     debconf = false;
+    polkitAgent = false;
 
     ruangKerja = QDir::homePath()+"/.alldeb"; //direktori untuk penyimpanan temporer dan pengaturan alldeb
     programTar = "tar"; //perintah tar untuk mengekstrak dan melihat properti file
@@ -266,7 +267,7 @@ void Dialog::on_btnReport_clicked()
     QString galat = ui->infoPaket->toPlainText();
 
     QFile laporan(QDir::homePath()+"/alldeb-report.txt");
-    QString pesan = tr("File laporan sudah dibuat di:\n%1\nBernama alldeb-report.txt\n"
+    QString pesan = tr("File laporan sudah dibuat di:\n%1\nDengan nama 'alldeb-report.txt'\n"
                        "\nSilakan kirimkan ke surel pengembang atau ke laman pelaporan "
                        "Bug di Launchpad.\nMohon maaf atas ketidaknyamanan ini.")
                         .arg(QDir::homePath());
@@ -425,6 +426,67 @@ QString Dialog::bacaTeks(QString berkas,int enume)
 }
 
 /**
+ * @brief Dialog::buatInfo
+ *
+ * Fungsi untuk membuat file sources.list sementara
+ * untuk digunakan apt-get update memperbarui cache
+ * basis data APT
+ *
+ */
+void Dialog::buatInfo()
+{
+    QString berkasSumber=ruangKerja+"/config/source_sementara.list";
+    QFile source( berkasSumber );
+    if ( source.open(QIODevice::WriteOnly) )
+    {
+        QTextStream stream( &source );
+        stream << "deb file:"+ruangKerja+" "+namaProfil+"/" << endl;      //penyebab kegagalan
+    }
+
+    //cek apt-ftparchive dan dpkg-scanpackages
+    QFile ftpArchive("/usr/bin/apt-ftparchive");
+    QFile scanPackages("/usr/bin/dpkg-scanpackages");
+    if(ftpArchive.exists())
+    {
+        //apt-ftparchive packages . 2>/dev/null | gzip > ./Packages.gz
+        QStringList arg4;
+        arg4 << "-c" << "apt-ftparchive packages "+namaProfil+"/ 2>/dev/null | gzip > "
+                +namaProfil+"/Packages.gz";
+
+        buatPaketInfo->setWorkingDirectory(ruangKerja);
+        buatPaketInfo->start("sh",arg4);
+        //qDebug() << argumen5;
+
+
+        if(!QDir(ruangKerja+"/part.d").exists()){
+            QDir().mkdir(ruangKerja+"/part.d");
+        }
+        if(!QDir(ruangKerja+"/lists").exists()){
+            QDir().mkdir(ruangKerja+"/lists");
+        }
+        if(!QDir(ruangKerja+"/lists/partial").exists()){
+            QDir().mkdir(ruangKerja+"/lists/partial");
+        }
+
+
+    }
+    else if(scanPackages.exists())
+    {
+        //BELUM ADA PROSES
+        //karena dependensi paket sudah menyertakan apt-utils, maka apt-ftparchive akan selalu ada
+        //ini bisa dijadikan opsi
+    }
+    else
+    {
+        QMessageBox::warning(this,tr("Tidak bisa memeriksa"),
+                             tr("Tanpa program pemindai paket, proses ini tidak bisa dilanjutkan.\n"
+                                "Program yang dimaksud adalah apt-ftparchive (dari paket apt-utils) "
+                                "atau dpkg-scan-packages"));
+    }
+    fileSah = false;
+}
+
+/**
  * @brief Dialog::bacaFile
  *
  * Fungsi untuk memeriksa keberadaan keterangan_alldeb.txt
@@ -516,84 +578,24 @@ void Dialog::bacaInfoFile()
  */
 void Dialog::bacaInfo()
 {
-    if(sandiGui != "none")
+    if(sandiGui != "none" && polkitAgent)
     {
         QString output(buatPaketInfo->readAllStandardOutput());
         ui->infoPaket->appendPlainText(output);
 
         QStringList arg1;
-        arg1 << "-u" << "root" << "apt-get" << "-o" << "dir::etc::sourcelist="+ruangKerja+"/config/source_sementara.list"
+        arg1 << "--disable-internal-agent" << "--user" << "root" << "apt-get"
+             << "-o" << "dir::etc::sourcelist="+ruangKerja+"/config/source_sementara.list"
              << "-o" << "dir::etc::sourceparts="+ruangKerja+"/part.d"
              << "-o" << "dir::state::lists="+ruangKerja+"/lists" << "update";
         apt_get1->setWorkingDirectory(ruangKerja);
         apt_get1->setProcessChannelMode(QProcess::MergedChannels);
-        apt_get1->start(sandiGui,arg1,QIODevice::ReadWrite);
+        apt_get1->start("pkexec", arg1, QIODevice::ReadWrite);
     }
     else
     {
         apt_get1->start("x-terminal-emulator",QStringList() << "-e" << perintahAptget);
     }
-}
-
-/**
- * @brief Dialog::buatInfo
- *
- * Fungsi untuk membuat file sources.list sementara
- * untuk digunakan apt-get update memperbarui cache
- * basis data APT
- *
- */
-void Dialog::buatInfo()
-{
-    QString berkasSumber=ruangKerja+"/config/source_sementara.list";
-    QFile source( berkasSumber );
-    if ( source.open(QIODevice::WriteOnly) )
-    {
-        QTextStream stream( &source );
-        stream << "deb file:"+ruangKerja+" "+namaProfil+"/" << endl;      //penyebab kegagalan
-    }
-
-    //cek apt-ftparchive dan dpkg-scanpackages
-    QFile ftpArchive("/usr/bin/apt-ftparchive");
-    QFile scanPackages("/usr/bin/dpkg-scanpackages");
-    if(ftpArchive.exists())
-    {
-        //apt-ftparchive packages . 2>/dev/null | gzip > ./Packages.gz
-        QStringList arg4;
-        arg4 << "-c" << "apt-ftparchive packages "+namaProfil+"/ 2>/dev/null | gzip > "
-                +namaProfil+"/Packages.gz";
-
-        buatPaketInfo->setWorkingDirectory(ruangKerja);
-        buatPaketInfo->start("sh",arg4);
-        //qDebug() << argumen5;
-
-
-        if(!QDir(ruangKerja+"/part.d").exists()){
-            QDir().mkdir(ruangKerja+"/part.d");
-        }
-        if(!QDir(ruangKerja+"/lists").exists()){
-            QDir().mkdir(ruangKerja+"/lists");
-        }
-        if(!QDir(ruangKerja+"/lists/partial").exists()){
-            QDir().mkdir(ruangKerja+"/lists/partial");
-        }
-
-
-    }
-    else if(scanPackages.exists())
-    {
-        //BELUM ADA PROSES
-        //karena dependensi paket sudah menyertakan apt-utils, maka apt-ftparchive akan selalu ada
-        //ini bisa dijadikan opsi
-    }
-    else
-    {
-        QMessageBox::warning(this,tr("Tidak bisa memeriksa"),
-                             tr("Tanpa program pemindai paket, proses ini tidak bisa dilanjutkan.\n"
-                                "Program yang dimaksud adalah apt-ftparchive (dari paket apt-utils) "
-                                "atau dpkg-scan-packages"));
-    }
-    fileSah = false;
 }
 
 /**
@@ -608,7 +610,7 @@ void Dialog::bacaHasilAptget()
     ui->infoPaket->appendPlainText(output.simplified());
     ui->labelStatus->setText(output);
     ui->progressBar->setValue(ui->progressBar->value()+1);
-    //qDebug() << output;
+    //qDebug() << apt_get1->exitCode();
 }
 
 /**
@@ -656,45 +658,60 @@ void Dialog::instalPaket()
         //QString paketTermuat = bacaTeks(ruangKerja+"/"+namaProfil+"/keterangan_alldeb.txt",1);
         QStringList arg2;
         QStringList arg3;
-        QStringList arg4;
+
         if(paketPaket.contains(" "))
         {
-            arg4 << paketPaket.split(" ");
+            arg3 << paketPaket.split(" ");
         }
         else
         {
-            arg4 << paketPaket;
+            arg3 << paketPaket;
         }
-        arg2 << "--user" << "root" << "apt-get" << "-o" << "Dir::Etc::Sourcelist="+ruangKerja+
+        arg2 << "apt-get" << "-o" << "Dir::Etc::Sourcelist="+ruangKerja+
                 "/config/source_sementara.list" << "-o" << "Dir::Etc::Sourceparts="+ruangKerja+
                 "/part.d" << "-o" << "Dir::State::Lists="+ruangKerja+"/lists" << "install" <<
                 "--allow-unauthenticated" << "-y"; // simulasi: << "-s"
-        arg3 << "-e" << "sudo" << "apt-get" << "-o" << "Dir::Etc::Sourcelist="+ruangKerja+
-                "/config/source_sementara.list" << "-o" << "Dir::Etc::Sourceparts="+ruangKerja+
-                "/part.d" << "-o" << "Dir::State::Lists="+ruangKerja+"/lists" << "install" <<
-                "--allow-unauthenticated" << "-y";
-        arg2.append(arg4);
-        arg3.append(arg4);
+
+        arg2.append(arg3);
+
         apt_get2->setWorkingDirectory(ruangKerja);
         apt_get2->setProcessChannelMode(QProcess::MergedChannels);
         QProcess *debconff = new QProcess(this);
-        if(debconf == true || sandiGui == "none")
-        {
+        if (debconf == true || sandiGui == "none") {
             debconff->setWorkingDirectory(ruangKerja);
-            debconff->start("x-terminal-emulator",arg3);
+            arg2.prepend("-e");
+            arg2.prepend("sudo");
+            debconff->start("x-terminal-emulator",arg2);
 
             //connect(debconff,SIGNAL(finished(int)),this,SLOT(hapusTemporer()));
             //connect(debconff,SIGNAL(finished(int)),this,SLOT(progresSelesai()));
             berhasil = true;
             this->progresSelesai();
+        } else if(polkitAgent) {
+            if (apt_get1->exitCode() == 126 || apt_get1->exitCode() == 127) {
+                this->prosesGagal();
+            } else {
+                arg2.prepend("root");
+                arg2.prepend("--user");
+                apt_get2->start("pkexec",arg2,QIODevice::ReadWrite);
+                //qDebug() << arg2;
+            }
         }
         else
         {
-            apt_get2->start(sandiGui,arg2,QIODevice::ReadWrite);
-
+            arg2.prepend("root");
+            arg2.prepend("-u");
+            if(sandiGui == "kdesudo")
+            {
+                apt_get2->start(sandiGui,arg2,QIODevice::ReadWrite);
+            }
+            else
+            {
+                apt_get2->start(sandiGui,QStringList() << arg2.join(" "),QIODevice::ReadWrite);
+            }
         }
         infoFile.close();
-        //qDebug() << arg2;
+        //qDebug() << apt_get1->exitCode();
     }
 
     else
@@ -1020,24 +1037,27 @@ void Dialog::cekSistem()
      * ditawarkan oleh Freedesktop.org untuk distro Linux
      *
      */
-    QFile polkit("/usr/bin/pkexec");
+    QFile pkexec("/usr/bin/pkexec");
     QFile kdesudo("/usr/bin/kdesudo");
     QFile gksudo("/usr/bin/gksudo");
     /**
      * @brief cekKDEPlasma
      * Proses untuk mencari tahu sesi desktop saat ini
      *
-     */
+     *
     QProcess cekKDEPlasma;
     cekKDEPlasma.start("echo $GDMSESSION");
     cekKDEPlasma.waitForBytesWritten();
     cekKDEPlasma.waitForFinished();
     QString session = cekKDEPlasma.readAll();
-    if(polkit.exists())
+    */
+
+    if(pkexec.exists())
     {
-        sandiGui = "pkexec";
+        polkitAgent = true;
     }
-    else if(session == "kde-plasma" && kdesudo.exists())
+
+    if(kdesudo.exists())
     {
         sandiGui = "kdesudo";
     }
@@ -1049,4 +1069,6 @@ void Dialog::cekSistem()
     {
         sandiGui = "none";  //Tidak ada prompter sandi
     }
+
+    //qDebug() << session;
 }
