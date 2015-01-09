@@ -61,7 +61,7 @@ private slots:
     void bacaFile();
     void bacaInfo();
     void buatInfo();
-    void instalPaket();
+    void instalPaket(int kode);
     void memilihFile();
     void hapusTemporer();
     void gantiBahasa(QAction *aksi);
@@ -70,7 +70,7 @@ private slots:
     void laporKutu();
     void updateProgress();
     void prosesSelesai();
-    void progresSelesai();
+    void progresSelesai(int kode);
     void prosesGagal();
     void titleofWindow(QString name);
     void progresEkstrak();

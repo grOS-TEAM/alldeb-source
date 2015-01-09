@@ -37,10 +37,10 @@ Dialog::Dialog(QString parameterNama, QWidget *parent) :
     ruangKerja = QDir::homePath()+"/.alldeb"; //direktori untuk penyimpanan temporer dan pengaturan alldeb
     programTar = "tar"; //perintah tar untuk mengekstrak dan melihat properti file
 
-    if(!QDir(ruangKerja).exists()){
+    if (!QDir(ruangKerja).exists()) {
         QDir().mkdir(ruangKerja);
     }
-    if(!QDir(ruangKerja+"/config").exists()){
+    if (!QDir(ruangKerja+"/config").exists()) {
         QDir().mkdir(ruangKerja+"/config");
     }
     tentangProgram = new About(this);
@@ -62,12 +62,12 @@ Dialog::Dialog(QString parameterNama, QWidget *parent) :
     connect(buatPaketInfo,SIGNAL(error(QProcess::ProcessError)),this,SLOT(prosesGagal()));
     apt_get1 = new QProcess(this);
     connect(apt_get1,SIGNAL(readyRead()),this,SLOT(bacaHasilAptget()));
-    connect(apt_get1,SIGNAL(finished(int)),this,SLOT(instalPaket()));
+    connect(apt_get1,SIGNAL(finished(int)),this,SLOT(instalPaket(int)));
     connect(apt_get1,SIGNAL(error(QProcess::ProcessError)),this,SLOT(prosesGagal()));
     apt_get2 = new QProcess(this);
     connect(apt_get2,SIGNAL(readyRead()),this,SLOT(bacaHasilPerintah()));
     connect(apt_get2,SIGNAL(finished(int)),this,SLOT(hapusTemporer()));
-    connect(apt_get2,SIGNAL(finished(int)),this,SLOT(progresSelesai()));
+    connect(apt_get2,SIGNAL(finished(int)),this,SLOT(progresSelesai(int)));
     connect(apt_get2,SIGNAL(error(QProcess::ProcessError)),this,SLOT(prosesGagal()));
     connect(ui->tempatFile,SIGNAL(textChanged(QString)),this,SLOT(memilihFile()));
 
@@ -75,8 +75,7 @@ Dialog::Dialog(QString parameterNama, QWidget *parent) :
     this->buatMenu();
 
     // Jika program dijalankan dengan "Open with..."
-    if(parameterNama.count()>0)
-    {
+    if (parameterNama.count()>0) {
         ui->labelPilih->hide();
         ui->btnCariFile->hide();
         ui->tempatFile->hide();
@@ -86,9 +85,7 @@ Dialog::Dialog(QString parameterNama, QWidget *parent) :
         this->titleofWindow(namaFile);
         //ui->tempatFile->setText(namaFile);
         this->bacaFileAlldeb(parameterNama);
-    }
-    else
-    {
+    } else {
         ui->btnInstal->setDisabled(true);
     }
 
@@ -125,26 +122,22 @@ void Dialog::on_btnCariFile_clicked()
 {
     isiKotakFile = ui->tempatFile->text();
     QString uriFile;
-    if(isiKotakFile.isEmpty()) {
+    if (isiKotakFile.isEmpty()) {
         uriFile = QFileDialog::getOpenFileName(this,tr("Pilih satu file Alldeb"),
                                                 QDir::homePath(),tr("File AllDeb (*.alldeb)"));
         QFileInfo infoFile(uriFile);
-        if(!uriFile.isNull())
-        {
+        if (!uriFile.isNull()) {
             namaFile = infoFile.fileName();
             this->bacaFileAlldeb(uriFile);
             this->titleofWindow(namaFile);
         }
-    }
-    else
-    {
+    } else {
         //QFile terbuka(isiKotakFile);
         QFileInfo berkas(isiKotakFile); //berkas saat ini
         uriFile = QFileDialog::getOpenFileName(this,tr("Pilih satu file Alldeb"),
-                                                berkas.absolutePath(),tr("File AllDeb (*.alldeb)"));
+                                               berkas.absolutePath(),tr("File AllDeb (*.alldeb)"));
         QFileInfo infoFile(uriFile);
-        if(!uriFile.isNull())
-        {
+        if (!uriFile.isNull()) {
             namaFile = infoFile.fileName();
             this->bacaFileAlldeb(uriFile);
             this->titleofWindow(namaFile);
@@ -183,27 +176,21 @@ void Dialog::on_btnInstal_clicked()
     int indekStak = ui->stackedWidget->currentIndex();
     //int jumlah = ui->stackedWidget->count();
 
-    if(indekStak == 0 && (ui->labelJumlahNilai->text().isEmpty() || !namaFile.isEmpty()))
-    {
+    if (indekStak == 0 && (ui->labelJumlahNilai->text().isEmpty() || !namaFile.isEmpty())) {
         QStringList variabel;
         variabel << "-tzf" << profil.absoluteFilePath();
         daftarFile->start(programTar, variabel);
         daftarFile->setReadChannel(QProcess::StandardOutput);
         //ui->btnInstal->setDisabled(false);
-    }
-    else if(indekStak == 1)
-    {
+    } else if (indekStak == 1) {
         ui->btnInstal->setText(tr("Instal"));
         ui->btnInstal->setIcon(QIcon::fromTheme("download"));
-        if(ui->infoPaket->toPlainText().isEmpty())
-        {
+        if (ui->infoPaket->toPlainText().isEmpty()) {
             ui->infoPaket->setPlainText(tr("Anda akan menjalankan perintah berikut ini:"));
             ui->infoPaket->appendPlainText(perintahAptget);
             ui->infoPaket->appendPlainText("------------------------------");
         }
-    }
-    else if(fileSah && indekStak == 2)
-    {
+    } else if (fileSah && indekStak == 2) {
         ui->progressBar->show();
         //ui->infoPaket->appendPlainText("=================");
         ekstraksi = new QProcess(this);
@@ -217,11 +204,12 @@ void Dialog::on_btnInstal_clicked()
         connect(ekstraksi,SIGNAL(error(QProcess::ProcessError)),this,SLOT(prosesGagal()));
         connect(ekstraksi,SIGNAL(finished(int)),this,SLOT(buatInfo()));
         ui->btnInstal->setDisabled(true);
+        ui->btnMundur->setDisabled(true);
         fileSah = false;
         ui->btnKeluarProg->setDisabled(true);
     }
 
-    if(!ui->btnMundur->isEnabled())
+    if (!ui->btnMundur->isEnabled())
         ui->btnMundur->setEnabled(true);
 
     //qDebug() << indekStak;
@@ -240,12 +228,9 @@ void Dialog::on_btnMundur_clicked()
 {
     //int indekStak = ui->stackedWidget->currentIndex();
 
-    if(ui->stackedWidget->currentWidget() == ui->page_2)
-    {
+    if (ui->stackedWidget->currentWidget() == ui->page_2) {
         ui->btnMundur->setDisabled(true);
-    }
-    else if(ui->btnInstal->text() == tr("Instal"))
-    {
+    } else if (ui->btnInstal->text() == tr("Instal")) {
         ui->btnInstal->setText(tr("Lanjut"));
         ui->btnInstal->setIcon(QIcon::fromTheme("go-next"));
         ui->btnInstal->setDisabled(false);
@@ -272,17 +257,14 @@ void Dialog::on_btnReport_clicked()
                        "Bug di Launchpad.\nMohon maaf atas ketidaknyamanan ini.")
                         .arg(QDir::homePath());
     //QTextStream kesalahan(&laporan);
-    if(!laporan.exists())
-    {
+    if (!laporan.exists()) {
         laporan.open(QIODevice::WriteOnly);
         laporan.write(galat.toLatin1());
         laporan.close();
 
         ui->infoPaket->show();
         ui->infoPaket->setPlainText(pesan);
-    }
-    else
-    {
+    } else {
         QMessageBox tanyaHapus;
         tanyaHapus.setWindowTitle(tr("Timpa file laporan?"));
         tanyaHapus.setText(tr("File laporan sudah ada.\nApakah anda ingin menimpa file laporan tersebut?"));
@@ -312,13 +294,12 @@ void Dialog::on_btnReport_clicked()
  */
 void Dialog::bacaFileAlldeb(QString uri)
 {
-    if(!uri.isNull())
-    {
+    if (!uri.isNull()) {
         //ui->tempatFile->setText(namaFile);
         profil.setFile(uri);
         namaProfil = profil.completeBaseName();
 
-        if(!QDir(ruangKerja+"/"+namaProfil).exists()){
+        if (!QDir(ruangKerja+"/"+namaProfil).exists()){
             QDir().mkdir(ruangKerja+"/"+namaProfil);
         }
 
@@ -326,13 +307,10 @@ void Dialog::bacaFileAlldeb(QString uri)
          * Memeriksa apakah folder temporer sudah berisi keterangan_alldeb.txt
          * jika sudah, maka tidak perlu ekstrak lagi
          */
-        if(QFile(ruangKerja+"/"+namaProfil+"/keterangan_alldeb.txt").exists())
-        {
+        if (QFile(ruangKerja+"/"+namaProfil+"/keterangan_alldeb.txt").exists()) {
             //ui->infoPaket->setPlainText(bacaTeks(ruangKerja+"/"+namaProfil+"/keterangan_alldeb.txt"));
             bacaInfoFile();
-        }
-        else
-        {
+        } else {
             QStringList argumen;
             argumen << "-xzf" << uri << "--directory="+ruangKerja+"/"+namaProfil << "keterangan_alldeb.txt";
             ekstrak->start(programTar, argumen);
@@ -358,8 +336,7 @@ QString Dialog::bacaUkuran(qint64 jumlah)
     QStringListIterator i(list);
     QString unit = tr("bytes");
 
-    while(num >= 1000.0 && i.hasNext())
-    {
+    while (num >= 1000.0 && i.hasNext()) {
         unit = i.next();
         num /= 1000.0;
     }
@@ -380,10 +357,8 @@ QString Dialog::bacaUkuran(qint64 jumlah)
 QString Dialog::bacaTeks(QString berkas,int enume)
 {
     QFile namaBerkas(berkas);
-    if(!berkas.isEmpty() && !enume)
-    {
-        if (namaBerkas.exists() && namaBerkas.open(QIODevice::ReadOnly | QIODevice::Text))
-        {
+    if (!berkas.isEmpty() && !enume) {
+        if (namaBerkas.exists() && namaBerkas.open(QIODevice::ReadOnly | QIODevice::Text)) {
             QTextStream stream(&namaBerkas);
             QString semuaIsi;
             while (!stream.atEnd()){
@@ -394,15 +369,11 @@ QString Dialog::bacaTeks(QString berkas,int enume)
             namaBerkas.close();
             return 0;   //inilah senjata mujarab untuk menghilangkan:
                         //warning: control reaches end of non-void function [-Wreturn-type]
-        }
-        else
-        {
+        } else {
             QString galat = tr("Terjadi kesalahan");
             return galat;
         }
-    }
-    else if(enume == 1)
-    {
+    } else if (enume == 1) {
         namaBerkas.open(QIODevice::ReadOnly | QIODevice::Text);
 
         QTextStream stream1(&namaBerkas);
@@ -417,9 +388,7 @@ QString Dialog::bacaTeks(QString berkas,int enume)
         return paket;
         namaBerkas.close();
         return(0);
-    }
-    else
-    {
+    } else {
         QString kosong = berkas+" tidak ada";
         return kosong;
     }
@@ -437,8 +406,7 @@ void Dialog::buatInfo()
 {
     QString berkasSumber=ruangKerja+"/config/source_sementara.list";
     QFile source( berkasSumber );
-    if ( source.open(QIODevice::WriteOnly) )
-    {
+    if ( source.open(QIODevice::WriteOnly) ) {
         QTextStream stream( &source );
         stream << "deb file:"+ruangKerja+" "+namaProfil+"/" << endl;      //penyebab kegagalan
     }
@@ -446,8 +414,7 @@ void Dialog::buatInfo()
     //cek apt-ftparchive dan dpkg-scanpackages
     QFile ftpArchive("/usr/bin/apt-ftparchive");
     QFile scanPackages("/usr/bin/dpkg-scanpackages");
-    if(ftpArchive.exists())
-    {
+    if (ftpArchive.exists()) {
         //apt-ftparchive packages . 2>/dev/null | gzip > ./Packages.gz
         QStringList arg4;
         arg4 << "-c" << "apt-ftparchive packages "+namaProfil+"/ 2>/dev/null | gzip > "
@@ -458,26 +425,22 @@ void Dialog::buatInfo()
         //qDebug() << argumen5;
 
 
-        if(!QDir(ruangKerja+"/part.d").exists()){
+        if (!QDir(ruangKerja+"/part.d").exists()) {
             QDir().mkdir(ruangKerja+"/part.d");
         }
-        if(!QDir(ruangKerja+"/lists").exists()){
+        if (!QDir(ruangKerja+"/lists").exists()) {
             QDir().mkdir(ruangKerja+"/lists");
         }
-        if(!QDir(ruangKerja+"/lists/partial").exists()){
+        if (!QDir(ruangKerja+"/lists/partial").exists()) {
             QDir().mkdir(ruangKerja+"/lists/partial");
         }
 
 
-    }
-    else if(scanPackages.exists())
-    {
+    } else if (scanPackages.exists()) {
         //BELUM ADA PROSES
         //karena dependensi paket sudah menyertakan apt-utils, maka apt-ftparchive akan selalu ada
         //ini bisa dijadikan opsi
-    }
-    else
-    {
+    } else {
         QMessageBox::warning(this,tr("Tidak bisa memeriksa"),
                              tr("Tanpa program pemindai paket, proses ini tidak bisa dilanjutkan.\n"
                                 "Program yang dimaksud adalah apt-ftparchive (dari paket apt-utils) "
@@ -497,11 +460,9 @@ void Dialog::bacaFile()
     QStringList daftarIsi;
     QString daftar(daftarFile->readAllStandardOutput());
     daftarIsi = daftar.split("\n");
-    if(daftarIsi.contains("keterangan_alldeb.txt"))
-    {
+    if (daftarIsi.contains("keterangan_alldeb.txt")) {
         fileSah = true;
-        if(ui->daftarPaket->count() != 0)
-        {
+        if (ui->daftarPaket->count() != 0) {
             ui->daftarPaket->clear();
         }
 
@@ -520,7 +481,7 @@ void Dialog::bacaFile()
 
         QCryptographicHash crypto(QCryptographicHash::Md5);
         filePaket.open(QFile::ReadOnly);
-        while(!filePaket.atEnd()){
+        while (!filePaket.atEnd()) {
             crypto.addData(filePaket.readAll());
         }
 
@@ -529,8 +490,7 @@ void Dialog::bacaFile()
         ui->labelMd5Nilai->setText("<html><head/><body><p><span style=\" font-weight:600;\">"+sums+"</span></p></body></html>");
         filePaket.close();
 
-        if(daftar.contains("ttf-mscorefonts-installer") || daftar.contains("mysql") || daftar.contains("phpmyadmin"))
-        {
+        if (daftar.contains("ttf-mscorefonts-installer") || daftar.contains("mysql") || daftar.contains("phpmyadmin")) {
             //menangani debconf, untuk saat ini menggunakan metode ini dulu
             debconf = true;
         }
@@ -578,22 +538,30 @@ void Dialog::bacaInfoFile()
  */
 void Dialog::bacaInfo()
 {
-    if(sandiGui != "none" && polkitAgent)
-    {
+    if (sandiGui != "none") {
         QString output(buatPaketInfo->readAllStandardOutput());
         ui->infoPaket->appendPlainText(output);
 
         QStringList arg1;
-        arg1 << "--disable-internal-agent" << "--user" << "root" << "apt-get"
-             << "-o" << "dir::etc::sourcelist="+ruangKerja+"/config/source_sementara.list"
-             << "-o" << "dir::etc::sourceparts="+ruangKerja+"/part.d"
-             << "-o" << "dir::state::lists="+ruangKerja+"/lists" << "update";
+        arg1 << "apt-get"
+             << "-o" << "Dir::Etc::Sourcelist="+ruangKerja+"/config/source_sementara.list"
+             << "-o" << "Dir::Etc::Sourceparts="+ruangKerja+"/part.d"
+             << "-o" << "Dir::State::Lists="+ruangKerja+"/lists" << "update";
         apt_get1->setWorkingDirectory(ruangKerja);
         apt_get1->setProcessChannelMode(QProcess::MergedChannels);
-        apt_get1->start("pkexec", arg1, QIODevice::ReadWrite);
-    }
-    else
-    {
+        if (polkitAgent) {
+            apt_get1->start("pkexec", QStringList() << "--disable-internal-agent" << "--user" << "root" << arg1, QIODevice::ReadWrite);
+        } else {
+            QString pesanMintaSandi = tr("AllDeb Installer membutuhkan kata sandi root untuk menjalankan operasi ini.");
+            if (sandiGui == "kdesudo") {
+                apt_get1->start(sandiGui,QStringList() << "-u" << "root" << "-d" << "--noignorebutton"
+                                << "--comment" << pesanMintaSandi << "-c" << arg1.join(" ") << "--");
+            } else {
+                apt_get1->start(sandiGui,QStringList() << "-u" << "root" << "--message"
+                                << pesanMintaSandi << arg1.join(" "));
+            }
+        }
+    } else {
         apt_get1->start("x-terminal-emulator",QStringList() << "-e" << perintahAptget);
     }
 }
@@ -623,21 +591,18 @@ void Dialog::bacaHasilPerintah()
 {
     QString output(apt_get2->readAll());
     ui->infoPaket->appendPlainText(output.simplified());
-    if(!output.isEmpty())
-    {
+    if (!output.isEmpty()) {
         ui->labelStatus->setText(output.simplified());
     }
     ui->progressBar->setValue(ui->progressBar->value()+1);
-    if(output.contains("E:") || output.contains("Err")){
+    if (output.contains("E:") || output.contains("Err")) {
         QString pesanErrorApt = tr("Instalasi Gagal");
         ui->infoPaket->appendPlainText("=================");
         ui->infoPaket->appendPlainText(pesanErrorApt);
         ui->labelStatus->setText(pesanErrorApt);
-        prosesGagal();
+        this->prosesGagal();
         berhasil = false;
-    }
-    else
-    {
+    } else {
         berhasil = true;
     }
 }
@@ -648,29 +613,25 @@ void Dialog::bacaHasilPerintah()
  * Fungsi untuk menjalankan apt-get install paket
  *
  */
-void Dialog::instalPaket()
+void Dialog::instalPaket(int kode)
 {
     QFile infoFile(ruangKerja+"/"+namaProfil+"/keterangan_alldeb.txt");
 
     //QStringRef cari1;
-    if (infoFile.exists() && infoFile.open(QIODevice::ReadOnly | QIODevice::Text))
-    {
+    if (infoFile.exists() && infoFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
         //QString paketTermuat = bacaTeks(ruangKerja+"/"+namaProfil+"/keterangan_alldeb.txt",1);
         QStringList arg2;
         QStringList arg3;
 
-        if(paketPaket.contains(" "))
-        {
+        if (paketPaket.contains(" ")) {
             arg3 << paketPaket.split(" ");
-        }
-        else
-        {
+        } else {
             arg3 << paketPaket;
         }
-        arg2 << "apt-get" << "-o" << "Dir::Etc::Sourcelist="+ruangKerja+
-                "/config/source_sementara.list" << "-o" << "Dir::Etc::Sourceparts="+ruangKerja+
-                "/part.d" << "-o" << "Dir::State::Lists="+ruangKerja+"/lists" << "install" <<
-                "--allow-unauthenticated" << "-y"; // simulasi: << "-s"
+        arg2 << "apt-get" << "-o" << "Dir::Etc::Sourcelist="+ruangKerja+"/config/source_sementara.list"
+             << "-o" << "Dir::Etc::Sourceparts="+ruangKerja+"/part.d"
+             << "-o" << "Dir::State::Lists="+ruangKerja+"/lists" << "install"
+             << "--allow-unauthenticated" << "-y"; // simulasi: << "-s"
 
         arg2.append(arg3);
 
@@ -686,36 +647,35 @@ void Dialog::instalPaket()
             //connect(debconff,SIGNAL(finished(int)),this,SLOT(hapusTemporer()));
             //connect(debconff,SIGNAL(finished(int)),this,SLOT(progresSelesai()));
             berhasil = true;
-            this->progresSelesai();
-        } else if(polkitAgent) {
-            if (apt_get1->exitCode() == 126 || apt_get1->exitCode() == 127) {
-                this->prosesGagal();
+            this->progresSelesai(0);
+        } else if (polkitAgent) {
+            if (kode == 126 || kode == 127) {
+                //this->prosesGagal();
+                ui->infoPaket->appendPlainText("--------------------------");
+                polkitAgent = false;
+                this->bacaInfo();
             } else {
                 arg2.prepend("root");
                 arg2.prepend("--user");
                 apt_get2->start("pkexec",arg2,QIODevice::ReadWrite);
                 //qDebug() << arg2;
             }
-        }
-        else
-        {
-            arg2.prepend("root");
-            arg2.prepend("-u");
-            if(sandiGui == "kdesudo")
-            {
-                apt_get2->start(sandiGui,arg2,QIODevice::ReadWrite);
+        } else {
+            //arg2.prepend("root");
+            //arg2.prepend("-u");
+            QString pesanOtentikasi = tr("AllDeb Installer membutuhkan kata sandi root untuk menjalankan operasi ini.");
+            if (sandiGui == "kdesudo") {
+                apt_get2->start(sandiGui,QStringList() << "-u" << "root" << "-d" << "--noignorebutton"
+                                << "--comment" << pesanOtentikasi << "-c" << arg2.join(" ") << "--");
+            } else {
+                apt_get2->start(sandiGui,QStringList() << "-u" << "root" << "--message"
+                                << pesanOtentikasi << arg2.join(" "));
             }
-            else
-            {
-                apt_get2->start(sandiGui,QStringList() << arg2.join(" "),QIODevice::ReadWrite);
-            }
+            //qDebug() << arg2;
         }
         infoFile.close();
         //qDebug() << apt_get1->exitCode();
-    }
-
-    else
-    {
+    } else {
         ui->infoPaket->appendPlainText(tr("Terjadi kesalahan"));
         ui->labelStatus->setText(tr("Terjadi Kesalahan"));
     }
@@ -734,8 +694,7 @@ void Dialog::hapusTemporer()
     QDir dir(ruangKerja+"/"+namaProfil);
     dir.setNameFilters(QStringList() << "*.deb");
     dir.setFilter(QDir::Files);
-    foreach(QString fileDeb, dir.entryList())
-    {
+    foreach (QString fileDeb, dir.entryList()) {
         dir.remove(fileDeb);
     }
 }
@@ -769,7 +728,7 @@ void Dialog::prosesGagal()
     QString pesanGagal = tr("Proses instalasi gagal. Silakan laporkan kesalahan ini dengan "
                             "mengklik tombol Laporkan di bawah ini\n");
     QString tanggal = tr("Laporan dibuat pada %1")
-            .arg(QDate::currentDate().toString("dddd, dd MMMM yyyy"));
+                        .arg(QDate::currentDate().toString("dddd, dd MMMM yyyy"));
 
     ui->infoPaket->appendPlainText("=================");
     ui->infoPaket->appendPlainText(tanggal);
@@ -788,21 +747,17 @@ void Dialog::prosesGagal()
  * Fungsi untuk mengeset progressbar ke 100%
  *
  */
-void Dialog::progresSelesai()
+void Dialog::progresSelesai(int kode)
 {
-    if(berhasil)
-    {
+    if (berhasil || kode != 1) {
         ui->progressBar->setValue(jml*4+10);
-        if(debconf)
-        {
+        if (debconf) {
             QString pesanDipindah = tr("Proses dipindahkan ke terminal emulator");
             ui->infoPaket->appendPlainText("---------------------");
             ui->infoPaket->appendPlainText(pesanDipindah);
             ui->labelStatus->setText(pesanDipindah);
             debconf = false;
-        }
-        else
-        {
+        } else {
             QString pesanSelesai = tr("Proses telah selesai");
             ui->infoPaket->appendPlainText("---------------------");
             ui->infoPaket->appendPlainText(pesanSelesai);
@@ -811,7 +766,12 @@ void Dialog::progresSelesai()
         QTimer::singleShot(2000,this,SLOT(prosesSelesai()));
         ui->btnKeluarProg->setText(tr("Keluar"));
         ui->btnMundur->setDisabled(true);
+    } else {
+        ui->infoPaket->setPlainText(tr("Permintaan kata sandi dibatalkan pengguna."));
+        this->prosesGagal();
     }
+
+    //qDebug() << kode;
 }
 
 void Dialog::progresEkstrak()
@@ -825,8 +785,7 @@ void Dialog::progresEkstrak()
 void Dialog::memilihFile()
 {
     //mengumpulkan perintah jika tombol pilih file diklik dan ui->tempatFile berubah isinya
-    if(!isiKotakFile.isEmpty() || !ui->btnInstal->isEnabled())
-    {
+    if (!isiKotakFile.isEmpty() || !ui->btnInstal->isEnabled()) {
         ui->btnInstal->setDisabled(false);
         //ui->btnMundur->setDisabled(false);
         //ui->btnSalinIns->setDisabled(false);
@@ -865,8 +824,7 @@ void Dialog::titleofWindow(QString name)
 //    namaFile = berkasAlldeb.absoluteFilePath();
 //    QString berkas = berkasAlldeb.fileName();
 //    QString judul;
-    if(name.size() > 36)
-    {
+    if (name.size() > 36) {
         //berkas.resize(20);
         QString akhiran = name.right(13);
         name = QString("%1...%2").arg(name.left(20),akhiran);
@@ -933,18 +891,14 @@ void Dialog::buatMenu()
     //qDebug() << bahasa;
 
     // Memilih bahasa Inggris jika sistem bukan dalam locale Indonesia
-    if(bahasa == "id")
-    {
+    if (bahasa == "id") {
         indBahasa->setChecked(true);
-    }
-    else
-    {
+    } else {
         engBahasa->setChecked(true);
         terjemahan.load("alldeb_en","/usr/share/alldeb/installer/lang");    //+bahasa,
         qApp->installTranslator(&terjemahan);
         ui->retranslateUi(this);
         tentangProgram->gantiBahasa();
-
     }
 }
 
@@ -968,8 +922,7 @@ void Dialog::gantiBahasa(QAction *aksi)
 
 void Dialog::changeEvent(QEvent *ev)
 {
-    if(ev->type() == QEvent::LanguageChange)
-    {
+    if (ev->type() == QEvent::LanguageChange) {
         ui->retranslateUi(this);
         tentangProgram->gantiBahasa();
 
@@ -991,8 +944,7 @@ void Dialog::closeEvent(QCloseEvent *event)
     event->ignore();
 
     //emit this->on_btnKeluarProg_clicked();
-    if((!namaFile.isEmpty() || !isiKotakFile.isEmpty()) && !berhasil)
-    {
+    if ((!namaFile.isEmpty() || !isiKotakFile.isEmpty()) && !berhasil) {
         QMessageBox tanyaHapus;
         tanyaHapus.setWindowTitle(tr("AllDebInstaller - Hapus tembolok?"));
         tanyaHapus.setText(tr("Apakah anda ingin menghapus berkas sementara di:\n")+ruangKerja+" ?");
@@ -1000,13 +952,11 @@ void Dialog::closeEvent(QCloseEvent *event)
         QPushButton *btnYes = tanyaHapus.addButton(tr("Ya"), QMessageBox::YesRole);
         tanyaHapus.addButton(tr("Tidak"),QMessageBox::NoRole);
         tanyaHapus.exec();
-        if(tanyaHapus.clickedButton() == btnYes)
-        {
+        if (tanyaHapus.clickedButton() == btnYes) {
             QDir dir(ruangKerja+"/"+namaProfil);
             dir.setNameFilters(QStringList() << "keterangan_alldeb.txt" << "Packages.gz");
             dir.setFilter(QDir::Files);
-            foreach(QString fileDeb, dir.entryList())
-            {
+            foreach (QString fileDeb, dir.entryList()) {
                 dir.remove(fileDeb);
             }
             QDir().rmdir(ruangKerja+"/"+namaProfil);
@@ -1040,33 +990,16 @@ void Dialog::cekSistem()
     QFile pkexec("/usr/bin/pkexec");
     QFile kdesudo("/usr/bin/kdesudo");
     QFile gksudo("/usr/bin/gksudo");
-    /**
-     * @brief cekKDEPlasma
-     * Proses untuk mencari tahu sesi desktop saat ini
-     *
-     *
-    QProcess cekKDEPlasma;
-    cekKDEPlasma.start("echo $GDMSESSION");
-    cekKDEPlasma.waitForBytesWritten();
-    cekKDEPlasma.waitForFinished();
-    QString session = cekKDEPlasma.readAll();
-    */
 
-    if(pkexec.exists())
-    {
+    if (pkexec.exists()) {
         polkitAgent = true;
     }
 
-    if(kdesudo.exists())
-    {
+    if (kdesudo.exists()) {
         sandiGui = "kdesudo";
-    }
-    else if(gksudo.exists())
-    {
+    } else if (gksudo.exists()) {
         sandiGui = "gksudo";
-    }
-    else
-    {
+    } else {
         sandiGui = "none";  //Tidak ada prompter sandi
     }
 

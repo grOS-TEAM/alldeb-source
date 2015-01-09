@@ -35,25 +35,20 @@
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Sans Serif&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;File alldeb bisa anda peroleh dari:&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://bengkelubuntu.org&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;http://bengkelubuntu.org&lt;/span&gt;&lt;/a&gt; atau:&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://ubuntu-indonesia.com/forums/ubbthreads.php/topics/131713/1&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;http://ubuntu-indonesia.com/forums/ubbthreads.php/topics/131713/1&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://bengkelubuntu.org&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0057ae;&quot;&gt;http://bengkelubuntu.org&lt;/span&gt;&lt;/a&gt; atau:&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://ubuntu-indonesia.com/forums/ubbthreads.php/topics/131713/1&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0057ae;&quot;&gt;http://ubuntu-indonesia.com/forums/ubbthreads.php/topics/131713/1&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Jika anda mempunyai file alldeb yang diperoleh dari tautan di atas, maka cukup klik kanan file tersebut lalu pilih &lt;span style=&quot; font-style:italic;&quot;&gt;Open With AllDeb Installer&lt;/span&gt;.&lt;/p&gt;
 &lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Lalu klik Next untuk melihat isi file Alldeb. Lalu klik Next lagi untuk lanjut. Terakhir, klik Instal untuk memulai instalasi. Nanti akan diminta kata sandi sebanyak dua kali.&lt;/p&gt;
 &lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Jika ada kesalahan, anda bisa melaporkan file yang dibuat oleh program ini kepada kami.&lt;/p&gt;
 &lt;hr /&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;File alldeb dibuat dengan &lt;span style=&quot; font-style:italic;&quot;&gt;alldeb_maker&lt;/span&gt;. Keterangan lengkap tentang alldeb ada di sini:&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://ubuntu-indonesia.com/forums/ubbthreads.php/topics/129832/1&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;http://ubuntu-indonesia.com/forums/ubbthreads.php/topics/129832/1&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://ubuntu-indonesia.com/forums/ubbthreads.php/topics/129832/1&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0057ae;&quot;&gt;http://ubuntu-indonesia.com/forums/ubbthreads.php/topics/129832/1&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;atau:&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://bengkelubuntu.org/tentang/apa-itu-alldeb/
-&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;http://bengkelubuntu.org/tentang/apa-itu-alldeb/&lt;/span&gt;&lt;/a&gt;&lt;br /&gt;&lt;/p&gt;
+&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0057ae;&quot;&gt;http://bengkelubuntu.org/tentang/apa-itu-alldeb/&lt;/span&gt;&lt;/a&gt;&lt;br /&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Skrip &lt;span style=&quot; font-style:italic;&quot;&gt;alldeb_maker&lt;/span&gt; sudah memiliki PPA di:&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://launchpad.net/~faqihjakha/+archive/sikucinglewat&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;https://launchpad.net/~faqihjakha/+archive/sikucinglewat&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://launchpad.net/~faqihjakha/+archive/sikucinglewat&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0057ae;&quot;&gt;https://launchpad.net/~faqihjakha/+archive/sikucinglewat&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/about.ui" line="151"/>
-        <source>Tentang Program</source>
-        <translation>About Program</translation>
     </message>
     <message>
         <location filename="../ui/about.ui" line="163"/>
@@ -62,10 +57,26 @@ p, li { white-space: pre-wrap; }
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Sans Serif&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Program ini merupakan versi GUI untuk skrip alldeb_user. Versi GUI lainnya ditulis dengan toolkit FLTK:&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://ubuntu-indonesia.com/forums/ubbthreads.php/topics/147894/1&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0057ae;&quot;&gt;http://ubuntu-indonesia.com/ forums/ubbthreads.php/topics/147894/1&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Blog AllDeb Installer: &lt;a href=&quot;https://alldebins.wordpress.com&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0057ae;&quot;&gt;https://alldebins.wordpress.com&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Lisensi: GPLv3&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/about.ui" line="151"/>
+        <source>Tentang Program</source>
+        <translation>About Program</translation>
+    </message>
+    <message>
+        <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Sans Serif&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Program ini merupakan versi GUI untuk skrip alldeb_user. Versi GUI lainnya ditulis dengan toolkit FLTK:&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://ubuntu-indonesia.com/forums/ubbthreads.php/topics/147894/1&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0057ae;&quot;&gt;http://ubuntu-indonesia.com/forums/ubbthreads.php/topics/147894/1&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Lisensi: GPLv3&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+        <translation type="obsolete">&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Sans Serif&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
@@ -180,172 +191,196 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../ui/dialog.ui" line="391"/>
-        <location filename="../src/dialog.cpp" line="156"/>
-        <location filename="../src/dialog.cpp" line="247"/>
+        <location filename="../src/dialog.cpp" line="150"/>
+        <location filename="../src/dialog.cpp" line="234"/>
         <source>Lanjut</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/dialog.cpp" line="128"/>
-        <location filename="../src/dialog.cpp" line="142"/>
+        <location filename="../src/dialog.cpp" line="126"/>
+        <location filename="../src/dialog.cpp" line="137"/>
         <source>Pilih satu file Alldeb</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/dialog.cpp" line="129"/>
-        <location filename="../src/dialog.cpp" line="143"/>
+        <location filename="../src/dialog.cpp" line="127"/>
+        <location filename="../src/dialog.cpp" line="138"/>
         <source>File AllDeb (*.alldeb)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/dialog.cpp" line="195"/>
-        <location filename="../src/dialog.cpp" line="245"/>
+        <location filename="../src/dialog.cpp" line="186"/>
+        <location filename="../src/dialog.cpp" line="233"/>
         <source>Instal</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/dialog.cpp" line="199"/>
+        <location filename="../src/dialog.cpp" line="189"/>
         <source>Anda akan menjalankan perintah berikut ini:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/dialog.cpp" line="276"/>
+        <location filename="../src/dialog.cpp" line="337"/>
+        <source>bytes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/dialog.cpp" line="373"/>
+        <location filename="../src/dialog.cpp" line="679"/>
+        <source>Terjadi kesalahan</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/dialog.cpp" line="502"/>
+        <source>Galat</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/dialog.cpp" line="503"/>
+        <source>Tampaknya ini bukanlah file Alldeb. Mohon jangan dilanjutkan!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/dialog.cpp" line="523"/>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;h2&gt;Instalasi paket&lt;/h2&gt;&lt;p&gt;Anda akan menginstal meta-paket berikut ini:&lt;/p&gt;&lt;p&gt;&lt;strong&gt;%1&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;p&gt;Selalu pastikan file ini diperoleh dari sumber yang terpercaya.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/dialog.cpp" line="444"/>
+        <source>Tidak bisa memeriksa</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/dialog.cpp" line="255"/>
         <source>File laporan sudah dibuat di:
 %1
-Bernama alldeb-report.txt
+Dengan nama &apos;alldeb-report.txt&apos;
 
 Silakan kirimkan ke surel pengembang atau ke laman pelaporan Bug di Launchpad.
 Mohon maaf atas ketidaknyamanan ini.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/dialog.cpp" line="338"/>
-        <source>bytes</source>
+        <location filename="../src/dialog.cpp" line="269"/>
+        <source>Timpa file laporan?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/dialog.cpp" line="379"/>
-        <location filename="../src/dialog.cpp" line="675"/>
-        <source>Terjadi kesalahan</source>
+        <location filename="../src/dialog.cpp" line="270"/>
+        <source>File laporan sudah ada.
+Apakah anda ingin menimpa file laporan tersebut?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/dialog.cpp" line="460"/>
-        <source>Galat</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/dialog.cpp" line="461"/>
-        <source>Tampaknya ini bukanlah file Alldeb. Mohon jangan dilanjutkan!</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/dialog.cpp" line="481"/>
-        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;h2&gt;Instalasi paket&lt;/h2&gt;&lt;p&gt;Anda akan menginstal meta-paket berikut ini:&lt;/p&gt;&lt;p&gt;&lt;strong&gt;%1&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;p&gt;Selalu pastikan file ini diperoleh dari sumber yang terpercaya.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/dialog.cpp" line="564"/>
-        <source>Tidak bisa memeriksa</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/dialog.cpp" line="565"/>
+        <location filename="../src/dialog.cpp" line="445"/>
         <source>Tanpa program pemindai paket, proses ini tidak bisa dilanjutkan.
 Program yang dimaksud adalah apt-ftparchive (dari paket apt-utils) atau dpkg-scan-packages</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/dialog.cpp" line="603"/>
+        <location filename="../src/dialog.cpp" line="599"/>
         <source>Instalasi Gagal</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/dialog.cpp" line="676"/>
+        <location filename="../src/dialog.cpp" line="555"/>
+        <location filename="../src/dialog.cpp" line="666"/>
+        <source>AllDeb Installer membutuhkan kata sandi root untuk menjalankan operasi ini.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/dialog.cpp" line="680"/>
         <source>Terjadi Kesalahan</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/dialog.cpp" line="725"/>
+        <location filename="../src/dialog.cpp" line="728"/>
         <source>Proses instalasi gagal. Silakan laporkan kesalahan ini dengan mengklik tombol Laporkan di bawah ini
 </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/dialog.cpp" line="727"/>
+        <location filename="../src/dialog.cpp" line="730"/>
         <source>Laporan dibuat pada %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/dialog.cpp" line="736"/>
-        <location filename="../src/dialog.cpp" line="768"/>
+        <location filename="../src/dialog.cpp" line="739"/>
+        <location filename="../src/dialog.cpp" line="767"/>
         <source>Keluar</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/dialog.cpp" line="754"/>
+        <location filename="../src/dialog.cpp" line="755"/>
         <source>Proses dipindahkan ke terminal emulator</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/dialog.cpp" line="762"/>
+        <location filename="../src/dialog.cpp" line="761"/>
         <source>Proses telah selesai</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/dialog.cpp" line="776"/>
-        <location filename="../src/dialog.cpp" line="777"/>
+        <location filename="../src/dialog.cpp" line="770"/>
+        <source>Permintaan kata sandi dibatalkan pengguna.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/dialog.cpp" line="780"/>
+        <location filename="../src/dialog.cpp" line="781"/>
         <source>Mengekstrak: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/dialog.cpp" line="845"/>
+        <location filename="../src/dialog.cpp" line="847"/>
         <source>Perihal</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/dialog.cpp" line="847"/>
+        <location filename="../src/dialog.cpp" line="849"/>
         <source>Panduan</source>
         <translation type="unfinished">Guide</translation>
     </message>
     <message>
-        <location filename="../src/dialog.cpp" line="849"/>
+        <location filename="../src/dialog.cpp" line="851"/>
         <source>Tentang Qt</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/dialog.cpp" line="851"/>
+        <location filename="../src/dialog.cpp" line="853"/>
         <source>Laporkan Kutu</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/dialog.cpp" line="855"/>
+        <location filename="../src/dialog.cpp" line="857"/>
         <source>Bahasa Indonesia</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/dialog.cpp" line="858"/>
+        <location filename="../src/dialog.cpp" line="860"/>
         <source>Bahasa Inggris</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/dialog.cpp" line="953"/>
+        <location filename="../src/dialog.cpp" line="949"/>
         <source>AllDebInstaller - Hapus tembolok?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/dialog.cpp" line="954"/>
+        <location filename="../src/dialog.cpp" line="950"/>
         <source>Apakah anda ingin menghapus berkas sementara di:
 </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/dialog.cpp" line="956"/>
+        <location filename="../src/dialog.cpp" line="272"/>
+        <location filename="../src/dialog.cpp" line="952"/>
         <source>Ya</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/dialog.cpp" line="957"/>
+        <location filename="../src/dialog.cpp" line="273"/>
+        <location filename="../src/dialog.cpp" line="953"/>
         <source>Tidak</source>
         <translation type="unfinished"></translation>
     </message>
