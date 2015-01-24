@@ -248,7 +248,7 @@
             <bool>true</bool>
            </property>
            <property name="textInteractionFlags">
-            <set>Qt::NoTextInteraction</set>
+            <set>Qt::TextSelectableByMouse</set>
            </property>
           </widget>
          </item>

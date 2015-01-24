@@ -176,6 +176,9 @@ void Dialog::on_btnInstal_clicked()
     int indekStak = ui->stackedWidget->currentIndex();
     //int jumlah = ui->stackedWidget->count();
 
+    if (!ui->btnMundur->isEnabled())
+        ui->btnMundur->setEnabled(true);
+
     if (indekStak == 0 && (ui->labelJumlahNilai->text().isEmpty() || !namaFile.isEmpty())) {
         QStringList variabel;
         variabel << "-tzf" << profil.absoluteFilePath();
@@ -208,9 +211,6 @@ void Dialog::on_btnInstal_clicked()
         fileSah = false;
         ui->btnKeluarProg->setDisabled(true);
     }
-
-    if (!ui->btnMundur->isEnabled())
-        ui->btnMundur->setEnabled(true);
 
     //qDebug() << indekStak;
     //qDebug() << jumlah;

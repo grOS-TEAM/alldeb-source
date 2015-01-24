@@ -28,6 +28,28 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../ui/about.ui" line="120"/>
+        <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Sans Serif&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;File alldeb bisa anda peroleh dari:&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://bengkelubuntu.org&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0057ae;&quot;&gt;http://bengkelubuntu.org&lt;br /&gt;&lt;/span&gt;&lt;/a&gt;atau:&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://ubuntu-indonesia.com/forums/ubbthreads.php/topics/131713/1&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0057ae;&quot;&gt;http://ubuntu-indonesia.com/forums/ubbthreads.php/topics/131713/1&lt;br /&gt;&lt;/span&gt;&lt;/a&gt;dan&lt;br /&gt;&lt;a href=&quot;https://alldebins.wordpress.com/about/reference/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0057ae;&quot;&gt;beberapa situs lainnya&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Jika anda mempunyai file alldeb yang diperoleh dari tautan di atas, maka cukup klik kanan file tersebut lalu pilih &lt;span style=&quot; font-style:italic;&quot;&gt;Open With AllDeb Installer&lt;/span&gt;.&lt;/p&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Lalu klik Next untuk melihat isi file Alldeb. Lalu klik Next lagi untuk lanjut. Terakhir, klik Instal untuk memulai instalasi. Nanti akan diminta kata sandi sebanyak dua kali.&lt;/p&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Jika ada kesalahan, anda bisa melaporkan file yang dibuat oleh program ini kepada kami.&lt;/p&gt;
+&lt;hr /&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;File alldeb dibuat dengan &lt;span style=&quot; font-style:italic;&quot;&gt;alldeb_maker&lt;/span&gt;. Keterangan lengkap tentang alldeb ada di sini:&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://ubuntu-indonesia.com/forums/ubbthreads.php/topics/129832/1&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0057ae;&quot;&gt;http://ubuntu-indonesia.com/forums/ubbthreads.php/topics/129832/1&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;atau:&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://bengkelubuntu.org/tentang/apa-itu-alldeb/
+&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0057ae;&quot;&gt;http://bengkelubuntu.org/tentang/apa-itu-alldeb/&lt;/span&gt;&lt;/a&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Skrip &lt;span style=&quot; font-style:italic;&quot;&gt;alldeb_maker&lt;/span&gt; sudah memiliki PPA di:&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://launchpad.net/~faqihjakha/+archive/sikucinglewat&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0057ae;&quot;&gt;https://launchpad.net/~faqihjakha/+archive/sikucinglewat&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../ui/about.ui" line="163"/>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
@@ -51,7 +73,7 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Slamet Badwi&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:12px; margin-bottom:2px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Laman Proyek:&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://launchpad.net/alldeb-installer&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0057ae;&quot;&gt;https://launchpad.net/alldeb-installer&lt;br /&gt;&lt;/span&gt;&lt;/a&gt;&lt;a href=&quot;https://launchpad.net/~alldeb-team&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0057ae;&quot;&gt;https://launchpad.net/~alldeb-team&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Bug tracker:&lt;/p&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Admin BengkelUbuntu.org:&lt;/p&gt;
 &lt;p style=&quot; margin-top:2px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Ade Malsasa Akbar&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:12px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Tim Penerjemahan:&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://www.transifex.com/projects/p/alldeb-installer/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0057ae;&quot;&gt;https://www.transifex.com/projects/p/alldeb-installer/&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
@@ -78,28 +100,6 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../ui/about.ui" line="108"/>
         <source>Panduan</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/about.ui" line="120"/>
-        <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Sans Serif&apos;; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;File alldeb bisa anda peroleh dari:&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://bengkelubuntu.org&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0057ae;&quot;&gt;http://bengkelubuntu.org&lt;/span&gt;&lt;/a&gt; atau:&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://ubuntu-indonesia.com/forums/ubbthreads.php/topics/131713/1&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0057ae;&quot;&gt;http://ubuntu-indonesia.com/forums/ubbthreads.php/topics/131713/1&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Jika anda mempunyai file alldeb yang diperoleh dari tautan di atas, maka cukup klik kanan file tersebut lalu pilih &lt;span style=&quot; font-style:italic;&quot;&gt;Open With AllDeb Installer&lt;/span&gt;.&lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Lalu klik Next untuk melihat isi file Alldeb. Lalu klik Next lagi untuk lanjut. Terakhir, klik Instal untuk memulai instalasi. Nanti akan diminta kata sandi sebanyak dua kali.&lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Jika ada kesalahan, anda bisa melaporkan file yang dibuat oleh program ini kepada kami.&lt;/p&gt;
-&lt;hr /&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;File alldeb dibuat dengan &lt;span style=&quot; font-style:italic;&quot;&gt;alldeb_maker&lt;/span&gt;. Keterangan lengkap tentang alldeb ada di sini:&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://ubuntu-indonesia.com/forums/ubbthreads.php/topics/129832/1&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0057ae;&quot;&gt;http://ubuntu-indonesia.com/forums/ubbthreads.php/topics/129832/1&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;atau:&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://bengkelubuntu.org/tentang/apa-itu-alldeb/
-&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0057ae;&quot;&gt;http://bengkelubuntu.org/tentang/apa-itu-alldeb/&lt;/span&gt;&lt;/a&gt;&lt;br /&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Skrip &lt;span style=&quot; font-style:italic;&quot;&gt;alldeb_maker&lt;/span&gt; sudah memiliki PPA di:&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://launchpad.net/~faqihjakha/+archive/sikucinglewat&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0057ae;&quot;&gt;https://launchpad.net/~faqihjakha/+archive/sikucinglewat&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -401,7 +401,7 @@ Apakah anda ingin menimpa file laporan tersebut?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/dialog.cpp" line="189"/>
+        <location filename="../src/dialog.cpp" line="192"/>
         <source>Anda akan menjalankan perintah berikut ini:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -435,7 +435,7 @@ Apakah anda ingin menimpa file laporan tersebut?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/dialog.cpp" line="186"/>
+        <location filename="../src/dialog.cpp" line="189"/>
         <location filename="../src/dialog.cpp" line="233"/>
         <source>Instal</source>
         <translation type="unfinished"></translation>
