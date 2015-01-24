@@ -25,3 +25,4 @@ install(FILES ${QM_files} DESTINATION ${CMAKE_INSTALL_PREFIX}/share/alldeb/insta
 install(FILES assets/alldeb-installer.desktop DESTINATION ${CMAKE_INSTALL_PREFIX}/share/applications)
 install(FILES assets/icon.svg DESTINATION ${CMAKE_INSTALL_PREFIX}/share/alldeb/icons)
 install(FILES assets/application-alldeb.svg DESTINATION ${CMAKE_INSTALL_PREFIX}/share/icons/hicolor/scalable/mimetypes)
+install(FILES assets/alldeb_maker_R2.sh DESTINATION ${CMAKE_INSTALL_PREFIX}/bin RENAME alldeb-creator)

@@ -50,7 +50,7 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;2014-2015&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Slamet Badwi&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:12px; margin-bottom:2px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Laman Proyek:&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://launchpad.net/alldeb-installer&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0057ae;&quot;&gt;https://launchpad.net/alldeb-installer&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://launchpad.net/alldeb-installer&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0057ae;&quot;&gt;https://launchpad.net/alldeb-installer&lt;br /&gt;&lt;/span&gt;&lt;/a&gt;&lt;a href=&quot;https://launchpad.net/~alldeb-team&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0057ae;&quot;&gt;https://launchpad.net/~alldeb-team&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:12px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Bug tracker:&lt;/p&gt;
 &lt;p style=&quot; margin-top:2px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Ade Malsasa Akbar&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:12px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Tim Penerjemahan:&lt;/p&gt;
@@ -265,47 +265,57 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../src/dialog.cpp" line="555"/>
-        <location filename="../src/dialog.cpp" line="666"/>
+        <location filename="../src/dialog.cpp" line="669"/>
         <source>AllDeb Installer membutuhkan kata sandi root untuk menjalankan operasi ini.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/dialog.cpp" line="730"/>
+        <location filename="../src/dialog.cpp" line="733"/>
         <source>Laporan dibuat pada %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/dialog.cpp" line="770"/>
+        <location filename="../src/dialog.cpp" line="658"/>
+        <location filename="../src/dialog.cpp" line="773"/>
         <source>Permintaan kata sandi dibatalkan pengguna.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/dialog.cpp" line="847"/>
+        <location filename="../src/dialog.cpp" line="255"/>
+        <source>File laporan sudah dibuat di:
+%1
+Dengan nama &apos;alldeb-report.txt&apos;
+
+Silakan kirimkan ke surel pengembang atau ke laman pelaporan Bug di Launchpad: https://bugs.launchpad.net/alldeb-installer/+filebug.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/dialog.cpp" line="850"/>
         <source>Perihal</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/dialog.cpp" line="849"/>
+        <location filename="../src/dialog.cpp" line="852"/>
         <source>Panduan</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/dialog.cpp" line="851"/>
+        <location filename="../src/dialog.cpp" line="854"/>
         <source>Tentang Qt</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/dialog.cpp" line="853"/>
+        <location filename="../src/dialog.cpp" line="856"/>
         <source>Laporkan Kutu</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/dialog.cpp" line="857"/>
+        <location filename="../src/dialog.cpp" line="860"/>
         <source>Bahasa Indonesia</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/dialog.cpp" line="860"/>
+        <location filename="../src/dialog.cpp" line="863"/>
         <source>Bahasa Inggris</source>
         <translation type="unfinished"></translation>
     </message>
@@ -322,16 +332,6 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/dialog.cpp" line="255"/>
-        <source>File laporan sudah dibuat di:
-%1
-Dengan nama &apos;alldeb-report.txt&apos;
-
-Silakan kirimkan ke surel pengembang atau ke laman pelaporan Bug di Launchpad.
-Mohon maaf atas ketidaknyamanan ini.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../src/dialog.cpp" line="269"/>
         <source>Timpa file laporan?</source>
         <translation type="unfinished"></translation>
@@ -344,7 +344,7 @@ Apakah anda ingin menimpa file laporan tersebut?</source>
     </message>
     <message>
         <location filename="../src/dialog.cpp" line="373"/>
-        <location filename="../src/dialog.cpp" line="679"/>
+        <location filename="../src/dialog.cpp" line="682"/>
         <source>Terjadi kesalahan</source>
         <translation type="unfinished"></translation>
     </message>
@@ -374,29 +374,29 @@ Apakah anda ingin menimpa file laporan tersebut?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/dialog.cpp" line="680"/>
+        <location filename="../src/dialog.cpp" line="683"/>
         <source>Terjadi Kesalahan</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/dialog.cpp" line="755"/>
+        <location filename="../src/dialog.cpp" line="758"/>
         <source>Proses dipindahkan ke terminal emulator</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/dialog.cpp" line="761"/>
+        <location filename="../src/dialog.cpp" line="764"/>
         <source>Proses telah selesai</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/dialog.cpp" line="739"/>
-        <location filename="../src/dialog.cpp" line="767"/>
+        <location filename="../src/dialog.cpp" line="742"/>
+        <location filename="../src/dialog.cpp" line="770"/>
         <source>Keluar</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/dialog.cpp" line="780"/>
-        <location filename="../src/dialog.cpp" line="781"/>
+        <location filename="../src/dialog.cpp" line="783"/>
+        <location filename="../src/dialog.cpp" line="784"/>
         <source>Mengekstrak: </source>
         <translation type="unfinished"></translation>
     </message>
@@ -406,31 +406,31 @@ Apakah anda ingin menimpa file laporan tersebut?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/dialog.cpp" line="728"/>
+        <location filename="../src/dialog.cpp" line="731"/>
         <source>Proses instalasi gagal. Silakan laporkan kesalahan ini dengan mengklik tombol Laporkan di bawah ini
 </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/dialog.cpp" line="949"/>
+        <location filename="../src/dialog.cpp" line="952"/>
         <source>AllDebInstaller - Hapus tembolok?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/dialog.cpp" line="950"/>
+        <location filename="../src/dialog.cpp" line="953"/>
         <source>Apakah anda ingin menghapus berkas sementara di:
 </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/dialog.cpp" line="272"/>
-        <location filename="../src/dialog.cpp" line="952"/>
+        <location filename="../src/dialog.cpp" line="955"/>
         <source>Ya</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/dialog.cpp" line="273"/>
-        <location filename="../src/dialog.cpp" line="953"/>
+        <location filename="../src/dialog.cpp" line="956"/>
         <source>Tidak</source>
         <translation type="unfinished"></translation>
     </message>

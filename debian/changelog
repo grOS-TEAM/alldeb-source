@@ -1,3 +1,9 @@
+alldeb-installer (0.2-ubuntu10) trusty; urgency=medium
+
+  * New logic for checking PolicyKit agent presence (Closes: #1406335)
+
+ -- Slamet Badwi (bedouin) <slamet.badwi@gmail.com>  Sat, 24 Jan 2015 07:42:50 +0700
+
 alldeb-installer (0.2-ubuntu9) trusty; urgency=medium
 
   * Added Policykit agent programs as dependency

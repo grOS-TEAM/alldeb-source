@@ -254,7 +254,7 @@ void Dialog::on_btnReport_clicked()
     QFile laporan(QDir::homePath()+"/alldeb-report.txt");
     QString pesan = tr("File laporan sudah dibuat di:\n%1\nDengan nama 'alldeb-report.txt'\n"
                        "\nSilakan kirimkan ke surel pengembang atau ke laman pelaporan "
-                       "Bug di Launchpad.\nMohon maaf atas ketidaknyamanan ini.")
+                       "Bug di Launchpad: https://bugs.launchpad.net/alldeb-installer/+filebug.")
                         .arg(QDir::homePath());
     //QTextStream kesalahan(&laporan);
     if (!laporan.exists()) {
@@ -649,11 +649,14 @@ void Dialog::instalPaket(int kode)
             berhasil = true;
             this->progresSelesai(0);
         } else if (polkitAgent) {
-            if (kode == 126 || kode == 127) {
-                //this->prosesGagal();
+            if (kode == 127) {
+                //qDebug() << kode;
                 ui->infoPaket->appendPlainText("--------------------------");
                 polkitAgent = false;
                 this->bacaInfo();
+            } else if (kode == 126) {
+                ui->infoPaket->appendPlainText(tr("Permintaan kata sandi dibatalkan pengguna."));
+                this->prosesGagal();
             } else {
                 arg2.prepend("root");
                 arg2.prepend("--user");
@@ -749,7 +752,7 @@ void Dialog::prosesGagal()
  */
 void Dialog::progresSelesai(int kode)
 {
-    if (berhasil || kode != 1) {
+    if (berhasil || kode == 0) {
         ui->progressBar->setValue(jml*4+10);
         if (debconf) {
             QString pesanDipindah = tr("Proses dipindahkan ke terminal emulator");
@@ -767,7 +770,7 @@ void Dialog::progresSelesai(int kode)
         ui->btnKeluarProg->setText(tr("Keluar"));
         ui->btnMundur->setDisabled(true);
     } else {
-        ui->infoPaket->setPlainText(tr("Permintaan kata sandi dibatalkan pengguna."));
+        ui->infoPaket->appendPlainText(tr("Permintaan kata sandi dibatalkan pengguna."));
         this->prosesGagal();
     }
 
