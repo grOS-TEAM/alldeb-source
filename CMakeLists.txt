@@ -1,29 +1,28 @@
 cmake_minimum_required(VERSION 2.8.7)
 PROJECT(alldeb-installer)
 
+#include_directories(ts)
+#include_directories(ui)
+
 set(CMAKE_AUTOMOC ON)
-set(terjemah alldeb_en.ts alldeb_id.ts)
+
+file(GLOB TERJEMAH ts/alldeb_*.ts)
 
 FIND_PACKAGE(Qt4 REQUIRED)
 INCLUDE(${QT_USE_FILE})
- 
-QT4_WRAP_UI(UISrcs dialog.ui about.ui)
-#QT4_WRAP_CPP(MOCSrcs dialog.h about.h)
+
+qt4_wrap_ui(UISrcs ui/dialog.ui ui/about.ui)
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR})
+qt4_add_resources(QT_res assets/icon.qrc)
+qt4_add_translation(QM_files ${TERJEMAH})
 
-#ADD_LIBRARY(terjemah ${sources} ${UISrcs})
-
-#qt4_create_translation(qm_files alldeb_en.ts alldeb_id.ts)
-qt4_add_translation(qm_files ${terjemah})
-#    ${terjemah_SRCS} )
-
-ADD_EXECUTABLE(alldeb-installer main.cpp dialog.cpp about.cpp ${MOCSrcs} ${UISrcs} ${qm_files})
+ADD_EXECUTABLE(alldeb-installer src/main.cpp src/dialog.cpp src/about.cpp ${MOCSrcs} ${UISrcs} ${QT_res} ${QM_files})
 TARGET_LINK_LIBRARIES(alldeb-installer ${QT_LIBRARIES})
 
 install(TARGETS alldeb-installer RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX}/bin)
-install(FILES ${qm_files} DESTINATION ${CMAKE_INSTALL_PREFIX}/share/alldeb/installer/lang)
-install(FILES alldeb_maker_R2.sh DESTINATION ${CMAKE_INSTALL_PREFIX}/share/alldeb/maker)
-install(FILES alldeb-installer.desktop DESTINATION /usr/share/applications)
-#install(FILES alldeb.xml DESTINATION /usr/share/mime/application)
-#removed line above
+install(FILES ${QM_files} DESTINATION ${CMAKE_INSTALL_PREFIX}/share/alldeb/installer/lang)
+install(FILES assets/alldeb-installer.desktop DESTINATION ${CMAKE_INSTALL_PREFIX}/share/applications)
+install(FILES assets/icon.svg DESTINATION ${CMAKE_INSTALL_PREFIX}/share/alldeb/icons)
+install(FILES assets/application-alldeb.svg DESTINATION ${CMAKE_INSTALL_PREFIX}/share/icons/hicolor/scalable/mimetypes)
+install(FILES assets/alldeb_maker_R2.sh DESTINATION ${CMAKE_INSTALL_PREFIX}/bin RENAME alldeb-creator)

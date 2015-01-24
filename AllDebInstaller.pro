@@ -11,16 +11,18 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = alldeb-installer
 TEMPLATE = app
 
+SOURCES += src/main.cpp\
+        src/dialog.cpp \
+    src/about.cpp
 
-SOURCES += main.cpp\
-        dialog.cpp \
-    about.cpp
+HEADERS  += src/dialog.h \
+    src/about.h
 
-HEADERS  += dialog.h \
-    about.h
+FORMS    += ui/dialog.ui \
+    ui/about.ui
 
-FORMS    += dialog.ui \
-    about.ui
+TRANSLATIONS += ts/alldeb_en.ts \
+                ts/alldeb_id.ts
 
-TRANSLATIONS += alldeb_en.ts \
-                alldeb_id.ts
+RESOURCES += \
+    assets/icon.qrc

@@ -3,7 +3,7 @@ Alldeb installer
 
 Alldeb installer merupakan program untuk melakukan instalasi paket-paket
 Ubuntu DEB yang dikemas lagi menjadi file ALLDEB. File ini dikumpulkan 
-berdasarkan keterkaitan atau dependensi dari satu meta-paket.
+berdasarkan keterkaitan atau dependensi dari satu meta-paket atau lebih.
 
 File alldeb dibuat dengan alldeb_maker.sh yang disertakan bersama dengan 
 kode sumber ini.
@@ -17,6 +17,7 @@ building, antara lain: cmake, build-essential, libqt4-dev, qt4-qmake.
 Perintah standar untuk building adalah:
 
      mkdir build
+     cd build
      cmake ..
      make
      sudo make install

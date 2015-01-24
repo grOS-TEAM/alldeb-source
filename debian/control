@@ -23,7 +23,7 @@ Build-Depends: debhelper (>= 9.0.0), cdbs,
   libxml2,
   libheimbase1-heimdal,
   libkrb5support0,
-  librtmp0,
+  librtmp0 | librtmp1,
   libc6,
   libffi6,
   cmake,
@@ -51,11 +51,22 @@ Build-Depends: debhelper (>= 9.0.0), cdbs,
 Standards-Version: 3.9.3
 Homepage: https://launchpad.net/alldeb-installer
 Vcs-Bzr: lp:alldeb-installer
+Bugs: https://bugs.launchpad.net/alldeb-installer/+filebug
 
 Package: alldeb-installer
 Architecture: any
 Depends: ${shlibs:Depends},
- ${misc:Depends}, apt-utils, policykit-1
-Description: Program penginstal untuk berkas alldeb
- alldeb adalah kumpulan paket DEB yang dikemas
- dalam satu wadah berkas saja.
+ ${misc:Depends}, apt-utils, policykit-desktop-privileges, policykit-1,
+ polkit-kde-1 | policykit-1-gnome | lxpolkit | mate-polkit |
+ lxqt-policykit | razorqt-policykit-agent, gksu | kdesudo, tar,
+ gnome-terminal | xterm | konsole | lxterminal | xfce4-terminal
+Description: Program penginstal untuk paket AllDeb
+ AllDeb adalah kumpulan paket DEB yang dikemas
+ dalam satu wadah berkas saja, yang sudah termasuk
+ dependensinya (paket yang berkaitan).
+ .
+ AllDeb is a new approach for packaging several
+ DEB files which are grouped by dependencies 
+ requirement. It is an ideal way to share an app 
+ to friends who don't have internet connection, 
+ regardless of redundancy of file size.
