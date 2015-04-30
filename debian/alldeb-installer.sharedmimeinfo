@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mime-info xmlns='http://www.freedesktop.org/standards/shared-mime-info'>
+  <mime-type type="application/alldeb">
+      <comment>AllDeb archive</comment>
+      <comment xml:lang="en">AllDeb Archive</comment>
+      <comment xml:lang="en_GB">AllDeb Archive</comment>
+      <comment xml:lang="id">Arsip AllDeb</comment>
+      <sub-class-of type="application/gzip"/>
+      <glob pattern="*.alldeb"/>
+  </mime-type>
+</mime-info>

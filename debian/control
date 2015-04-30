@@ -1,0 +1,72 @@
+Source: alldeb-installer
+Section: utils
+Priority: optional
+Maintainer: Slamet Badwi <slamet.badwi@gmail.com>
+Build-Depends: debhelper (>= 9.0.0), cdbs,
+  libgssapi3-heimdal,
+  libqtgui4,
+  libsqlite3-0,
+  libk5crypto3,
+  libldap-2.4-2,
+  libgssapi-krb5-2,
+  libcurl3,
+  libp11-kit0,
+  libcomerr2,
+  liblzma5,
+  libssl1.0.0,
+  libidn11,
+  libheimntlm0-heimdal,
+  libarchive13 | libarchive12,
+  libgnutls26,
+  libkeyutils1,
+  libsasl2-2,
+  libxml2,
+  libheimbase1-heimdal,
+  libkrb5support0,
+  librtmp0 | librtmp1,
+  libc6,
+  libffi6,
+  cmake,
+  libhx509-5-heimdal,
+  qt4-qmake,
+  libwind0-heimdal,
+  libasn1-8-heimdal,
+  liblzo2-2,
+  libgcc1,
+  libqtcore4,
+  libgpg-error0,
+  libgcrypt11,
+  libkrb5-3,
+  libbz2-1.0,
+  libkrb5-26-heimdal,
+  libqt4-dev,
+  zlib1g,
+  libattr1,
+  libroken18-heimdal,
+  libstdc++6,
+  libnettle4,
+  libtasn1-6 | libtasn1-3,
+  libhcrypto4-heimdal,
+  cmake-data
+Standards-Version: 3.9.3
+Homepage: https://launchpad.net/alldeb-installer
+Vcs-Bzr: lp:alldeb-installer
+Bugs: https://bugs.launchpad.net/alldeb-installer/+filebug
+
+Package: alldeb-installer
+Architecture: any
+Depends: ${shlibs:Depends},
+ ${misc:Depends}, apt-utils, policykit-desktop-privileges, policykit-1,
+ polkit-kde-1 | policykit-1-gnome | lxpolkit | mate-polkit |
+ lxqt-policykit | razorqt-policykit-agent, gksu | kdesudo, tar,
+ gnome-terminal | xterm | konsole | lxterminal | xfce4-terminal
+Description: Program penginstal untuk paket AllDeb
+ AllDeb adalah kumpulan paket DEB yang dikemas
+ dalam satu wadah berkas saja, yang sudah termasuk
+ dependensinya (paket yang berkaitan).
+ .
+ AllDeb is a new approach for packaging several
+ DEB files which are grouped by dependencies 
+ requirement. It is an ideal way to share an app 
+ to friends who don't have internet connection, 
+ regardless of redundancy of file size.
